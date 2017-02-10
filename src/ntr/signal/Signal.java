@@ -6,12 +6,12 @@ public class Signal {
 	
 	//table of data by symbol
 	//_data.get(0) -> get char for first symbol
-	private Character[] _symbolTable;
+	private char[] _symbolTable;
 	
 	//arrays of symbol to send
 	private final int[] _data;
 	private int[] _dataAltered;
-	public Signal(long freq, Character[] symbolTable, int[] data)
+	public Signal(long freq, char[] symbolTable, int[] data)
 	{
 		_frequency = freq;
 		_nbModulation = symbolTable.length;

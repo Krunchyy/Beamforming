@@ -7,7 +7,7 @@ import ntr.signal.Alteration;
 public class Shadowing implements Alteration{
 
 	@Override
-	public int[] alterate(IModel sender, Environement env) {
+	public int[] alterate(IModel sender, IModel receiver, Environement env) {
 		// TODO Auto-generated method stub
 		return null;
 	}
