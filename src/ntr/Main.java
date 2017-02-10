@@ -12,6 +12,7 @@ public class Main {
 	public static final int SIZE = 5;
 	public static void main(String[] args)
 	{
+		//TODO: Une antenne, un Mobile, un générateur de paquet, un ordonnanceur
 		Environement env = new Environement(SIZE);
 		
 		IModel m1 = new Mobile(new Location(0,0), env);//auto env reg
