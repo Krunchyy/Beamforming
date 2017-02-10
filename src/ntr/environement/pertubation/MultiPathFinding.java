@@ -1,5 +1,15 @@
 package ntr.environement.pertubation;
 
-public class MultiPathFinding {
+import ntr.environement.Environement;
+import ntr.model.IModel;
+import ntr.signal.Alteration;
+
+public class MultiPathFinding implements Alteration{
+
+	@Override
+	public int[] alterate(IModel sender, Environement env) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 }

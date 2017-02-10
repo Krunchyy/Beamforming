@@ -4,7 +4,7 @@ import ntr.environement.Environement;
 import ntr.model.IModel;
 import ntr.signal.Alteration;
 
-public class PathLost implements Alteration{
+public class Interference  implements Alteration{
 
 	@Override
 	public int[] alterate(IModel sender, Environement env) {
