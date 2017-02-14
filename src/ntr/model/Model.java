@@ -44,6 +44,10 @@ public abstract class Model implements IModel{
 	}
 	
 	
+	public void tick(){
+		
+	}
+	
 	public char getTag() {
 		return ' ';
 	}
@@ -86,6 +90,20 @@ public abstract class Model implements IModel{
 	}
 	
 	
+	public void receivePacket(Packet packet)
+	{
+		if(packet._target != this)
+			return;
+		if(packet._isValid)
+		{
+			_bitsReceivedAtTime += Packet.PACKET_DATA_SIZE;
+		}
+		else
+		{
+			_bitsFail += Packet.PACKET_DATA_SIZE;
+		}
+		
+	}
 	//validate sending of _signalInProgress
 	/**
 	 * this method will call the environment
@@ -107,7 +125,7 @@ public abstract class Model implements IModel{
 	
 	public void sendPacket(Packet packet)
 	{
-		_env.sendSignal(packet);
+		_env.sendPacket(packet);
 	}
 	/**************************************
 	 * Receiving this <- environement Method

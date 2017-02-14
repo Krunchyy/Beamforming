@@ -7,7 +7,7 @@ import ntr.signal.Alteration;
 public class Interference  implements Alteration{
 
 	@Override
-	public int[] alterate(IModel sender, IModel receiver, Environement env) {
+	public int[] alterate(Environement env) {
 		// TODO Auto-generated method stub
 		return null;
 	}

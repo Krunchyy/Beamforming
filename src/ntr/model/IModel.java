@@ -19,4 +19,5 @@ public interface IModel {
 	public void setSignalInProgress(Signal signalInProgress);
 	
 	public void sendSignalTo(IModel receiver);
+	public void tick();
 }

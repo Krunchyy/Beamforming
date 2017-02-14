@@ -12,26 +12,48 @@ import ntr.signal.Signal;
 public class Agent extends Model{
 	
 	private AbstractOrdonnanceur ordonnanceur;
-	private ConcurrentHashMap<IModel, Queue<Packet>> map;
+	private final ConcurrentHashMap<IModel, Queue<Packet>> map;
+	private final PacketGenerator generator;
 	private final OFDM _ofdm;
 	
 	public Agent(Location loc, Environement env)
 	{
 		super(loc, env);
-		Queue<Packet> q = new ArrayBlockingQueue<>(255);
+		map = new ConcurrentHashMap<>();
+		
+		generator = new PacketGenerator(this);
 		//TODO: utilisation de la Queue (utiliser la méthode add -> lève une exception quand la Queue est pleine)
 		_ofdm = new OFDM(10,10, this);
 		
 		//demmard l'ofdm
-		_ofdm.startOFDM();
+		//_ofdm.startOFDM();
+		
+		
+	}
+	
+	
+	@Override
+	public void tick()
+	{
+		generator.tick();
+		ordonnanceur.tick();
+		_ofdm.tick();
 	}
 	
 	@Override
 	public char getTag() {
 		return 'A';
 	}
-
 	
+	public void requestConnecte(IModel model)
+	{
+		map.put(model, new ArrayBlockingQueue<>(QUEUE_SIZE));
+	}
+	
+	public void deconnecteConnecte(IModel model)
+	{
+		map.put(model, new ArrayBlockingQueue<>(QUEUE_SIZE));
+	}
 	//called by OFDM schedule who call tick() method
 	public void sendPacket(Packet paket, int sub_carrier_id)
 	{
