@@ -3,6 +3,7 @@ package ntr.signal;
 import ntr.model.Model;
 
 public class Packet {
+	public int modulation;
 	public final Model _sender;
 	public final Model _target;
 	public final String _data;

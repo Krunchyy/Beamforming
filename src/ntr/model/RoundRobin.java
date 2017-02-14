@@ -3,11 +3,12 @@ package ntr.model;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentHashMap;
 
-import ntr.signal.Paquet;
+import ntr.signal.Packet;
+
 
 public class RoundRobin extends AbstractOrdonnanceur {
 
-	public RoundRobin(ConcurrentHashMap<IModel, Queue<Paquet>> map) {
+	public RoundRobin(ConcurrentHashMap<IModel, Queue<Packet>> map) {
 		super(map);
 	}
 
