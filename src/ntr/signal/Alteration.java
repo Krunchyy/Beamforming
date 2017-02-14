@@ -13,5 +13,5 @@ public interface Alteration {
 	 * @param env
 	 * @return signal data altered by this alteration
 	 */
-	public int[] alterate(IModel sender, IModel receiver, Environement env);
+	public int[] alterate(Environement env);
 }
