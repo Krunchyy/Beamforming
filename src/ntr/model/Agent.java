@@ -12,7 +12,7 @@ import ntr.signal.Signal;
 
 public class Agent extends Model{
 	
-	private IOrdonnanceur ordonnanceur;
+	private AbstractOrdonnanceur ordonnanceur;
 	private ConcurrentHashMap<IModel, Queue<Paquet>> map;
 	private final OFDM _ofdm;
 	
