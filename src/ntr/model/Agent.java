@@ -12,14 +12,14 @@ import ntr.signal.Signal;
 
 public class Agent extends Model{
 	
-	private IOrdonnanceur ordonnanceur;
-	private ConcurrentHashMap<IModel, Queue<Paquet>> map;
+	private AbstractOrdonnanceur ordonnanceur;
+	private ConcurrentHashMap<IModel, Queue<Packet>> map;
 	private final OFDM _ofdm;
 	
 	public Agent(Location loc, Environement env)
 	{
 		super(loc, env);
-		Queue<Paquet> q = new ArrayBlockingQueue<>(255);
+		Queue<Packet> q = new ArrayBlockingQueue<>(255);
 		//TODO: utilisation de la Queue (utiliser la méthode add -> lève une exception quand la Queue est pleine)
 		_ofdm = new OFDM(10,10, this);
 		
