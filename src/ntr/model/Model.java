@@ -12,6 +12,10 @@ public abstract class Model implements IModel{
 	private Signal _signalInProgress;//sending this -> environment
 	private Signal _receivedSignal;//received this <- environment
 	
+	public long _bitsReceivedAtTime = 0;
+	public long _bitsReceivedOutOfTime = 0;
+	public long _bitsFail = 0;
+	
 	public Model(Location loc, Environement env)
 	{
 		_loc = loc;
