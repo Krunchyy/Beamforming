@@ -7,7 +7,6 @@ import java.util.concurrent.ConcurrentHashMap;
 import ntr.environement.Environement;
 import ntr.signal.OFDM;
 import ntr.signal.Packet;
-import ntr.signal.Paquet;
 import ntr.signal.Signal;
 
 public class Agent extends Model{
