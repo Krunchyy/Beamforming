@@ -1,6 +1,7 @@
 package ntr.model;
 
 import ntr.environement.Environement;
+import ntr.signal.Packet;
 import ntr.signal.Signal;
 
 public abstract class Model implements IModel{
@@ -57,21 +58,25 @@ public abstract class Model implements IModel{
 	 **************************************/
 	
 	//sending or not
+	@Deprecated
 	public boolean isSendingSignal() {
 		return _sendSignal;
 	}
 	//sending or not
+	@Deprecated
 	public void setSendingSignal(boolean sendSignal) {
 		_sendSignal = sendSignal;
 	}
 
 	
 	//signal who will be send to environment
+	@Deprecated
 	public Signal getSignalInProgress() {
 		return _signalInProgress;
 	}
 
 	//signal who will be send to environment
+	@Deprecated
 	public void setSignalInProgress(Signal signalInProgress) {
 		_signalInProgress = signalInProgress;
 	}
@@ -84,6 +89,7 @@ public abstract class Model implements IModel{
 	 * and call getSignalTo method from receiver
 	 * @param receiver
 	 */
+	@Deprecated
 	public void sendSignalTo(IModel receiver)
 	{
 		if(_env == null)
@@ -95,6 +101,10 @@ public abstract class Model implements IModel{
 		_env.sendSignal(this, receiver);
 	}
 	
+	public void sendPacket(Packet packet)
+	{
+		_env.sendSignal(packet);
+	}
 	/**************************************
 	 * Receiving this <- environement Method
 	 **************************************/
@@ -104,12 +114,13 @@ public abstract class Model implements IModel{
 	 * @param sender from you get a signal
 	 * @param signal the signal altered or not by environment
 	 */
+	@Deprecated
 	public void getSignalTo(IModel sender, Signal signal)
 	{
 		_receivedSignal = signal;
 	}
 
-	
+	@Deprecated
 	public Signal getReceivedSignal() {
 		return _receivedSignal;
 	}

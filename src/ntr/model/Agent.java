@@ -5,9 +5,9 @@ import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.ConcurrentHashMap;
 
 import ntr.environement.Environement;
-import ntr.signal.Paquet;
 import ntr.signal.OFDM;
 import ntr.signal.Packet;
+import ntr.signal.Paquet;
 import ntr.signal.Signal;
 
 public class Agent extends Model{
@@ -36,11 +36,11 @@ public class Agent extends Model{
 	//called by OFDM schedule who call tick() method
 	public void sendPacket(Packet paket, int sub_carrier_id)
 	{
-		Signal signal = buildSignal(paket, sub_carrier_id);
+		//Signal signal = buildSignal(paket, sub_carrier_id);
 		
 		//prepare le Model a envoyer un message
-		setSignalInProgress(signal);
-		sendSignalTo(paket._target);//envoi le message (call environement)
+		//setSignalInProgress(signal);
+		super.sendPacket(paket);//envoi le message (call environement)
 	}
 	
 	/**************************************

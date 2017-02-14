@@ -9,6 +9,7 @@ import ntr.environement.pertubation.Shadowing;
 import ntr.model.IModel;
 import ntr.model.Location;
 import ntr.signal.Alteration;
+import ntr.signal.Packet;
 
 public class Environement {
 	
@@ -20,7 +21,8 @@ public class Environement {
 	
 	public final int _size;
 	private final List<IModel> _elements = new ArrayList<>();
-
+	private final List<Packet> _buff = new ArrayList<>();
+	
 	public Environement(int size)
 	{
 		_size = size;
@@ -78,10 +80,14 @@ public class Environement {
 	 * Signal call
 	 **********************************/
 	
+	public void sendSignal(Packet packet)
+	{
+		_buff.add(packet);
+	}
+	
+	@Deprecated
 	public void sendSignal(IModel sender, IModel receiver)
 	{
-		//TODO impl sending delay
-		
 		for(Alteration alt : _alteration)
 		{
 			//alterate the signal
