@@ -1,0 +1,8 @@
+	1) Simuler une source (doit être variable)
+		a. Générer des bits puis des paquets (conseil : même taille pour chaque paquet)
+		b. Gérer une file qui sera traiter par l'ordonnanceur (RR,  MaxSNR, WFO)
+	2) Simuler une deuxième source avec un mobile entre les deux avec un mkn faible sur chaque
+		a. BeamForming idiot
+		b. BeamForming intelligent avec choix efficace de la fréquence de chaque côté pour limiter le multipathfinding
+		
+	
