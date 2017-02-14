@@ -91,7 +91,7 @@ public class Environement {
 		for(Alteration alt : _alteration)
 		{
 			//alterate the signal
-			alt.alterate(sender, receiver, this);
+			alt.alterate(this);
 		}
 	
 		receiver.getSignalTo(sender, sender.getSignalInProgress());
