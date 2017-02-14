@@ -44,6 +44,10 @@ public abstract class Model implements IModel{
 	}
 	
 	
+	public void tick(){
+		
+	}
+	
 	public char getTag() {
 		return ' ';
 	}
@@ -90,13 +94,13 @@ public abstract class Model implements IModel{
 	{
 		if(packet._target != this)
 			return;
-		if(packet._isValide)
+		if(packet._isValid)
 		{
-			_bitsReceivedAtTime += packet._data;
+			_bitsReceivedAtTime += Packet.PACKET_DATA_SIZE;
 		}
 		else
 		{
-			_bitsFail += packet._data;
+			_bitsFail += Packet.PACKET_DATA_SIZE;
 		}
 		
 	}
@@ -121,7 +125,7 @@ public abstract class Model implements IModel{
 	
 	public void sendPacket(Packet packet)
 	{
-		_env.sendSignal(packet);
+		_env.sendPacket(packet);
 	}
 	/**************************************
 	 * Receiving this <- environement Method

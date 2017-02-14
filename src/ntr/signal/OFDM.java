@@ -14,7 +14,7 @@ public class OFDM {
 	public Packet[][] _ofdm;
 	public int _currentIndex = 0;
 	
-	public long delayBetweenTimeSlot = 5;//in MILLISECONDS
+
 	
 	public ScheduledExecutorService ofdmScheduledExecutorService;
 	public OFDM(int nb_sub_carrier, int nb_time_slot, Agent agent)
@@ -23,22 +23,6 @@ public class OFDM {
 		_nb_time_slot = nb_time_slot;
 		_ofdm = new Packet[nb_time_slot][nb_sub_carrier];
 		_agent = agent;
-	}
-	
-	/***********************
-	 * THREAD SETTING
-	 ***********************/
-	
-	public void startOFDM()
-	{
-		ScheduledExecutorService ofdmScheduledExecutorService = Executors.newScheduledThreadPool(5);
-		ofdmScheduledExecutorService.schedule(() -> tick(),delayBetweenTimeSlot,TimeUnit.MILLISECONDS);
-	}
-	
-	public void stopOFDM()
-	{
-		//termine les taches actuellement executer mais pas les autres
-		ofdmScheduledExecutorService.shutdown();
 	}
 	
 	/***********************
