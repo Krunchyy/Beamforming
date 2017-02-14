@@ -91,12 +91,16 @@ public class OFDM {
 	 * @param slot
 	 * @return
 	 */
-	public Packet[] getNextTimeSlot()
+	private Packet[] getNextTimeSlot()
 	{
-		Packet[] result = _ofdm[_currentIndex++];
+		Packet[] result = _ofdm[_currentIndex];
+		_ofdm[_currentIndex] = new Packet[_nb_sub_carrier];//vide la ligne
+		
+		_currentIndex++;
 		_currentIndex = _currentIndex%_nb_time_slot;
 		return result;
 	}
+	
 	
 	public void setTimeSlots(Packet[][] ofdm)
 	{

@@ -35,6 +35,8 @@ public class Agent extends Model{
 	//called by OFDM schedule who call tick() method
 	public void sendPacket(Packet paket, int sub_carrier_id)
 	{
+		if(paket == null)
+				return;
 		//Signal signal = buildSignal(paket, sub_carrier_id);
 		
 		//prepare le Model a envoyer un message
