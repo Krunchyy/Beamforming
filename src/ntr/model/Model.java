@@ -86,6 +86,20 @@ public abstract class Model implements IModel{
 	}
 	
 	
+	public void receivePacket(Packet packet)
+	{
+		if(packet._target != this)
+			return;
+		if(packet._isValide)
+		{
+			_bitsReceivedAtTime += packet._data;
+		}
+		else
+		{
+			_bitsFail += packet._data;
+		}
+		
+	}
 	//validate sending of _signalInProgress
 	/**
 	 * this method will call the environment

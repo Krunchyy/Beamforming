@@ -80,7 +80,7 @@ public class Environement {
 	 * Signal call
 	 **********************************/
 	
-	public void sendSignal(Packet packet)
+	public void sendPacket(Packet packet)
 	{
 		_buff.add(packet);
 	}
