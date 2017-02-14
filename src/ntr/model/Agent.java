@@ -87,4 +87,8 @@ public class Agent extends Model{
 		//symbol
 		return new int[]{0,0,1};//TODO
 	}
+	
+	public ConcurrentHashMap<IModel, Queue<Packet>> getMap(){
+		return this.map;
+	}
 }
