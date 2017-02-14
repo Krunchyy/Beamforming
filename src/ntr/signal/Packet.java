@@ -8,6 +8,7 @@ public class Packet {
 	public final Model _target;
 	public final String _data;
 	public long _freq;
+	public boolean _isValid;
 	//TODO data
 	
 	public Packet(Model sender, Model target, String data)
