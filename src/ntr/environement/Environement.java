@@ -85,6 +85,20 @@ public class Environement {
 		_buff.add(packet);
 	}
 	
+	public void pushPacket()
+	{
+		for(Alteration alt : _alteration)
+		{
+			//alterate the signal
+			alt.alterate(this);
+		}
+		for(Packet packet : _buff)
+			packet._target.receivePacket(packet);
+		
+		//clear for next wave
+		_buff.clear();
+	}
+	
 	@Deprecated
 	public void sendSignal(IModel sender, IModel receiver)
 	{
@@ -96,5 +110,17 @@ public class Environement {
 	
 		receiver.getSignalTo(sender, sender.getSignalInProgress());
 		//TODO impl sending delay
+	}
+	
+	
+	public void tick()
+	{
+		pushPacket();//do alteration on environement
+		
+		//tick all elements
+		for(IModel elements : _elements)
+		{
+			elements.tick();
+		}
 	}
 }
