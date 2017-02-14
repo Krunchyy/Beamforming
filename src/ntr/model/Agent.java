@@ -10,6 +10,7 @@ import ntr.signal.Packet;
 import ntr.signal.Signal;
 
 public class Agent extends Model{
+	public static final int QUEUE_SIZE = 255;
 	
 	private AbstractOrdonnanceur ordonnanceur;
 	private final ConcurrentHashMap<IModel, Queue<Packet>> map;
