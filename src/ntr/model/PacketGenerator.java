@@ -13,19 +13,19 @@ import ntr.signal.Packet;
 
 public class PacketGenerator {
 	
-	public PacketGenerator(Agent agent)
-	{
+	/**
+	 * Genere un nombre aleatoire de paquets sur une quantite aleatoire
+	 * de mobiles
+	 * @param agent
+	 */
+	public PacketGenerator(Agent agent) {
+		// valeurs min/max de paquets à generer
+		int min = 1;
+		int max = 20;
 		
-	}
-	
-	public void tick()
-	{
-		
-	}
-	// add/remove add tail/remove first
-	public PacketGenerator(int min, int max, Agent agent, Environement env){
-		// recuperation de la map de l agent
+		Environement env = agent._env;
 		ConcurrentHashMap<IModel, Queue<Packet>> map = agent.getMap();
+		
 		// recuperation des mobiles de l environnement
 		List<IModel> elts = new ArrayList<>();
 		for(IModel model :env.getElements())
@@ -49,13 +49,16 @@ public class PacketGenerator {
 			Object[] t = keys.toArray();
 			
 			Mobile m = (Mobile) t[numMobile];
-			Packet p = new Packet(agent, a, "");
+			Packet p = new Packet(agent, m, "");
 			map.get(m).add(p);
-		}
+		}		
 	}
 	
-	//Agent.map (client)
-	public static void main(String[] args) {
+	public void tick() {
+		
+	}
+	
+	public static void main(String[] args) { //tests
 		Queue<Packet> file = new LinkedList<Packet>();
 		Location loc = new Location(5, 5);
 		Environement env = new Environement(20);
@@ -71,5 +74,4 @@ public class PacketGenerator {
 		}
 		System.out.println("nbPackets = "+i);*/
 	}
-
 }
