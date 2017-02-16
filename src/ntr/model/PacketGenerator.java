@@ -42,7 +42,12 @@ public class PacketGenerator {
 			
 			Mobile mobile = (Mobile) t[numMobile];
 			Packet p = new Packet(agent, mobile, "");
-			map.get(mobile).add(p);
+			try {
+				map.get(mobile).add(p);
+			}
+			catch(Exception e) {
+				
+			}
 		}
 	}
 	
