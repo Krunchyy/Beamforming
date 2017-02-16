@@ -1,8 +1,6 @@
 package ntr.model;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Queue;
 import java.util.Random;
 import java.util.Set;
@@ -11,28 +9,22 @@ import java.util.concurrent.ConcurrentHashMap;
 import ntr.environement.Environement;
 import ntr.signal.Packet;
 
-public class PacketGenerator {
+public class PacketGenerator {	
+	private int min, max; // quantite min/max de paquets a generer
+	private Agent agent;
+	
+	public PacketGenerator(Agent newAgent) {
+		this.min = 1;
+		this.max = 20;
+		this.agent = newAgent;				
+	}
 	
 	/**
 	 * Genere un nombre aleatoire de paquets sur une quantite aleatoire
 	 * de mobiles
-	 * @param agent
 	 */
-	public PacketGenerator(Agent agent) {
-		// valeurs min/max de paquets à generer
-		int min = 1;
-		int max = 20;
-		
-		Environement env = agent._env;
+	public void tick() {
 		ConcurrentHashMap<IModel, Queue<Packet>> map = agent.getMap();
-		
-		// recuperation des mobiles de l environnement
-		List<IModel> elts = new ArrayList<>();
-		for(IModel model :env.getElements())
-		{
-			if(model instanceof Mobile)
-				elts.add(model);
-		}
 		
 		// alea du nb de paquets a generer
 		int nbPackets = 0;
@@ -40,7 +32,7 @@ public class PacketGenerator {
 		nbPackets = min + r.nextInt(max - min);
 		
 		// generation des paquets
-		for(int i = 0; i != nbPackets; i++){
+		for(int i = 0; i != nbPackets; i++) {
 			// alea du mobile cible
 			r = new Random();
 			int numMobile = 0 + r.nextInt(map.size() - 0);
@@ -48,14 +40,10 @@ public class PacketGenerator {
 			Set<IModel> keys = map.keySet();
 			Object[] t = keys.toArray();
 			
-			Mobile m = (Mobile) t[numMobile];
-			Packet p = new Packet(agent, m, "");
-			map.get(m).add(p);
-		}		
-	}
-	
-	public void tick() {
-		
+			Mobile mobile = (Mobile) t[numMobile];
+			Packet p = new Packet(agent, mobile, "");
+			map.get(mobile).add(p);
+		}
 	}
 	
 	public static void main(String[] args) { //tests
