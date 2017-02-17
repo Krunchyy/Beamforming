@@ -28,13 +28,11 @@ public class Mobile extends Model{
 
 	@Override
 	public void setNetworkCondition(int value) {
-		// TODO Auto-generated method stub
-		
+		this.networkCondition = value;
 	}
 
 	@Override
 	public int getNetworkCondition() {
-		// TODO Auto-generated method stub
-		return 0;
+		return this.networkCondition;
 	}
 }
