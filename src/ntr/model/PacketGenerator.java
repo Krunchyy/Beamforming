@@ -7,37 +7,45 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import ntr.signal.Packet;
 
-public class PacketGenerator {	
-	private int min, max; // quantite min/max de paquets a generer
+public class PacketGenerator {
+	private int minMoyen = 1; // quantite moyenne de paquets
+	private int maxMoyen = 20;
+	private int minDelay = 2; // duree de vie de la moyenne
+	private int maxDelay = 5;
+	private int minOffset = -2; // offset par rapport a la moyenne
+	private int maxOffset = 2;
+	private Random random;
 	private Agent agent;
 	
 	public PacketGenerator(Agent newAgent) {
-		this.min = 1;
-		this.max = 2;
-		this.agent = newAgent;				
+		this.agent = newAgent;
+		this.random = new Random();
 	}
 	
 	/**
-	 * Designe un nombre aleatoire de mobiles rataches a l'agent et leur
-	 * attribue une quantite aleatoire de paquets
+	 * Genere un nombre aleatoire de paquets pour chaque mobile
+	 * connecte a l'agent
 	 */
 	public void tick() {
 		ConcurrentHashMap<IModel, Queue<Packet>> map = agent.getMap();
 		int nbMobiles = map.size();
+		Set<IModel> keys = map.keySet();
+		Object[] tabMobiles = keys.toArray();
+		
 		
 		for(int i=0; i != nbMobiles; i++) {
-			// alea du mobile cible
-			Random r = new Random();
-			int numMobile = 0 + r.nextInt(nbMobiles - 0);
-			
-			Set<IModel> keys = map.keySet();
-			Object[] t = keys.toArray();
-			Mobile mobile = (Mobile) t[numMobile];
+			Mobile mobile = (Mobile) tabMobiles[i];
 			
 			// alea du nb de paquets a generer
-			int nbPackets = 0;
-			r = new Random();
-			nbPackets = min + r.nextInt(max - min);
+			int nbPacketsMoyen = mobile.getPacketFlow();
+			if(nbPacketsMoyen == -1) {
+				int expireDelay = minDelay + random.nextInt(maxDelay - minDelay);
+				nbPacketsMoyen = minMoyen + random.nextInt(maxMoyen - minMoyen);
+				mobile.setPacketFlow(nbPacketsMoyen, expireDelay);
+			}
+			int nbPackets = nbPacketsMoyen;
+			int offset = random.nextInt(maxOffset - minOffset);
+			nbPackets += offset;
 			
 			// generation des paquets
 			for(int j = 0; j != nbPackets; j++) {
