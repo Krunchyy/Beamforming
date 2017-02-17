@@ -48,6 +48,7 @@ public class ModelisationGenerator {
 		_agent.requestConnecte(new Mobile(new Location(0,0), _env));
 		_agent.requestConnecte(new Mobile(new Location(0,0), _env));
 		_agent.requestConnecte(new Mobile(new Location(0,0), _env));
+		
 		startSimulation();
 	}
 	
@@ -59,6 +60,7 @@ public class ModelisationGenerator {
 	}
 	public static void tick()
 	{
+		try{
 		if(++_time >= MAX_TIME)
 		{
 
@@ -71,6 +73,11 @@ public class ModelisationGenerator {
 			System.out.println("\n\n\n\n\n\n\n\n\n\n\n");
 			System.out.println("============== DISPLAY ============ tick : "+ _time );
 			System.out.print(_agent.displayBuffer(SIZE));
+		}
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
 		}
 	}
 }

@@ -37,9 +37,7 @@ public class Agent extends Model{
 	public void tick()
 	{
 		generator.tick();
-		System.out.println("-->");
 		ordonnanceur.tick();
-		System.out.println("<--");
 		_ofdm.tick();
 	}
 	

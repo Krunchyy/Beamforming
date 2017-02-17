@@ -28,7 +28,7 @@ public class Simulation1 {
 	public static int NB_AGENT = 1;
 	public static int NB_MOBILE = 1;
 	
-	public static long DELAY_BETWEEN_TIME_SLOT = 100;//in MILLISECONDS
+	public static long DELAY_BETWEEN_TIME_SLOT = 2000;//in MILLISECONDS
 	public static long MAX_TIME = 100;//100 delay
 	
 	public static Environement _env;
@@ -53,19 +53,27 @@ public class Simulation1 {
 	public static void startSimulation()
 	{
 		executorService = Executors.newScheduledThreadPool(5);
-		executorService.schedule(() -> tick(),DELAY_BETWEEN_TIME_SLOT,TimeUnit.MILLISECONDS);
+		executorService.scheduleAtFixedRate(() -> tick(),100, DELAY_BETWEEN_TIME_SLOT,TimeUnit.MILLISECONDS);
 		
 	}
 	
 	public static void tick(){
-		if(++_time >= MAX_TIME)
-		{
-			executorService.shutdown();
+		System.out.println("--> tick");
+		try{
+			if(++_time >= MAX_TIME)
+			{
+				System.out.println("--> shutdown");
+				executorService.shutdown();
+			}
+			else
+			{
+				_env.tick();
+			}
 		}
-		else
+		catch(Exception e)
 		{
-			_env.tick();
+				e.printStackTrace();
 		}
-		
+		System.out.println("<-- tick");
 	}
 }
