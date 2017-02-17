@@ -29,8 +29,7 @@ public class Agent extends Model{
 		
 		//demmard l'ofdm
 		//_ofdm.startOFDM();
-		
-		
+		ordonnanceur = new RoundRobin(map , _ofdm);
 	}
 	
 	
@@ -38,7 +37,7 @@ public class Agent extends Model{
 	public void tick()
 	{
 		generator.tick();
-		//ordonnanceur.tick();
+		ordonnanceur.tick();
 		_ofdm.tick();
 	}
 	
@@ -116,6 +115,11 @@ public class Agent extends Model{
 		return this.map;
 	}
 	
+	
+	public void setPacketFlow(int packetCount, int expireDelay)
+	{
+		
+	}
 	/********************
 	 * DISPLAY
 	 ****************/
