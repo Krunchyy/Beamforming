@@ -49,12 +49,12 @@ public class Agent extends Model{
 	
 	public void requestConnecte(IModel model)
 	{
-		map.put(model, new ArrayBlockingQueue<>(QUEUE_SIZE));
+		map.put(model, new ArrayBlockingQueue<Packet>(QUEUE_SIZE));
 	}
 	
 	public void deconnecteConnecte(IModel model)
 	{
-		map.put(model, new ArrayBlockingQueue<>(QUEUE_SIZE));
+		map.put(model, new ArrayBlockingQueue<Packet>(QUEUE_SIZE));
 	}
 	//called by OFDM schedule who call tick() method
 	public void sendPacket(Packet paket, int sub_carrier_id)
@@ -150,5 +150,19 @@ public class Agent extends Model{
 		}
 		
 		return result;
+	}
+
+
+	@Override
+	public void setNetworkCondition(int value) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public int getNetworkCondition() {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 }

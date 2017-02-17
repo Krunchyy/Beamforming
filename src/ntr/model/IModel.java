@@ -20,4 +20,12 @@ public interface IModel {
 	
 	public void sendSignalTo(IModel receiver);
 	public void tick();
+	
+	/**
+	 * 
+	 * @param value always between 0 and 100
+	 */
+	public void setNetworkCondition(int value);
+	
+	public int getNetworkCondition();
 }

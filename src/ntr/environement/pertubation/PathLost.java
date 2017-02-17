@@ -1,5 +1,6 @@
 package ntr.environement.pertubation;
 
+import java.util.List;
 import java.util.Random;
 
 import ntr.environement.Environement;
@@ -7,16 +8,18 @@ import ntr.model.IModel;
 import ntr.signal.Alteration;
 import ntr.signal.Packet;
 
-public class PathLost implements Alteration{
+public class PathLost extends Alteration{
 	
 	private double _delta; // delta between sender and receiver
 	private long seed;
 
+
 	@Override
-	public int[] alterate(Environement env) {
+	public void alterate(List<IModel> elements, Environement env) {
 		// TODO Auto-generated method stub
-		return null;
+		
 	}
+
 	
 	
 	public double getDelta(IModel sender, IModel receiver) {

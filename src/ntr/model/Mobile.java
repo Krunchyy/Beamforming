@@ -8,12 +8,15 @@ import ntr.environement.Environement;
 
 public class Mobile extends Model{
 	
+	private int networkCondition;
+	
 	public Mobile(Location loc, Environement env)
 	{
 		super(loc, env);
+		this.networkCondition = 0;
 	}
 	
-	protected final static synchronized Map<Integer, ?> truc(final int i)
+	protected final static synchronized Map<Integer, ?> truc(final int i)//TODO: C'est quoi çà ?
 	{
 		return new HashMap<Integer, ArrayList<IModel>>();
 	}
@@ -21,5 +24,17 @@ public class Mobile extends Model{
 	@Override
 	public char getTag() {
 		return 'M';
+	}
+
+	@Override
+	public void setNetworkCondition(int value) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public int getNetworkCondition() {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 }

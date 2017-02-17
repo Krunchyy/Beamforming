@@ -1,15 +1,19 @@
 package ntr.environement.pertubation;
 
+import java.util.List;
+
 import ntr.environement.Environement;
 import ntr.model.IModel;
 import ntr.signal.Alteration;
 
-public class MultiPathFinding implements Alteration{
+public class MultiPathFinding extends Alteration{
+
 
 	@Override
-	public int[] alterate(Environement env) {
+	public void alterate(List<IModel> elements, Environement env) {
 		// TODO Auto-generated method stub
-		return null;
+		
 	}
+
 
 }
