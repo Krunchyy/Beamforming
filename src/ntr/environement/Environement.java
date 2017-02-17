@@ -14,9 +14,9 @@ import ntr.signal.Packet;
 public class Environement {
 	
 	private Alteration[] _alteration = {
-			new MultiPathFinding(),
 			new PathLost(),
-			new Shadowing()
+			new Shadowing(),
+			new MultiPathFinding(),
 	};
 	
 	public final int _size;
@@ -90,8 +90,10 @@ public class Environement {
 		for(Alteration alt : _alteration)
 		{
 			//alterate the signal
-			alt.alterate(this);
+			alt.alterate(this._elements, this);
 		}
+		
+		
 		for(Packet packet : _buff)
 			packet._target.receivePacket(packet);
 		
@@ -105,9 +107,11 @@ public class Environement {
 		for(Alteration alt : _alteration)
 		{
 			//alterate the signal
-			alt.alterate(this);
+			alt.alterate(this._elements, this);
 		}
-	
+		
+		Alteration.performAlteration(_buff, _elements);
+		
 		receiver.getSignalTo(sender, sender.getSignalInProgress());
 		//TODO impl sending delay
 	}

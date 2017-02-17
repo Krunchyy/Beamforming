@@ -1,17 +1,22 @@
 package ntr.signal;
 
+import java.util.List;
+
 import ntr.environement.Environement;
 import ntr.model.IModel;
 
-public interface Alteration {
+public abstract class Alteration {
 	
 	/**
 	 * Compute alteration of a signal to and environement
-	 * @param frequency
-	 * @param nbModulation
-	 * @param data
 	 * @param env
-	 * @return signal data altered by this alteration
 	 */
-	public int[] alterate(Environement env);
+	public abstract void alterate(List<IModel> elements, Environement env);
+	
+	public static void performAlteration(List<Packet> buff, List<IModel> models) {
+		/*
+		 * For each models according to the networkCondition percent value
+		 * set validity bit of networkCondition% packets when receiver equal current model
+		 */
+	}
 }
