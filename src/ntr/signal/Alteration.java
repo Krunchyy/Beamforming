@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 import ntr.environement.Environement;
 import ntr.model.IModel;
 import ntr.model.Mobile;
+import ntr.utils.RandomUtils;
 
 public abstract class Alteration {
 	
@@ -28,10 +29,8 @@ public abstract class Alteration {
 			int size = bufferOfCurrentMobile.size();
 			//size * (percentSuccess/100)
 			
-			int validPackets = size * (percentSuccess / 100);
-			
 			for(int j = 0 ; j < size ; j++) {
-				if(j >= validPackets) {
+				if(RandomUtils.get(0, 100) > percentSuccess) {
 					bufferOfCurrentMobile.get(j)._isValid = false;
 				}
 			}
