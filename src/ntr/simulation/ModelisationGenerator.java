@@ -12,6 +12,18 @@ import ntr.model.Location;
 import ntr.model.Mobile;
 
 public class ModelisationGenerator {
+	/**
+	 *	% remplisage buffer 
+	 * 		^
+	 * 		|
+	 * 		|
+	 * 		|
+	 * 		|
+	 * 		|
+	 * 		|____________________________\ tick (temps)
+	 *    		 						 /
+	 */
+	
 	public static long DELAY_BETWEEN_TIME_SLOT = 2000;//in MILLISECONDS
 	public static long MAX_TIME = 100;//100 delay
 	public static long _time = 0;
