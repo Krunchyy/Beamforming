@@ -1,9 +1,11 @@
 package ntr.signal;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import ntr.environement.Environement;
 import ntr.model.IModel;
+import ntr.model.Mobile;
 
 public abstract class Alteration {
 	
@@ -14,6 +16,26 @@ public abstract class Alteration {
 	public abstract void alterate(List<IModel> elements, Environement env);
 	
 	public static void performAlteration(List<Packet> buff, List<IModel> models) {
+		for(int i = 0 ; i < models.size() ; i++) {
+			if(models.get(i).getTag() == 'A')
+				continue;
+			
+			Mobile mobile = (Mobile) models.get(i);
+			int percentSuccess = models.get(i).getNetworkCondition();
+			
+			List<Packet> bufferOfCurrentMobile = buff.stream().filter(packet -> packet._target == mobile).collect(Collectors.toList());
+		
+			int size = bufferOfCurrentMobile.size();
+			//size * (percentSuccess/100)
+			
+			int validPackets = size * (percentSuccess / 100);
+			
+			for(int j = 0 ; j < size ; j++) {
+				if(j >= validPackets) {
+					bufferOfCurrentMobile.get(j)._isValid = false;
+				}
+			}
+		}
 		/*
 		 * For each models according to the networkCondition percent value
 		 * set validity bit of networkCondition% packets when receiver equal current model
