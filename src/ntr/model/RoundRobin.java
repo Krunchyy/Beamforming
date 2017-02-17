@@ -54,8 +54,8 @@ public class RoundRobin extends AbstractOrdonnanceur {
 			if(!buffer.isEmpty())
 				packets.add(buffer.poll());
 		}
-		
-		this.getOfdm().setTimeSlot(slot, (Packet[]) packets.toArray());
+		Packet[] array = new Packet[packets.size()];
+		this.getOfdm().setTimeSlot(slot, (Packet[]) packets.toArray(array));
 	}
 
 	@Override
