@@ -35,4 +35,22 @@ public class Mobile extends Model{
 	public int getNetworkCondition() {
 		return this.networkCondition;
 	}
+	
+	public int _packetFlow = -1;
+	public int _packetFlowDelay = 0;
+	
+	public void setPacketFlow(int packetCount, int expireDelay)
+	{
+		_packetFlow = packetCount;
+		_packetFlowDelay = expireDelay;
+	}
+	
+	public int getPacketFlow()
+	{
+		if(_packetFlowDelay-- <= 0)
+		{
+			return -1;
+		}
+		return _packetFlow;
+	}
 }
