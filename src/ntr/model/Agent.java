@@ -1,5 +1,6 @@
 package ntr.model;
 
+import java.util.HashMap;
 import java.util.Queue;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.ConcurrentHashMap;
@@ -37,7 +38,7 @@ public class Agent extends Model{
 	public void tick()
 	{
 		generator.tick();
-		ordonnanceur.tick();
+		//ordonnanceur.tick();
 		_ofdm.tick();
 	}
 	
@@ -113,5 +114,41 @@ public class Agent extends Model{
 	
 	public ConcurrentHashMap<IModel, Queue<Packet>> getMap(){
 		return this.map;
+	}
+	
+	/********************
+	 * DISPLAY
+	 ****************/
+
+	public HashMap<IModel, Integer> _diff = new HashMap<>();
+	public String displayBuffer(int size)
+	{
+		String result = "";
+		for(IModel model : getMap().keySet())
+		{
+			int oldQueueSize = 0;
+			
+			if(_diff.containsKey(model))
+			{
+				oldQueueSize = _diff.get(model);
+			}
+			double pourcentageUtilisation = (getMap().get(model).size() /  (double) Agent.QUEUE_SIZE );
+			int bufferDisplaySize = (int)(pourcentageUtilisation*size);
+			result += model.toString() +" +"+ (getMap().get(model).size()-oldQueueSize) + " Packets \n";
+			result +="[" + getNbChar(bufferDisplaySize, '|') + getNbChar(size-bufferDisplaySize, ' ' ) + "] size : "+ getMap().get(model).size() + " \n";
+			_diff.remove(model);
+			_diff.put(model, getMap().get(model).size());
+		}
+		return result;
+	}
+	public static String getNbChar(int nb, char c)
+	{
+		String result = "";
+		for(int i = nb ; i > 0; i--)
+		{
+			result += c;
+		}
+		
+		return result;
 	}
 }
