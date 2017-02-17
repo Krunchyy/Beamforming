@@ -37,7 +37,9 @@ public class Agent extends Model{
 	public void tick()
 	{
 		generator.tick();
+		System.out.println("-->");
 		ordonnanceur.tick();
+		System.out.println("<--");
 		_ofdm.tick();
 	}
 	
@@ -115,11 +117,6 @@ public class Agent extends Model{
 		return this.map;
 	}
 	
-	
-	public void setPacketFlow(int packetCount, int expireDelay)
-	{
-		
-	}
 	/********************
 	 * DISPLAY
 	 ****************/
