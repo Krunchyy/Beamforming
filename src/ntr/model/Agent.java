@@ -39,6 +39,7 @@ public class Agent extends Model{
 		generator.tick();
 		ordonnanceur.tick();
 		_ofdm.tick();
+		_packetFlowDelay--;
 	}
 	
 	@Override
@@ -115,10 +116,22 @@ public class Agent extends Model{
 		return this.map;
 	}
 	
+	public int _packetFlow = -1;
+	public int _packetFlowDelay = 0;
 	
 	public void setPacketFlow(int packetCount, int expireDelay)
 	{
-		
+		_packetFlow = packetCount;
+		_packetFlowDelay = expireDelay;
+	}
+	
+	public int getPacketFlow()
+	{
+		if(_packetFlowDelay <= 0)
+		{
+			return -1;
+		}
+		return _packetFlow;
 	}
 	/********************
 	 * DISPLAY
