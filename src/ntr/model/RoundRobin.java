@@ -30,11 +30,17 @@ public class RoundRobin extends AbstractOrdonnanceur {
 			
 			if(this.lastModel != null && this.getMap().containsKey(this.lastModel)) {
 				if(lastModelFound) {
+					System.out.println("allow something");
 					this.allow(entry.getKey());
 					return;
 				}
 				if(entry.getKey() == this.lastModel) {
+					System.out.println("allow anything");
 					lastModelFound = true;
+				}
+				
+				if(!iter.hasNext()) {
+					iter = entryset.iterator();
 				}
 			}
 			else {
@@ -47,14 +53,16 @@ public class RoundRobin extends AbstractOrdonnanceur {
 		this.lastModel = model;
 		
 		Queue<Packet> buffer = this.getMap().get(model);
-		
+		System.out.println("buffer start size : " + buffer.size() );
 		int slot = this.getOfdm()._currentIndex;;//slot ?
 		ArrayList<Packet> packets = new ArrayList<>();
-		for(int i=0 ; i< this.getOfdm()._nb_sub_carrier ; i++) {
+		for(int i=0 ; i< this.getOfdm()._nb_sub_carrier ; i++) {//TODO: if enough size allow next mobile
 			if(!buffer.isEmpty())
 				packets.add(buffer.poll());
 		}
 		Packet[] array = new Packet[packets.size()];
+		System.out.println("buffer end size : " + buffer.size() );
+		this.getMap().put(model, buffer);
 		this.getOfdm().setTimeSlot(slot, (Packet[]) packets.toArray(array));
 	}
 

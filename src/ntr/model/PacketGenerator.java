@@ -13,7 +13,7 @@ public class PacketGenerator {
 	
 	public PacketGenerator(Agent newAgent) {
 		this.min = 1;
-		this.max = 20;
+		this.max = 2;
 		this.agent = newAgent;				
 	}
 	
