@@ -1,5 +1,6 @@
 package ntr.model;
 
+import java.util.Iterator;
 import java.util.Queue;
 import java.util.Random;
 import java.util.Set;
@@ -28,15 +29,13 @@ public class PacketGenerator {
 	 */
 	public void tick() {
 		ConcurrentHashMap<IModel, Queue<Packet>> map = agent.getMap();
-		int nbMobiles = map.size();
 		Set<IModel> keys = map.keySet();
-		Object[] tabMobiles = keys.toArray();
+		Iterator<IModel> it = keys.iterator();
 		
-		
-		for(int i=0; i != nbMobiles; i++) {
-			Mobile mobile = (Mobile) tabMobiles[i];
+		while(it.hasNext()) {
+			Mobile mobile = (Mobile) it.next();
 			
-			// alea du nb de paquets a generer
+			// alea du nombre de paquets a generer
 			int nbPacketsMoyen = mobile.getPacketFlow();
 			if(nbPacketsMoyen == -1) {
 				int expireDelay = minDelay + random.nextInt(maxDelay - minDelay);
@@ -48,7 +47,7 @@ public class PacketGenerator {
 			nbPackets += offset;
 			
 			// generation des paquets
-			for(int j = 0; j != nbPackets; j++) {
+			for(int i=0; i != nbPackets; i++) {
 				Packet p = new Packet(agent, mobile, "");
 				try {
 					map.get(mobile).add(p);
@@ -57,6 +56,6 @@ public class PacketGenerator {
 					
 				}
 			}	
-		}		
+		}
 	}
 }
