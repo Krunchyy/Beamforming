@@ -21,6 +21,8 @@ public class Graph {
 				yMax = coor._y;
 		}
 		
+		xMax += 1;
+		yMax += 1;
 		
 		String result ="   "+yName+"\n\n  /|\\ \n";//build header
 		for(int y = yMax-1 ; y >= 0 ; y--)
