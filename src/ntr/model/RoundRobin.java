@@ -59,9 +59,11 @@ public class RoundRobin extends AbstractOrdonnanceur {
 		for(int i=0 ; i< this.getOfdm()._nb_sub_carrier ; i++) {//TODO: if enough size allow next mobile
 			if(!buffer.isEmpty())
 				packets.add(buffer.poll());
+			else {
+				packets.add(null);
+			}
 		}
 		Packet[] array = new Packet[packets.size()];
-		System.out.println("buffer end size : " + buffer.size() );
 		this.getMap().put(model, buffer);
 		this.getOfdm().setTimeSlot(slot, (Packet[]) packets.toArray(array));
 	}
