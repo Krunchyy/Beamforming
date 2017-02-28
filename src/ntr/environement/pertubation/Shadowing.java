@@ -7,11 +7,13 @@ import ntr.model.IModel;
 import ntr.signal.Alteration;
 
 public class Shadowing extends Alteration{
-
+	
 
 	@Override
 	public void alterate(List<IModel> elements, Environement env) {
-		// TODO Auto-generated method stub
+		for(IModel model : elements) {
+			
+		}
 		
 	}
 

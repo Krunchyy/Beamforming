@@ -7,7 +7,6 @@ import java.util.Map;
 import ntr.environement.Environement;
 
 public class Mobile extends Model{
-	
 	private int networkCondition;
 	
 	public Mobile(Location loc, Environement env)
