@@ -9,6 +9,9 @@ public class Config {
 	public final static char MOBILE_TAG = 'M';
 	public final static char AGENT_TAG = 'A';
 	
+	//PacketFragment config:
+	public final static int PACKET_DATA_SIZE = 100;
+	
 	
 	
 	//OFDM

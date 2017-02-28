@@ -1,7 +1,7 @@
 package ntr.model;
 
 import ntr.environement.Environement;
-import ntr.signal.Packet;
+import ntr.signal.PacketFragment;
 import ntr.signal.Signal;
 
 public abstract class Model implements IModel{
@@ -90,17 +90,17 @@ public abstract class Model implements IModel{
 	}
 	
 	
-	public void receivePacket(Packet packet)
+	public void receivePacket(PacketFragment packet)
 	{
 		if(packet._target != this)
 			return;
 		if(packet._isValid)
 		{
-			_bitsReceivedAtTime += Packet.PACKET_DATA_SIZE;
+			_bitsReceivedAtTime += PacketFragment.PACKET_DATA_SIZE;
 		}
 		else
 		{
-			_bitsFail += Packet.PACKET_DATA_SIZE;
+			_bitsFail += PacketFragment.PACKET_DATA_SIZE;
 		}
 		
 	}
@@ -123,7 +123,7 @@ public abstract class Model implements IModel{
 		_env.sendSignal(this, receiver);
 	}
 	
-	public void sendPacket(Packet packet)
+	public void sendPacket(PacketFragment packet)
 	{
 		_env.sendPacket(packet);
 	}

@@ -3,25 +3,25 @@ package ntr.environement;
 import java.util.ArrayList;
 import java.util.List;
 
-import ntr.environement.pertubation.MultiPathFinding;
-import ntr.environement.pertubation.PathLost;
+import ntr.environement.pertubation.MultiPathFading;
+import ntr.environement.pertubation.PathLoss;
 import ntr.environement.pertubation.Shadowing;
 import ntr.model.IModel;
 import ntr.model.Location;
 import ntr.signal.Alteration;
-import ntr.signal.Packet;
+import ntr.signal.PacketFragment;
 
 public class Environement {
 	
 	private Alteration[] _alteration = {
-			new PathLost(),
+			new PathLoss(),
 			new Shadowing(),
-			new MultiPathFinding(),
+			new MultiPathFading(),
 	};
 	
 	public final int _size;
 	private final List<IModel> _elements = new ArrayList<>();
-	private final List<Packet> _buff = new ArrayList<>();
+	private final List<PacketFragment> _buff = new ArrayList<>();
 	
 	public Environement(int size)
 	{
@@ -80,7 +80,7 @@ public class Environement {
 	 * Signal call
 	 **********************************/
 	
-	public void sendPacket(Packet packet)
+	public void sendPacket(PacketFragment packet)
 	{
 		_buff.add(packet);
 	}
@@ -94,7 +94,7 @@ public class Environement {
 		}
 		
 		
-		for(Packet packet : _buff)
+		for(PacketFragment packet : _buff)
 			packet._target.receivePacket(packet);
 		
 		//clear for next wave

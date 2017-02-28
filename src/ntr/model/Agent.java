@@ -7,14 +7,14 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import ntr.environement.Environement;
 import ntr.signal.OFDM;
-import ntr.signal.Packet;
+import ntr.signal.PacketFragment;
 import ntr.signal.Signal;
 
 public class Agent extends Model{
 	public static final int QUEUE_SIZE = 255;//TODO: need to be bigint
 	
 	private AbstractOrdonnanceur ordonnanceur;
-	private final ConcurrentHashMap<IModel, Queue<Packet>> map;
+	private final ConcurrentHashMap<IModel, Queue<PacketFragment>> map;
 	public final PacketGenerator generator;
 	private final OFDM _ofdm;
 	
@@ -48,15 +48,15 @@ public class Agent extends Model{
 	
 	public void requestConnecte(IModel model)
 	{
-		map.put(model, new ArrayBlockingQueue<Packet>(QUEUE_SIZE));
+		map.put(model, new ArrayBlockingQueue<PacketFragment>(QUEUE_SIZE));
 	}
 	
 	public void deconnecteConnecte(IModel model)
 	{
-		map.put(model, new ArrayBlockingQueue<Packet>(QUEUE_SIZE));
+		map.put(model, new ArrayBlockingQueue<PacketFragment>(QUEUE_SIZE));
 	}
 	//called by OFDM schedule who call tick() method
-	public void sendPacket(Packet paket, int sub_carrier_id)
+	public void sendPacket(PacketFragment paket, int sub_carrier_id)
 	{
 		if(paket == null)
 				return;
@@ -76,7 +76,7 @@ public class Agent extends Model{
 	 * @param sub_carrier_id
 	 * @return
 	 */
-	public Signal buildSignal(Packet paket, int sub_carrier_id)
+	public Signal buildSignal(PacketFragment paket, int sub_carrier_id)
 	{
 		//creation du signal
 		long frenqUsed = getFrenqByCarrierId(sub_carrier_id);
@@ -96,7 +96,7 @@ public class Agent extends Model{
 	}
 	
 	
-	public char[] getModulation(Packet paket, long frenqUsed)
+	public char[] getModulation(PacketFragment paket, long frenqUsed)
 	{
 		//paket._target
 		//paket._data
@@ -104,14 +104,14 @@ public class Agent extends Model{
 		return new char[]{'a', 'b'};//TODO
 	}
 	
-	public int[] getDataFromModulation(Packet paket, char[] symbol)
+	public int[] getDataFromModulation(PacketFragment paket, char[] symbol)
 	{
 		//paket._data
 		//symbol
 		return new int[]{0,0,1};//TODO
 	}
 	
-	public ConcurrentHashMap<IModel, Queue<Packet>> getMap(){
+	public ConcurrentHashMap<IModel, Queue<PacketFragment>> getMap(){
 		return this.map;
 	}
 	

@@ -5,7 +5,7 @@ import java.util.Queue;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
-import ntr.signal.Packet;
+import ntr.signal.PacketFragment;
 import ntr.utils.RandomUtils;
 
 public class PacketGenerator {
@@ -26,7 +26,8 @@ public class PacketGenerator {
 	 * connecte a l'agent
 	 */
 	public void tick() {
-		ConcurrentHashMap<IModel, Queue<Packet>> map = agent.getMap();
+		// TODO mettre a jour avec packetfragment
+		ConcurrentHashMap<IModel, Queue<PacketFragment>> map = agent.getMap();
 		Set<IModel> keys = map.keySet();
 		Iterator<IModel> it = keys.iterator();
 		
@@ -46,7 +47,7 @@ public class PacketGenerator {
 			
 			// generation des paquets
 			for(int i=0; i != nbPackets; i++) {
-				Packet p = new Packet(agent, mobile, "");
+				PacketFragment p = new PacketFragment(agent, mobile, "");
 				try {
 					map.get(mobile).add(p);
 				}

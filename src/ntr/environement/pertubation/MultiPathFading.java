@@ -7,7 +7,7 @@ import ntr.model.IModel;
 import ntr.model.Mobile;
 import ntr.signal.Alteration;
 import ntr.utils.RandomUtils;
-public class MultiPathFinding extends Alteration{
+public class MultiPathFading extends Alteration{
 
 
 	@Override

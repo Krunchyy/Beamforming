@@ -6,10 +6,10 @@ import java.util.Random;
 import ntr.environement.Environement;
 import ntr.model.IModel;
 import ntr.signal.Alteration;
-import ntr.signal.Packet;
+import ntr.signal.PacketFragment;
 import ntr.utils.Config;
 
-public class PathLost extends Alteration{
+public class PathLoss extends Alteration{
 	
 	private double _delta; // delta between sender and receiver
 	private long seed;
@@ -44,7 +44,7 @@ public class PathLost extends Alteration{
 //		return generator.nextInt(100);
 //	}
 	
-	private void PathLossAlteration(Packet packet, Environement env){
+	private void PathLossAlteration(PacketFragment packet, Environement env){
 		
 		double delta = getDelta();
 		double maxSize = Math.sqrt(2)*env._size;

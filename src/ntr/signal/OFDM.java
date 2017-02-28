@@ -10,7 +10,7 @@ public class OFDM {
 	public final int _nb_sub_carrier;
 	public final int _nb_time_slot;
 	
-	public Packet[][] _ofdm;
+	public PacketFragment[][] _ofdm;
 	public int _currentIndex = 0;
 	
 
@@ -20,7 +20,7 @@ public class OFDM {
 	{
 		_nb_sub_carrier = nb_sub_carrier;
 		_nb_time_slot = nb_time_slot;
-		_ofdm = new Packet[nb_time_slot][nb_sub_carrier];
+		_ofdm = new PacketFragment[nb_time_slot][nb_sub_carrier];
 		_agent = agent;
 	}
 	
@@ -33,7 +33,7 @@ public class OFDM {
 		//Remplie l'ofdm (une ligne ou tout)
 		
 		//send une colonne de time slot
-		Packet[] packets = getNextTimeSlot();
+		PacketFragment[] packets = getNextTimeSlot();
 		if(packets == null)
 		{
 			System.out.println("[ERROR:OFDM] nextTimeSlot invalid : null");
@@ -59,7 +59,7 @@ public class OFDM {
 	
 	
 	
-	public Packet[][] getTimeSlots()
+	public PacketFragment[][] getTimeSlots()
 	{
 		return _ofdm;
 	}
@@ -69,7 +69,7 @@ public class OFDM {
 	 * @param slot
 	 * @return
 	 */
-	public Packet[] getTimeSlot(int slot)
+	public PacketFragment[] getTimeSlot(int slot)
 	{
 		if(slot < 0 || slot >= _nb_time_slot)
 		{
@@ -84,13 +84,13 @@ public class OFDM {
 	 * @param slot
 	 * @return
 	 */
-	private Packet[] getNextTimeSlot()
+	private PacketFragment[] getNextTimeSlot()
 	{
-		Packet[] result = _ofdm[_currentIndex];
+		PacketFragment[] result = _ofdm[_currentIndex];
 		
 		if(Config.OFDM_DEBUG)System.out.println("[INFO:OFDM] OFDM at index : "+ _currentIndex);
 		
-		_ofdm[_currentIndex] = new Packet[_nb_sub_carrier];//vide la ligne
+		_ofdm[_currentIndex] = new PacketFragment[_nb_sub_carrier];//vide la ligne
 		
 		_currentIndex++;
 		_currentIndex = _currentIndex%_nb_time_slot;
@@ -98,12 +98,12 @@ public class OFDM {
 	}
 	
 	
-	public void setTimeSlots(Packet[][] ofdm)
+	public void setTimeSlots(PacketFragment[][] ofdm)
 	{
 		_ofdm = ofdm;
 	}
 	
-	public void setTimeSlot(int slot, Packet[] timeSlot)
+	public void setTimeSlot(int slot, PacketFragment[] timeSlot)
 	{
 		if(slot < 0 || slot >= _nb_time_slot)
 		{

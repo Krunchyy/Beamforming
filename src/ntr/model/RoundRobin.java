@@ -8,26 +8,26 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 import ntr.signal.OFDM;
-import ntr.signal.Packet;
+import ntr.signal.PacketFragment;
 
 
 public class RoundRobin extends AbstractOrdonnanceur {
 	private IModel lastModel;
-	public RoundRobin(ConcurrentHashMap<IModel, Queue<Packet>> map, OFDM ofdm) {
+	public RoundRobin(ConcurrentHashMap<IModel, Queue<PacketFragment>> map, OFDM ofdm) {
 		super(map, ofdm);
 		this.lastModel = null;
 	}
 
 	@Override
 	public void tick() { 
-		Set<Entry<IModel, Queue<Packet>>> entryset = this.getMap().entrySet();
+		Set<Entry<IModel, Queue<PacketFragment>>> entryset = this.getMap().entrySet();
 		
-		Iterator<Entry<IModel, Queue<Packet>>> iter = entryset.iterator();
+		Iterator<Entry<IModel, Queue<PacketFragment>>> iter = entryset.iterator();
 		boolean lastModelFound = false;
 		
-		ArrayList<Packet> packets = new ArrayList<>();
+		ArrayList<PacketFragment> packets = new ArrayList<>();
 		while(this.allMobileBuffersEmpty() && packets.size() != this.getOfdm()._nb_sub_carrier) {
-			Entry<IModel, Queue<Packet>> entry = iter.next();
+			Entry<IModel, Queue<PacketFragment>> entry = iter.next();
 			
 			if(this.lastModel != null && this.getMap().containsKey(this.lastModel)) {
 				if(lastModelFound) {
@@ -49,10 +49,10 @@ public class RoundRobin extends AbstractOrdonnanceur {
 		this.updateOFDM(packets);
 	}
 	
-	private void allow(IModel model, ArrayList<Packet> packets) {
+	private void allow(IModel model, ArrayList<PacketFragment> packets) {
 		this.lastModel = model;
 		
-		Queue<Packet> buffer = this.getMap().get(model);
+		Queue<PacketFragment> buffer = this.getMap().get(model);
 		
 		for(int i=0 ; i< this.getOfdm()._nb_sub_carrier ; i++) {
 			if(!buffer.isEmpty()) {
@@ -68,7 +68,7 @@ public class RoundRobin extends AbstractOrdonnanceur {
 	 * Send packets of user into ofdm current Timeslot and fill blank in timeslot if not enough buffers
 	 * @param packets to send to OFDM current timeslot
 	 */
-	private void updateOFDM(ArrayList<Packet> packets) {
+	private void updateOFDM(ArrayList<PacketFragment> packets) {
 		int slot = this.getOfdm()._currentIndex;
 		
 		if(packets.size() < this.getOfdm()._nb_sub_carrier) {
@@ -76,8 +76,8 @@ public class RoundRobin extends AbstractOrdonnanceur {
 				packets.add(null);
 		}
 			
-		Packet[] array = new Packet[packets.size()];
-		this.getOfdm().setTimeSlot(slot, (Packet[]) packets.toArray(array));
+		PacketFragment[] array = new PacketFragment[packets.size()];
+		this.getOfdm().setTimeSlot(slot, (PacketFragment[]) packets.toArray(array));
 	}
 	
 	private boolean allMobileBuffersEmpty() {

@@ -16,7 +16,7 @@ public abstract class Alteration {
 	 */
 	public abstract void alterate(List<IModel> elements, Environement env);
 	
-	public static void performAlteration(List<Packet> buff, List<IModel> models) {
+	public static void performAlteration(List<PacketFragment> buff, List<IModel> models) {
 		for(int i = 0 ; i < models.size() ; i++) {
 			if(models.get(i).getTag() == 'A')
 				continue;
@@ -24,7 +24,7 @@ public abstract class Alteration {
 			Mobile mobile = (Mobile) models.get(i);
 			int percentSuccess = models.get(i).getNetworkCondition();
 			
-			List<Packet> bufferOfCurrentMobile = buff.stream().filter(packet -> packet._target == mobile).collect(Collectors.toList());
+			List<PacketFragment> bufferOfCurrentMobile = buff.stream().filter(packet -> packet._target == mobile).collect(Collectors.toList());
 		
 			int size = bufferOfCurrentMobile.size();
 			//size * (percentSuccess/100)
