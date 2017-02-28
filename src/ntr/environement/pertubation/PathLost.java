@@ -3,10 +3,12 @@ package ntr.environement.pertubation;
 import java.util.List;
 import java.util.Random;
 
+import jdk.nashorn.internal.runtime.regexp.joni.Config;
 import ntr.environement.Environement;
 import ntr.model.IModel;
 import ntr.signal.Alteration;
 import ntr.signal.Packet;
+import ntr.utils.Config;
 
 public class PathLost extends Alteration{
 	
@@ -17,12 +19,17 @@ public class PathLost extends Alteration{
 	@Override
 	public void alterate(List<IModel> elements, Environement env) {
 		// TODO Auto-generated method stub
+		for(IModel model : elements){
+			if(model.getTag() == ntr.utils.Config.MOBILE_TAG
+		}
+		elements.
+		PathLossAlteration(packet, env);
 		
 	}
 
 	
 	
-	public void setDelta(IModel sender, IModel receiver) {
+	private void setDelta(IModel sender, IModel receiver) {
 		int _deltaX = sender.getLocation()._x - receiver.getLocation()._x;
 		int _deltaY = sender.getLocation()._y - receiver.getLocation()._y;
 		_delta = Math.sqrt(Math.pow(_deltaX, 2) + Math.pow(_deltaY, 2));
@@ -38,7 +45,7 @@ public class PathLost extends Alteration{
 //		return generator.nextInt(100);
 //	}
 	
-	public void PathLossAlteration(Packet packet, Environement env){
+	private void PathLossAlteration(Packet packet, Environement env){
 		
 		double delta = getDelta();
 		double maxSize = Math.sqrt(2)*env._size;
