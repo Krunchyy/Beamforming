@@ -3,6 +3,7 @@ package ntr.signal;
 import java.util.concurrent.ScheduledExecutorService;
 
 import ntr.model.Agent;
+import ntr.utils.Config;
 
 public class OFDM {
 	public final Agent _agent;
@@ -86,7 +87,9 @@ public class OFDM {
 	private Packet[] getNextTimeSlot()
 	{
 		Packet[] result = _ofdm[_currentIndex];
-		System.out.println("[INFO:OFDM] OFDM at index : "+ _currentIndex);
+		
+		if(Config.OFDM_DEBUG)System.out.println("[INFO:OFDM] OFDM at index : "+ _currentIndex);
+		
 		_ofdm[_currentIndex] = new Packet[_nb_sub_carrier];//vide la ligne
 		
 		_currentIndex++;

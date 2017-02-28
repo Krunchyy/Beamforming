@@ -8,4 +8,9 @@ public class Config {
 	//IModel config:
 	public final static char MOBILE_TAG = 'M';
 	public final static char AGENT_TAG = 'A';
+	
+	
+	
+	//OFDM
+	public static final boolean OFDM_DEBUG = false;
 }

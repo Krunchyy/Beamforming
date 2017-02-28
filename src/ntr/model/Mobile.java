@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import ntr.environement.Environement;
-import ntr.utils.Config;
 
 public class Mobile extends Model{
 	private int networkCondition;
@@ -23,7 +22,7 @@ public class Mobile extends Model{
 	
 	@Override
 	public char getTag() {
-		return Config.MOBILE_TAG;
+		return 'M';
 	}
 
 	@Override

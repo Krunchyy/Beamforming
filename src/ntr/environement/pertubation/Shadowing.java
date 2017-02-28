@@ -1,6 +1,5 @@
 package ntr.environement.pertubation;
 
-import java.util.HashMap;
 import java.util.List;
 
 import ntr.environement.Environement;
