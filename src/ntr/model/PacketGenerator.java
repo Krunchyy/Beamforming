@@ -2,11 +2,11 @@ package ntr.model;
 
 import java.util.Iterator;
 import java.util.Queue;
-import java.util.Random;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 import ntr.signal.Packet;
+import ntr.utils.RandomUtils;
 
 public class PacketGenerator {
 	private int minMoyen = 1; // quantite moyenne de paquets
@@ -15,12 +15,10 @@ public class PacketGenerator {
 	private int maxDelay = 5;
 	private int minOffset = -2; // offset par rapport a la moyenne
 	private int maxOffset = 2;
-	private Random random;
 	private Agent agent;
 	
 	public PacketGenerator(Agent newAgent) {
 		this.agent = newAgent;
-		this.random = new Random();
 	}
 	
 	/**
@@ -38,12 +36,12 @@ public class PacketGenerator {
 			// alea du nombre de paquets a generer
 			int nbPacketsMoyen = mobile.getPacketFlow();
 			if(nbPacketsMoyen == -1) {
-				int expireDelay = minDelay + random.nextInt(maxDelay - minDelay);
-				nbPacketsMoyen = minMoyen + random.nextInt(maxMoyen - minMoyen);
+				int expireDelay = minDelay + RandomUtils.get(minDelay, maxDelay);
+				nbPacketsMoyen = minMoyen + RandomUtils.get(minMoyen, maxMoyen);
 				mobile.setPacketFlow(nbPacketsMoyen, expireDelay);
 			}
 			int nbPackets = nbPacketsMoyen;
-			int offset = random.nextInt(maxOffset - minOffset);
+			int offset = RandomUtils.get(minOffset, maxOffset);
 			nbPackets += offset;
 			
 			// generation des paquets
