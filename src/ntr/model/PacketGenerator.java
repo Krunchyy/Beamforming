@@ -9,16 +9,16 @@ import ntr.signal.PacketFragment;
 import ntr.utils.RandomUtils;
 
 public class PacketGenerator {
-	private int minMoyen = 1; // quantite moyenne de paquets
-	private int maxMoyen = 20;
-	private int minDelay = 2; // duree de vie de la moyenne
-	private int maxDelay = 5;
-	private int minOffset = -2; // offset par rapport a la moyenne
-	private int maxOffset = 2;
-	private Agent agent;
+	private int _minMoyen = 1; // quantite moyenne de paquets
+	private int _maxMoyen = 20;
+	private int _minDelay = 2; // duree de vie de la moyenne
+	private int _maxDelay = 5;
+	private int _minOffset = -2; // offset par rapport a la moyenne
+	private int _maxOffset = 2;
+	private Agent _agent;
 	
-	public PacketGenerator(Agent newAgent) {
-		this.agent = newAgent;
+	public PacketGenerator(Agent agent) {
+		this._agent = agent;
 	}
 	
 	/**
@@ -26,28 +26,28 @@ public class PacketGenerator {
 	 * connecte a l'agent
 	 */
 	public void tick() {
-		ConcurrentHashMap<IModel, Queue<PacketFragment>> map = agent.getMap();
+		ConcurrentHashMap<IModel, Queue<PacketFragment>> map = _agent.getMap();
 		Set<IModel> keys = map.keySet();
 		Iterator<IModel> it = keys.iterator();
 		
 		while(it.hasNext()) {
 			Mobile mobile = (Mobile) it.next();
 			
-			// alea du nombre de paquets a generer
+			// nombre de paquets a generer
 			int nbPacketsMoyen = mobile.getPacketFlow();
 			if(nbPacketsMoyen == -1) {
-				int expireDelay = minDelay + RandomUtils.get(minDelay, maxDelay);
-				nbPacketsMoyen = minMoyen + RandomUtils.get(minMoyen, maxMoyen);
+				int expireDelay = _minDelay + RandomUtils.get(_minDelay, _maxDelay);
+				nbPacketsMoyen = _minMoyen + RandomUtils.get(_minMoyen, _maxMoyen);
 				mobile.setPacketFlow(nbPacketsMoyen, expireDelay);
 			}
 			int nbPackets = nbPacketsMoyen;
-			int offset = RandomUtils.get(minOffset, maxOffset);
+			int offset = RandomUtils.get(_minOffset, _maxOffset);
 			nbPackets += offset;
 			
 			// generation des paquets
 			for(int i=0; i != nbPackets; i++) {
 				long date = System.currentTimeMillis();
-				PacketFragment p = new PacketFragment(agent, mobile, "", date);
+				PacketFragment p = new PacketFragment(_agent, mobile, "", date);
 				try {
 					map.get(mobile).add(p);
 				}
