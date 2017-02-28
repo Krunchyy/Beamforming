@@ -14,8 +14,8 @@ import ntr.model.Mobile;
 
 public class ModelisationGraph {
 
-	public static long DELAY_BETWEEN_TIME_SLOT = 100;//in MILLISECONDS
-	public static long MAX_TIME = 30;//100 delay
+	public static long DELAY_BETWEEN_TIME_SLOT = 20;//in MILLISECONDS
+	public static long MAX_TIME = 70;//100 delay
 	public static long _time = 0;
 	
 	public static int ENVIRONEMENT_SIZE = 10;
@@ -51,13 +51,11 @@ public class ModelisationGraph {
 		try{
 		if(++_time >= MAX_TIME)
 		{
-			for(Coordonnee co : coord)
-			{
-				System.out.println("Coordonnee x : "+ co._x + " y : "+ co._y);
-			}
+			System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
 			System.out.println(Graph.displayGraph(coord.toArray(new Coordonnee[0]), "Tick", "Qte"));
-			System.out.println("end" );
-			executorService.shutdown();
+			//System.out.println("end" );
+			_time = 0;coord.clear();
+			//executorService.shutdown();
 		}
 		else
 		{
