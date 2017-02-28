@@ -26,7 +26,6 @@ public class PacketGenerator {
 	 * connecte a l'agent
 	 */
 	public void tick() {
-		// TODO mettre a jour avec packetfragment
 		ConcurrentHashMap<IModel, Queue<PacketFragment>> map = agent.getMap();
 		Set<IModel> keys = map.keySet();
 		Iterator<IModel> it = keys.iterator();
@@ -47,7 +46,8 @@ public class PacketGenerator {
 			
 			// generation des paquets
 			for(int i=0; i != nbPackets; i++) {
-				PacketFragment p = new PacketFragment(agent, mobile, "");
+				long date = System.currentTimeMillis();
+				PacketFragment p = new PacketFragment(agent, mobile, "", date);
 				try {
 					map.get(mobile).add(p);
 				}

@@ -59,7 +59,7 @@ public class ModelisationGraph {
 		}
 		else
 		{
-			_agent.generator.tick();
+			_agent.getPacketGen().tick();
 			coord.add(new Coordonnee((int)_time, _agent.getMap().get(_mob).size()));
 			_agent.getMap().get(_mob).clear();
 		}

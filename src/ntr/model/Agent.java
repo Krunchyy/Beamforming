@@ -15,7 +15,7 @@ public class Agent extends Model{
 	
 	private AbstractOrdonnanceur ordonnanceur;
 	private final ConcurrentHashMap<IModel, Queue<PacketFragment>> map;
-	public final PacketGenerator generator;
+	private final PacketGenerator generator;
 	private final OFDM _ofdm;
 	
 	public Agent(Location loc, Environement env)
@@ -111,8 +111,12 @@ public class Agent extends Model{
 		return new int[]{0,0,1};//TODO
 	}
 	
-	public ConcurrentHashMap<IModel, Queue<PacketFragment>> getMap(){
+	public ConcurrentHashMap<IModel, Queue<PacketFragment>> getMap() {
 		return this.map;
+	}
+	
+	public PacketGenerator getPacketGen() {
+		return this.generator;
 	}
 	
 	/********************

@@ -3,6 +3,7 @@ package ntr.model;
 import ntr.environement.Environement;
 import ntr.signal.PacketFragment;
 import ntr.signal.Signal;
+import ntr.utils.Config;
 
 public abstract class Model implements IModel{
 	public Location _loc;
@@ -96,11 +97,11 @@ public abstract class Model implements IModel{
 			return;
 		if(packet._isValid)
 		{
-			_bitsReceivedAtTime += PacketFragment.PACKET_DATA_SIZE;
+			_bitsReceivedAtTime += Config.PACKET_DATA_SIZE;
 		}
 		else
 		{
-			_bitsFail += PacketFragment.PACKET_DATA_SIZE;
+			_bitsFail += Config.PACKET_DATA_SIZE;
 		}
 		
 	}
