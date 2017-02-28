@@ -32,10 +32,11 @@ public class PathLost extends Alteration{
 		return _delta;
 	}
 	
-	private Random generator = new Random();
-	int getRandom(){
-		return generator.nextInt(100);
-	}
+
+//	private Random generator = new Random();
+//	int getRandom(){
+//		return generator.nextInt(100);
+//	}
 	
 	public void PathLossAlteration(Packet packet, Environement env){
 		
