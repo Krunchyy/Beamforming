@@ -28,6 +28,8 @@ public class Mobile extends Model{
 
 	@Override
 	public void setNetworkCondition(int value) {
+		if(value > 100) value = 100;
+		if(value < 100) value = 0;
 		this.networkCondition = value;
 	}
 

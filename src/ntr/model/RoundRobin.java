@@ -30,12 +30,10 @@ public class RoundRobin extends AbstractOrdonnanceur {
 			
 			if(this.lastModel != null && this.getMap().containsKey(this.lastModel)) {
 				if(lastModelFound) {
-					System.out.println("allow something");
 					this.allow(entry.getKey());
 					return;
 				}
 				if(entry.getKey() == this.lastModel) {
-					System.out.println("allow anything");
 					lastModelFound = true;
 				}
 				
