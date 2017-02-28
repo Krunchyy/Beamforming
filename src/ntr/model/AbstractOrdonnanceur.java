@@ -30,11 +30,6 @@ public abstract class AbstractOrdonnanceur {
 	 */
 	public abstract void tick();
 	
-	/**
-	 * 
-	 * @return le terminal qui va recevoir ses datas.
-	 */
-	public abstract IModel choose();
 	
 	public OFDM getOfdm() {
 		return this.ofdm;
