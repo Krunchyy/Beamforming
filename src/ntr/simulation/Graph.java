@@ -5,7 +5,7 @@ public class Graph {
 	
 	public static void main(String[] args)
 	{
-		System.out.println(displayGraph(new Coordonnee[]{new Coordonnee(0,0), new Coordonnee(3,3), new Coordonnee(5,5) ,new Coordonnee(10,10)}, "x", "y"));
+		System.out.println(displayGraph(new Coordonnee[]{new Coordonnee(0,0), new Coordonnee(11,1), new Coordonnee(5,5) ,new Coordonnee(29,10)}, "x", "y"));
 	}
 	
 	public static String displayGraph(Coordonnee[] tablePts , String xName, String yName)
@@ -27,12 +27,13 @@ public class Graph {
 		String result ="   "+yName+"\n\n  /|\\ \n";//build header
 		for(int y = yMax-1 ; y >= 0 ; y--)
 		{
-			result += y+"--|";
+			result += (y<10? y+" " : y)  +"-|";
 			result += getLine(tablePts, xMax, y);
 		}
 		
 		//build footer
 		result += "    ";
+		System.out.println("xmax "+ xMax);
 		for(int x = 0 ; x < xMax ; x++)
 		{
 			result += "___";
@@ -40,13 +41,14 @@ public class Graph {
 		result += "\\  "+xName+"\n    ";
 		for(int x = 0 ; x < xMax ; x++)
 		{
+			System.out.println(x);
 			result += " | ";
 		}
 		result += "/ \n";
 		result += "    ";
 		for(int x = 0 ; x < xMax ; x++)
 		{
-			result += " "+x+" ";
+			result += " "+(x < 10? x+" " : x);
 		}
 		return result;
 	}
