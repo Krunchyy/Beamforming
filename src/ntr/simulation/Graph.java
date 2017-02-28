@@ -33,7 +33,6 @@ public class Graph {
 		
 		//build footer
 		result += "    ";
-		System.out.println("xmax "+ xMax);
 		for(int x = 0 ; x < xMax ; x++)
 		{
 			result += "___";
@@ -41,7 +40,6 @@ public class Graph {
 		result += "\\  "+xName+"\n    ";
 		for(int x = 0 ; x < xMax ; x++)
 		{
-			System.out.println(x);
 			result += " | ";
 		}
 		result += "/ \n";
