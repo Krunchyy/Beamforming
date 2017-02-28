@@ -1,8 +1,6 @@
 package ntr.signal;
 
-import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 
 import ntr.model.Agent;
 
@@ -35,6 +33,16 @@ public class OFDM {
 		
 		//send une colonne de time slot
 		Packet[] packets = getNextTimeSlot();
+		if(packets == null)
+		{
+			System.out.println("[ERROR:OFDM] nextTimeSlot invalid : null");
+			return;
+		}
+		if(packets.length < _nb_sub_carrier)
+		{
+			System.out.println("[ERROR:OFDM] nextTimeSlot invalid : bad length "+ packets.length);
+			return;
+		}
 		for(int subCar = 0 ; subCar < _nb_sub_carrier ; subCar++)
 		{
 			_agent.sendPacket(packets[subCar], subCar);
@@ -78,6 +86,7 @@ public class OFDM {
 	private Packet[] getNextTimeSlot()
 	{
 		Packet[] result = _ofdm[_currentIndex];
+		System.out.println("[INFO:OFDM] OFDM at index : "+ _currentIndex);
 		_ofdm[_currentIndex] = new Packet[_nb_sub_carrier];//vide la ligne
 		
 		_currentIndex++;
@@ -96,6 +105,11 @@ public class OFDM {
 		if(slot < 0 || slot >= _nb_time_slot)
 		{
 			System.out.println("error on ofdm");
+			return;
+		}
+		if(timeSlot.length !=  _nb_sub_carrier)
+		{
+			System.out.println("[ERROR] OFDM try to give bad timeSlot size : "+ timeSlot.length + " expected : "+ _nb_sub_carrier);
 			return;
 		}
 		_ofdm[slot] = timeSlot;
