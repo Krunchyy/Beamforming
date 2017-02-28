@@ -26,6 +26,8 @@ public class RoundRobin extends AbstractOrdonnanceur {
 		boolean lastModelFound = false;
 		
 		ArrayList<PacketFragment> packets = new ArrayList<>();
+		
+		//FIXME infinite loop cases
 		while(this.allMobileBuffersEmpty() && packets.size() != this.getOfdm()._nb_sub_carrier) {
 			Entry<IModel, Queue<PacketFragment>> entry = iter.next();
 			
@@ -45,7 +47,6 @@ public class RoundRobin extends AbstractOrdonnanceur {
 				this.allow(entry.getKey(), packets);
 			}
 		}
-		
 		this.updateOFDM(packets);
 	}
 	
