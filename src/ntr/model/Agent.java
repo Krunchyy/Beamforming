@@ -9,6 +9,7 @@ import ntr.environement.Environement;
 import ntr.signal.OFDM;
 import ntr.signal.Packet;
 import ntr.signal.Signal;
+import ntr.utils.Config;
 
 public class Agent extends Model{
 	public static final int QUEUE_SIZE = 255;//TODO: need to be bigint
@@ -43,7 +44,7 @@ public class Agent extends Model{
 	
 	@Override
 	public char getTag() {
-		return 'A';
+		return Config.AGENT_TAG;
 	}
 	
 	public void requestConnecte(IModel model)
