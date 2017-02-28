@@ -3,7 +3,6 @@ package ntr.environement.pertubation;
 import java.util.List;
 import java.util.Random;
 
-import jdk.nashorn.internal.runtime.regexp.joni.Config;
 import ntr.environement.Environement;
 import ntr.model.IModel;
 import ntr.signal.Alteration;
@@ -18,13 +17,13 @@ public class PathLost extends Alteration{
 
 	@Override
 	public void alterate(List<IModel> elements, Environement env) {
-		// TODO Auto-generated method stub
-		for(IModel model : elements){
-			if(model.getTag() == ntr.utils.Config.MOBILE_TAG
-		}
-		elements.
-		PathLossAlteration(packet, env);
-		
+//		// TODO Auto-generated method stub
+//		for(IModel model : elements){
+//			if(model.getTag() == ntr.utils.Config.MOBILE_TAG
+//		}
+//		elements.
+//		PathLossAlteration(packet, env);
+//		
 	}
 
 	
