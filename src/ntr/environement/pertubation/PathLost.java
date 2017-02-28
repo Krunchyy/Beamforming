@@ -46,32 +46,23 @@ public class PathLost extends Alteration{
 		// Distance between sender and receiver is far
 		if(  (3/4)*maxSize <= delta && delta <= maxSize) {
 			packet._sender.setNetworkCondition(25);
-			if(getRandom() < 25) packet._isValid = true;
-			else packet._isValid = false;
 		}
 		
 		else if ( (1/2)*maxSize <= delta && delta < (3/4)*maxSize) {
 			packet._sender.setNetworkCondition(50);
-			if(getRandom() < 50) packet._isValid = true;
-			else packet._isValid = false;
 		}
 		
 		else if ( (1/4)*maxSize <= delta && delta < (1/2)*maxSize) {
 			packet._sender.setNetworkCondition(75);
-			if(getRandom() < 75) packet._isValid = true;
-			else packet._isValid = false;
 		}
 		
 		else if ( 0 <= delta && delta < (1/4)*maxSize) {
 			packet._sender.setNetworkCondition(100);
-			if(getRandom() < 100) packet._isValid = true;
-			else packet._isValid = false;
 		}
 		
 		// Mobile is not in the area
 		else {
 			packet._sender.setNetworkCondition(0);
-			packet._isValid = false;
 		}
 	}
 	
