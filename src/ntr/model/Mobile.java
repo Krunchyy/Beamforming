@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import ntr.environement.Environement;
+import ntr.signal.PacketFragment;
 import ntr.utils.Config;
 
 public class Mobile extends Model{
@@ -69,5 +70,14 @@ public class Mobile extends Model{
 			return -1;
 		}
 		return _packetFlow;
+	}
+	
+	/**
+	 * Il faut calculer le Mkn pour chaque subcarrier de la timeslot actuel.
+	 * @param subcarrier to compute mkn
+	 * @return
+	 */
+	public float computeMkn(int subcarrier) {
+		return 0;
 	}
 }
