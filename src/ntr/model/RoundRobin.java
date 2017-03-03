@@ -27,8 +27,10 @@ public class RoundRobin extends AbstractOrdonnanceur {
 		
 		ArrayList<PacketFragment> packets = new ArrayList<>();
 		
-		//FIXME infinite loop cases
-		while(this.allMobileBuffersEmpty() && packets.size() != this.getOfdm()._nb_sub_carrier) {
+		while(this.hasMorePackets() && packets.size() != this.getOfdm()._nb_sub_carrier) {//tant que il reste de la place dans ofdm
+			if(!iter.hasNext())
+				iter = entryset.iterator();
+			
 			Entry<IModel, Queue<PacketFragment>> entry = iter.next();
 			
 			if(this.lastModel != null && this.getMap().containsKey(this.lastModel)) {
@@ -38,15 +40,12 @@ public class RoundRobin extends AbstractOrdonnanceur {
 				if(entry.getKey() == this.lastModel) {
 					lastModelFound = true;
 				}
-				
-				if(!iter.hasNext()) {
-					iter = entryset.iterator();
-				}
 			}
 			else {
 				this.allow(entry.getKey(), packets);
 			}
 		}
+		
 		this.updateOFDM(packets);
 	}
 	
@@ -55,9 +54,12 @@ public class RoundRobin extends AbstractOrdonnanceur {
 		
 		Queue<PacketFragment> buffer = this.getMap().get(model);
 		
-		for(int i=0 ; i< this.getOfdm()._nb_sub_carrier ; i++) {
+		for(int i=packets.size() ; i< this.getOfdm()._nb_sub_carrier ; i++) {
 			if(!buffer.isEmpty()) {
 				packets.add(buffer.poll());
+			}
+			else {
+				break;
 			}
 		}
 		
@@ -78,14 +80,23 @@ public class RoundRobin extends AbstractOrdonnanceur {
 		}
 			
 		PacketFragment[] array = new PacketFragment[packets.size()];
+		
 		this.getOfdm().setTimeSlot(slot, (PacketFragment[]) packets.toArray(array));
 	}
 	
-	private boolean allMobileBuffersEmpty() {
-		while(this.getMap().elements().hasMoreElements()) {
-			if(this.getMap().elements().nextElement().size() > 0)
+	private boolean hasMorePackets() {
+		
+		Set<Entry<IModel, Queue<PacketFragment>>> entryset = this.getMap().entrySet();
+		
+		Iterator<Entry<IModel, Queue<PacketFragment>>> iter = entryset.iterator();
+		
+		while(iter.hasNext()) {
+			Entry<IModel, Queue<PacketFragment>> entry = iter.next();
+			if(entry.getValue().size() > 0) {
 				return true;
+			}
 		}
+		
 		return false;
 	}
 

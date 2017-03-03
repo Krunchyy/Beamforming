@@ -20,7 +20,7 @@ public class Shadowing extends Alteration{
 	@Override
 	public void alterate(List<IModel> elements, Environement env) {
 		for(IModel model : elements) {
-			if(model.getTag() == Config.MOBILE_TAG) {
+			if(model.isMobile()) {
 				if(!this.frequencyStates.containsKey(model))
 					this.updateNetworkCondition(model);
 				else if(this.frequencyStates.get(model) > Config.SHADOWING_UPATE_FREQUENCY) {
