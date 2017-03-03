@@ -12,14 +12,27 @@ import ntr.signal.PacketFragment;
 
 
 public class RoundRobin extends AbstractOrdonnanceur {
+	
+	private int internTick;
 	private IModel lastModel;
+	
 	public RoundRobin(ConcurrentHashMap<IModel, Queue<PacketFragment>> map, OFDM ofdm) {
 		super(map, ofdm);
 		this.lastModel = null;
+		this.internTick = 0;
 	}
 
 	@Override
 	public void tick() { 
+		this.internTick = 0;
+		for(int i = 0 ; i < this.getOfdm()._nb_time_slot ; i++) {
+			this.internTick();
+			this.internTick++;
+		}
+		
+	}
+	
+	private void internTick() {
 		Set<Entry<IModel, Queue<PacketFragment>>> entryset = this.getMap().entrySet();
 		
 		Iterator<Entry<IModel, Queue<PacketFragment>>> iter = entryset.iterator();
@@ -72,7 +85,7 @@ public class RoundRobin extends AbstractOrdonnanceur {
 	 * @param packets to send to OFDM current timeslot
 	 */
 	private void updateOFDM(ArrayList<PacketFragment> packets) {
-		int slot = this.getOfdm()._currentIndex;
+		int slot = (this.getOfdm()._currentIndex + this.internTick) % this.getOfdm()._nb_time_slot;
 		
 		if(packets.size() < this.getOfdm()._nb_sub_carrier) {
 			for(int i = packets.size() ; i < this.getOfdm()._nb_sub_carrier ; i++)
