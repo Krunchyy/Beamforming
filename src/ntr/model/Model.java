@@ -61,6 +61,12 @@ public abstract class Model implements IModel{
 	public Environement getEnvironement() {
 		return _env;
 	}
+	
+	
+	public boolean isMobile()
+	{
+		return false;
+	}
 
 	/**************************************
 	 * Sending this -> environment Method

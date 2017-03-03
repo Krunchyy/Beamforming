@@ -5,8 +5,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 import ntr.environement.Environement;
+import ntr.utils.Config;
 
 public class Mobile extends Model{
+	private char _tag = Config.MOBILE_TAG;
+	
 	private int networkCondition;
 	
 	public Mobile(Location loc, Environement env)
@@ -20,11 +23,24 @@ public class Mobile extends Model{
 		return new HashMap<Integer, ArrayList<IModel>>();
 	}
 	
+	
 	@Override
 	public char getTag() {
-		return 'M';
+		return _tag;
 	}
-
+	
+	
+	public void setTag(char tag) {
+		_tag = tag;
+	}
+	
+	
+	@Override
+	public boolean isMobile()
+	{
+		return true;
+	}
+	
 	@Override
 	public void setNetworkCondition(int value) {
 		if(value > 100) value = 100;

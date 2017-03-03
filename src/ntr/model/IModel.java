@@ -28,4 +28,6 @@ public interface IModel {
 	public void setNetworkCondition(int value);
 	
 	public int getNetworkCondition();
+	
+	public boolean isMobile();
 }

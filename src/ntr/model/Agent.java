@@ -9,8 +9,10 @@ import ntr.environement.Environement;
 import ntr.signal.OFDM;
 import ntr.signal.PacketFragment;
 import ntr.signal.Signal;
+import ntr.utils.Config;
 
 public class Agent extends Model{
+	private char _tag = Config.AGENT_TAG;
 	public static final int QUEUE_SIZE = 255;//TODO: need to be bigint
 	
 	private AbstractOrdonnanceur ordonnanceur;
@@ -43,8 +45,14 @@ public class Agent extends Model{
 	
 	@Override
 	public char getTag() {
-		return 'A';
+		return _tag;
 	}
+	
+	
+	public void setTag(char tag) {
+		_tag = tag;
+	}
+	
 	
 	public void requestConnecte(IModel model)
 	{
