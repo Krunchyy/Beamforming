@@ -40,8 +40,7 @@ public class PacketGenerator {
 			
 			// generation of packets
 			for(int i=0; i != nbPackets; i++) {
-				long date = System.currentTimeMillis();
-				PacketFragment p = new PacketFragment(_agent, mobile, "", date);
+				PacketFragment p = new PacketFragment(_agent, mobile, "", _agent.getEnvironement().getCurrentTick());
 				try {
 					map.get(mobile).add(p);
 				}
