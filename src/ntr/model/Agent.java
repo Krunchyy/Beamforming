@@ -18,7 +18,7 @@ public class Agent extends Model{
 	private AbstractOrdonnanceur ordonnanceur;
 	private final ConcurrentHashMap<IModel, Queue<PacketFragment>> map;
 	private final PacketGenerator generator;
-	private final OFDM _ofdm;
+	public final OFDM _ofdm;
 	
 	public Agent(Location loc, Environement env)
 	{

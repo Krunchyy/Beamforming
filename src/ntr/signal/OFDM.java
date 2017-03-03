@@ -90,7 +90,7 @@ public class OFDM {
 		
 		if(Config.OFDM_DEBUG)System.out.println("[INFO:OFDM] OFDM at index : "+ _currentIndex);
 		
-		_ofdm[_currentIndex] = new PacketFragment[_nb_sub_carrier];//vide la ligne
+		//_ofdm[_currentIndex] = new PacketFragment[_nb_sub_carrier];//vide la ligne
 		
 		_currentIndex++;
 		_currentIndex = _currentIndex%_nb_time_slot;
