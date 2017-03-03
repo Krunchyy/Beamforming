@@ -77,7 +77,6 @@ public class ModelisationBuffer {
 			System.out.println("time : "+ _time);
 			for(int i = 0 ; i < 500; i++)
 			{
-				System.out.println("tick");
 				_agent.tick();
 			}
 			
@@ -85,7 +84,7 @@ public class ModelisationBuffer {
 			System.out.println("build coord");
 			for(IModel m : _agent.getMap().keySet())
 			{
-				coord.add(new Coordonnee(nbUser, _agent.getMap().get(m).size() / 255));
+				coord.add(new Coordonnee(_agent.getMap().get(m).size(), nbUser));
 			}
 
 			System.out.println("next");

@@ -12,6 +12,11 @@ import ntr.signal.Alteration;
 import ntr.signal.PacketFragment;
 
 public class Environement {
+	public long _currentTick = 0;
+	public long getCurrentTick()
+	{
+		return _currentTick;
+	}
 	
 	private Alteration[] _alteration = {
 			new PathLoss(),
@@ -126,5 +131,6 @@ public class Environement {
 		{
 			elements.tick();
 		}
+		_currentTick++;
 	}
 }

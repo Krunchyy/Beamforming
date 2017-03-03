@@ -50,7 +50,7 @@ public abstract class Model implements IModel{
 	}
 	
 	public char getTag() {
-		return ' ';
+		return 'E';
 	}
 	
 

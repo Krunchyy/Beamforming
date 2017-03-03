@@ -10,6 +10,7 @@ import ntr.model.Agent;
 import ntr.model.IModel;
 import ntr.model.Location;
 import ntr.model.Mobile;
+import ntr.utils.Config;
 
 public class ModelisationGenerator {
 	/**
@@ -24,7 +25,7 @@ public class ModelisationGenerator {
 	 *    		 						 /
 	 */
 	
-	public static long DELAY_BETWEEN_TIME_SLOT = 2000;//in MILLISECONDS
+	public static long DELAY_BETWEEN_TIME_SLOT = 100;//in MILLISECONDS
 	public static long MAX_TIME = 100;//100 delay
 	public static long _time = 0;
 	
@@ -43,7 +44,12 @@ public class ModelisationGenerator {
 		_env = new Environement(ENVIRONEMENT_SIZE);
 		
 		_agent = new Agent(new Location(3,1), _env);
-		
+		Config.MAX_AVERAGE = 2;
+		_agent.requestConnecte(new Mobile(new Location(0,0), _env));
+		_agent.requestConnecte(new Mobile(new Location(0,0), _env));
+		_agent.requestConnecte(new Mobile(new Location(0,0), _env));
+		_agent.requestConnecte(new Mobile(new Location(0,0), _env));
+		_agent.requestConnecte(new Mobile(new Location(0,0), _env));
 		_agent.requestConnecte(new Mobile(new Location(0,0), _env));
 		_agent.requestConnecte(new Mobile(new Location(0,0), _env));
 		_agent.requestConnecte(new Mobile(new Location(0,0), _env));
