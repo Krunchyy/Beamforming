@@ -33,6 +33,7 @@ public class ModelisationOFDM {
 		_env = new Environement(ENVIRONEMENT_SIZE);
 		
 		_agent = new Agent(new Location(3,1), _env);
+		Config.MIN_AVERAGE = 4;
 		Config.MAX_AVERAGE = 5;
 		Config.MAX_OFFSET = 1;
 		Config.MIN_OFFSET = -1;

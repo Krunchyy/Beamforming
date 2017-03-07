@@ -11,6 +11,7 @@ public class PacketFragment {
 	public long _freq;
 	public boolean _isValid;
 	public long _dateCreation;
+	public long _dateExpedition;
 	//TODO data
 	
 	public PacketFragment(Model sender, Model target, String data, long date)

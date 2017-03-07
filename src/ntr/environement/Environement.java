@@ -12,7 +12,7 @@ import ntr.signal.Alteration;
 import ntr.signal.PacketFragment;
 
 public class Environement {
-	public long _currentTick = 0;
+	private long _currentTick = 0;
 	public long getCurrentTick()
 	{
 		return _currentTick;
@@ -87,7 +87,12 @@ public class Environement {
 	
 	public void sendPacket(PacketFragment packet)
 	{
+		packet._dateExpedition = _currentTick;
 		_buff.add(packet);
+	}
+	public List<PacketFragment> getEnvBuffer()
+	{
+		return _buff;
 	}
 	
 	public void pushPacket()
@@ -103,7 +108,7 @@ public class Environement {
 			packet._target.receivePacket(packet);
 		
 		//clear for next wave
-		_buff.clear();
+		//_buff.clear();
 	}
 	
 	@Deprecated

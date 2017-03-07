@@ -35,11 +35,17 @@ public class Agent extends Model{
 	}
 	
 	
+	public int nextSchedul = 0;
 	@Override
 	public void tick()
 	{
 		generator.tick();
-		ordonnanceur.tick();
+		if(nextSchedul <= 0)
+		{
+			ordonnanceur.tick();
+			nextSchedul = _ofdm._nb_time_slot;
+		}
+		nextSchedul--;
 		_ofdm.tick();
 	}
 	
