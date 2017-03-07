@@ -19,7 +19,7 @@ public class Agent extends Model{
 	private final ConcurrentHashMap<IModel, Queue<PacketFragment>> map;
 	private final PacketGenerator generator;
 	public final OFDM _ofdm;
-	
+	public final int _diffusPower = 10;
 	public Agent(Location loc, Environement env)
 	{
 		super(loc, env);
@@ -27,7 +27,7 @@ public class Agent extends Model{
 		
 		generator = new PacketGenerator(this);
 		//TODO: utilisation de la Queue (utiliser la méthode add -> lève une exception quand la Queue est pleine)
-		_ofdm = new OFDM(10,10, this);
+		_ofdm = new OFDM(Config.OFDM_NB_SUB_CARRIER,Config.OFDM_NB_TIME_SLOT, this);
 		
 		//demmard l'ofdm
 		//_ofdm.startOFDM();

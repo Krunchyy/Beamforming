@@ -22,4 +22,7 @@ public class Config {
 	
 	//OFDM
 	public static boolean OFDM_DEBUG = false;
+	public static int OFDM_NB_TIME_SLOT = 10;
+	public static int OFDM_NB_SUB_CARRIER = 10;
+	
 }
