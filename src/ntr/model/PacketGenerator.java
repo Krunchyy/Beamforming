@@ -1,5 +1,6 @@
 package ntr.model;
 
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Queue;
 import java.util.Set;
@@ -11,6 +12,7 @@ import ntr.utils.RandomUtils;
 
 public class PacketGenerator {
 	private Agent _agent;
+	public HashMap<Mobile, Double> _modifier = new HashMap<>();
 	
 	public PacketGenerator(Agent agent) {
 		this._agent = agent;
@@ -32,6 +34,10 @@ public class PacketGenerator {
 			if(nbPacketsMoyen == -1) {
 				int expireDelay = Config.MIN_DELAY + RandomUtils.get(Config.MIN_DELAY, Config.MAX_DELAY);
 				nbPacketsMoyen = Config.MIN_AVERAGE + RandomUtils.get(Config.MIN_AVERAGE, Config.MAX_AVERAGE);
+				if(_modifier.containsKey(mobile))
+				{
+					nbPacketsMoyen *= _modifier.get(mobile);
+				}
 				mobile.setPacketFlow(nbPacketsMoyen, expireDelay);
 			}
 			int nbPackets = nbPacketsMoyen;
