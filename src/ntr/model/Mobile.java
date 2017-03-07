@@ -67,7 +67,7 @@ public class Mobile extends Model{
 		return _packetFlow;
 	}
 	
-	public double getSNR(Agent agent, int sub_carrier){
+	public double getSNR(Agent agent, int sub_carrier, int timeslot){
 		return mkn_map.get(agent).get(sub_carrier);
 	}
 	

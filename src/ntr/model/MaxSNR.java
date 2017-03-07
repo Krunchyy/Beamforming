@@ -21,21 +21,24 @@ public class MaxSNR extends AbstractOrdonnanceur {
 
 	@Override
 	public void tick() {
-		//this.getMap().
+		for(int i=0 ; i < this.getOfdm()._nb_time_slot ; i++) {
+			this.allocateTimeslot(this.getOfdm()._currentIndex + i);
+		}
 	}
 	
-	private allocateTimeslot(int timeslot) {
+	private void allocateTimeslot(int timeslot) {
 		int subcarriers = this.getOfdm()._nb_sub_carrier;
 		
 		ArrayList<PacketFragment> fragments = new ArrayList<>();
 		ArrayList<Mobile> emptyBuffersMobile = new ArrayList<Mobile>();
+		
 		for(int i = 0 ; i < subcarriers ; i++) {
 			if(this.getMap().size() == emptyBuffersMobile.size()) {
 				fragments.add(null);
 				continue;
 			}
 			
-			Mobile mobile = this.getMobileWithBestSNR(i, emptyBuffersMobile);
+			Mobile mobile = this.getMobileWithBestSNR(timeslot, i, emptyBuffersMobile);
 			Queue<PacketFragment> buffer = this.getMap().get(mobile);
 			
 			if(buffer.size() > 0) {
@@ -46,9 +49,16 @@ public class MaxSNR extends AbstractOrdonnanceur {
 				i--;
 			}
 		}
+		
+		if(subcarriers != fragments.size())
+			System.err.println("[MaxSNR:ERROR] allocateTimeslot() not fill ofdm correctly");
+		
+		PacketFragment[] array = new PacketFragment[fragments.size()];
+		
+		this.getOfdm().setTimeSlot(timeslot, fragments.toArray(array));
 	}
 
-	private Mobile getMobileWithBestSNR(int subcarrier, ArrayList<Mobile> emptyBuffersMobile) {
+	private Mobile getMobileWithBestSNR(int timeslot, int subcarrier, ArrayList<Mobile> emptyBuffersMobile) {
 		Mobile chosen = null;
 		
 		Set<Entry<IModel, Queue<PacketFragment>>> entry = this.getMap().entrySet();
@@ -63,8 +73,8 @@ public class MaxSNR extends AbstractOrdonnanceur {
 			if(emptyBuffersMobile.contains(iter.getKey()))
 				continue;
 			
-			if(((Mobile) iter.getKey()).getSNR(this.agent, subcarrier) > SNR) {
-				SNR = ((Mobile) iter.getKey()).getSNR(this.agent, subcarrier);
+			if(((Mobile) iter.getKey()).getSNR(this.agent, subcarrier, timeslot) > SNR) {
+				SNR = ((Mobile) iter.getKey()).getSNR(this.agent, subcarrier, timeslot);
 				chosen = (Mobile) iter.getKey();
 			}
 	    }
