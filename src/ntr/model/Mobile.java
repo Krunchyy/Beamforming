@@ -74,10 +74,24 @@ public class Mobile extends Model{
 	
 	/**
 	 * Il faut calculer le Mkn pour chaque subcarrier de la timeslot actuel.
+	 * @param agent : l'agent pour lequel il faut calculer le Mkn
 	 * @param subcarrier to compute mkn
 	 * @return
 	 */
-	public float computeMkn(int subcarrier) {
-		return 0;
+	public void computeMkn(Agent agent, int subcarrier) {
+		/*
+		 * dist: Le Mkn prend en compte l'éloignement par rapport à l'antenne,
+		 * noise: l'"affaiblissement lié aux multi-trajets
+		 * puis: et la puissance (max) de transmission.
+		 */
+		
+		/*
+		 * mkn = log2( 1 + (3*puis*noisekn*(1/dist)²) )
+		 */
+		
+		/*
+		 * Dans le calcul du mkn, on ne prend pas en compte:
+		 * la densité spectrale du bruit, le taux d'erreur par bit.
+		 */
 	}
 }
