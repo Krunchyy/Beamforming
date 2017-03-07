@@ -2,6 +2,8 @@ package ntr.utils;
 
 import java.util.Random;
 
+import ntr.model.IModel;
+
 public class RandomUtils {
 	private static final Random random = new Random();
 	
@@ -20,6 +22,12 @@ public class RandomUtils {
 	 * @return value in range [0, 100[
 	 */
 	public static int multitrajet() {
-		return RandomUtils.get(0, 101);
+		return RandomUtils.get(0, 101)/101;
+	}
+	
+	public static double setDelta(IModel sender, IModel receiver) {
+		int _deltaX = sender.getLocation()._x - receiver.getLocation()._x;
+		int _deltaY = sender.getLocation()._y - receiver.getLocation()._y;
+		return Math.sqrt(Math.pow(_deltaX, 2) + Math.pow(_deltaY, 2));
 	}
 }
