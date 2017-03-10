@@ -72,37 +72,65 @@ public class Mobile extends Model{
 	}
 	
 	/**
-	 * Return the sub_carrier of a timeslot of the mobile connected to an agent
+	 * Get the sub_carrier of a timeslot of the mobile connected to an agent
 	 * @param agent
 	 * @param sub_carrier
-	 * @param timeslot between 0 and 9
-	 * @return
+	 * @param timeslot
+	 * @return the sub_carrier of a timeslot of the mobile connected to an agent
 	 */
 	public double getSNR(Agent agent, int sub_carrier, int timeslot) {
-		if(agent == null)
-		{
+		if(agent == null) {
 			System.out.println("getSNR for mobile agent == null");
 			return 0;
 		}
-		ConcurrentHashMap<Integer, ArrayList<Double>> mkn = _mknMap.get(agent);
-		if(mkn == null)
-		{
-			mkn = new ConcurrentHashMap<Integer, ArrayList<Double>>();
-			_mknMap.put(agent, mkn);
-		}
-		ArrayList<Double> mkna = mkn.get(timeslot%agent._ofdm._nb_time_slot);
-		if(mkna == null)
-		{
-			System.out.println("mkna null");
+		
+		ConcurrentHashMap<Integer, ArrayList<Double>> mapAgent = _mknMap.get(agent);
+		if(mapAgent == null) {
+			System.out.println("getSNR for mobile agent pas dans la map");
 			return 0;
 		}
-		return mkna.get(sub_carrier);
+		
+		ArrayList<Double> mapTimeslot = mapAgent.get(timeslot % agent._ofdm._nb_time_slot);
+		if(mapTimeslot == null) {
+			System.out.println("getSNR for mobile timeslot inexistant");
+			return 0;
+		}
+		return mapTimeslot.get(sub_carrier);
 	}
 	
 	/**
-	 * Compute mkn pour every subcarrier of the current timeslot
+	 * Compute mkn for every subcarrier of every timeslots
 	 * @param agent
 	 */
+	public void computeAllSNR(Agent agent){
+		int nb_sub_carrier = agent._ofdm._nb_sub_carrier;
+		for(int i=0; i<agent._ofdm._nb_time_slot; i++) { // generate the timeslots
+			ArrayList<Double> list = new ArrayList<>();
+			
+			for(int j=0; j<nb_sub_carrier; j++){ // generate mkn for every subcarrier
+				//getMkn rand.get(0, 10/d); simple algorithm
+				double multi = RandomUtils.multitrajet();
+				double a = 1 + (3 * agent._diffusPower * multi * Math.pow(2,(1/ RandomUtils.setDelta(agent, this))));
+				double mkn = Math.log10(a) / Math.log10(2); // log2( a )
+				list.add(mkn);
+			}
+			
+			if(_mknMap.get(agent) == null) {
+				ConcurrentHashMap<Integer, ArrayList<Double>> value = new ConcurrentHashMap<Integer, ArrayList<Double>>();
+				_mknMap.put(agent, value);
+			}
+			_mknMap.get(agent).put(i, list);
+		}
+	}
+	
+	
+	/**
+	 * Compute mkn for every subcarrier of the current timeslot
+	 * @param agent
+	 * 
+	 * @deprecated use computeAllSNR instead
+	 */
+	@Deprecated
 	public void computeSNR(Agent agent) {
 		
 		//getMkn rand.get(0, 10/d);
