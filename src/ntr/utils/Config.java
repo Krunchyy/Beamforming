@@ -25,4 +25,9 @@ public class Config {
 	public static int OFDM_NB_TIME_SLOT = 10;
 	public static int OFDM_NB_SUB_CARRIER = 10;
 	
+	public static int BUFFER_SIZE = 1024;
+	
+	//Environment
+	public static int ENVIRONEMENT_SIZE = 10;
+	
 }

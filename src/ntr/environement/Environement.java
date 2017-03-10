@@ -6,13 +6,16 @@ import java.util.List;
 import ntr.environement.pertubation.MultiPathFading;
 import ntr.environement.pertubation.PathLoss;
 import ntr.environement.pertubation.Shadowing;
+import ntr.model.Agent;
 import ntr.model.IModel;
 import ntr.model.Location;
 import ntr.signal.Alteration;
 import ntr.signal.PacketFragment;
 
 public class Environement {
-	private long _currentTick = 0;
+	public long _currentTick = 0;
+	public Agent _mainAgent;
+	
 	public long getCurrentTick()
 	{
 		return _currentTick;
@@ -53,6 +56,10 @@ public class Environement {
 		{
 			//WARN bad location
 			return;
+		}
+		if(model instanceof Agent)
+		{
+			_mainAgent = (Agent) model;
 		}
 		_elements.add(model);
 	}
@@ -137,5 +144,13 @@ public class Environement {
 			elements.tick();
 		}
 		_currentTick++;
+	}
+	
+	public void tick(int nbTick)
+	{
+		for(int i = 0 ; i < nbTick ; i++)
+		{
+			tick();
+		}
 	}
 }

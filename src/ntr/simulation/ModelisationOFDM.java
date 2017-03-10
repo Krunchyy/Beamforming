@@ -30,15 +30,15 @@ public class ModelisationOFDM {
 	
 	public static void main(String[] args)
 	{
-		_env = new Environement(ENVIRONEMENT_SIZE);
-		
-		_agent = new Agent(new Location(3,1), _env);
-		Config.MAX_AVERAGE = 2;
+		Config.MAX_AVERAGE = 17;
 		Config.MIN_AVERAGE = 1;
-		Config.MAX_OFFSET = 5;
+		Config.MAX_OFFSET = 1;
 		Config.MIN_OFFSET = -1;
-		Config.OFDM_NB_SUB_CARRIER = 20;
-		Config.OFDM_NB_TIME_SLOT = 20;
+		Config.OFDM_NB_SUB_CARRIER = 40;
+		Config.OFDM_NB_TIME_SLOT = 40;
+		
+		_env = new Environement(ENVIRONEMENT_SIZE);
+		_agent = new Agent(new Location(3,1), _env);
 		Mobile mob1 = new Mobile(new Location(0,0), _env);
 		mob1.setTag('1');
 		Mobile mob2 = new Mobile(new Location(2,0), _env);

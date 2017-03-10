@@ -11,6 +11,7 @@ import ntr.model.Agent;
 import ntr.model.IModel;
 import ntr.model.Location;
 import ntr.model.Mobile;
+import ntr.utils.Config;
 
 public class ModelisationGraph {
 
@@ -31,6 +32,12 @@ public class ModelisationGraph {
 	
 	public static void main(String[] args)
 	{
+		Config.MAX_AVERAGE = 10;
+		Config.MIN_AVERAGE = 1;
+		Config.MAX_OFFSET = 1;
+		Config.MIN_OFFSET = -1;
+		Config.OFDM_NB_SUB_CARRIER = 40;
+		Config.OFDM_NB_TIME_SLOT = 40;
 		_env = new Environement(ENVIRONEMENT_SIZE);
 		_mob = new Mobile(new Location(0,0), _env);
 		_agent = new Agent(new Location(3,1), _env);

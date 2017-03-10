@@ -1,7 +1,9 @@
 package ntr.simulation;
 
 import java.util.ArrayList;
+import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 import ntr.environement.Environement;
 import ntr.model.Agent;
@@ -28,12 +30,12 @@ public class ModelisationPing {
 	
 	public static void main(String[] args)
 	{
-		Config.MAX_AVERAGE = 5;
-		Config.MIN_AVERAGE = 4;
-		Config.MAX_OFFSET = 5;
-		Config.MIN_OFFSET = -4;
-		Config.OFDM_NB_SUB_CARRIER = 20;
-		Config.OFDM_NB_TIME_SLOT = 20;
+		Config.MAX_AVERAGE = 17;
+		Config.MIN_AVERAGE = 1;
+		Config.MAX_OFFSET = 1;
+		Config.MIN_OFFSET = -1;
+		Config.OFDM_NB_SUB_CARRIER = 40;
+		Config.OFDM_NB_TIME_SLOT = 40;
 		
 		_env = new Environement(ENVIRONEMENT_SIZE);
 		_agent = new Agent(new Location(3,1), _env);
@@ -53,35 +55,38 @@ public class ModelisationPing {
 		startSimulation();
 	}
 
-	public static ArrayList<Coordonnee> coord = new ArrayList<>();
+
 	public static void startSimulation()
 	{
-		System.out.println("\n\n\n\n\n\n\n\n\n\n\n");
-		System.out.println("============== DISPLAY ============");
-		
-		for(int i = 0 ; i < MAX_TIME; i++)
-		{
-			
-			for(int tick = 0 ; tick < _agent._ofdm._nb_time_slot; tick++)
-			{
-				_env.tick();
-			}
-			long average = 0;
-			for(PacketFragment packet : _env.getEnvBuffer())
-			{
-				average += packet._dateExpedition - packet._dateCreation;
-			}
-			
-			
-			double averageR =  average / (double) _env.getEnvBuffer().size();
-			coord.add(new Coordonnee(((int) (_env.getCurrentTick() / _agent._ofdm._nb_time_slot)), (int) averageR));
-			_env.getEnvBuffer().clear();
-		}
-		System.out.println(Graph.displayGraph(coord.toArray(new Coordonnee[0]), "Tick", "Ping"));
+		executorService = Executors.newScheduledThreadPool(5);
+		executorService.scheduleAtFixedRate(() -> tick(), 100, DELAY_BETWEEN_TIME_SLOT, TimeUnit.MILLISECONDS);
 
 	}
 	
 	public static void tick()
+	{		
+		ArrayList<Coordonnee> coord = new ArrayList<>();
+		System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
+		System.out.println("============== DISPLAY ============");
+	for(int i = 0 ; i < MAX_TIME; i++)
 	{
+		
+		for(int tick = 0 ; tick < _agent._ofdm._nb_time_slot; tick++)
+		{
+			_env.tick();
+		}
+		long average = 0;
+		for(PacketFragment packet : _env.getEnvBuffer())
+		{
+			average += packet._dateExpedition - packet._dateCreation;
+		}
+		
+		
+		double averageR =  average / (double) _env.getEnvBuffer().size();
+		coord.add(new Coordonnee(((int) (_env.getCurrentTick() / _agent._ofdm._nb_time_slot)), (int) averageR));
+		_env.getEnvBuffer().clear();
+	}
+	_env._currentTick = 0;
+		System.out.println(Graph.displayGraph(coord.toArray(new Coordonnee[0]), "Tick", "Ping"));
 	}
 }

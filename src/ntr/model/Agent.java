@@ -13,11 +13,10 @@ import ntr.utils.Config;
 
 public class Agent extends Model{
 	private char _tag = Config.AGENT_TAG;
-	public static final int QUEUE_SIZE = 255;//TODO: need to be bigint
 	
 	private AbstractOrdonnanceur ordonnanceur;
 	private final ConcurrentHashMap<IModel, Queue<PacketFragment>> map;
-	private final PacketGenerator generator;
+	public final PacketGenerator generator;
 	public final OFDM _ofdm;
 	public final int _diffusPower = 10;
 	public Agent(Location loc, Environement env)
@@ -62,12 +61,12 @@ public class Agent extends Model{
 	
 	public void requestConnecte(IModel model)
 	{
-		map.put(model, new ArrayBlockingQueue<PacketFragment>(QUEUE_SIZE));
+		map.put(model, new ArrayBlockingQueue<PacketFragment>(Config.BUFFER_SIZE));
 	}
 	
 	public void deconnecteConnecte(IModel model)
 	{
-		map.put(model, new ArrayBlockingQueue<PacketFragment>(QUEUE_SIZE));
+		map.put(model, new ArrayBlockingQueue<PacketFragment>(Config.BUFFER_SIZE));
 	}
 	//called by OFDM schedule who call tick() method
 	public void sendPacket(PacketFragment paket, int sub_carrier_id)
@@ -149,10 +148,10 @@ public class Agent extends Model{
 			{
 				oldQueueSize = _diff.get(model);
 			}
-			double pourcentageUtilisation = (getMap().get(model).size() /  (double) Agent.QUEUE_SIZE );
+			double pourcentageUtilisation = (getMap().get(model).size() /  (double) Config.BUFFER_SIZE );
 			int bufferDisplaySize = (int)(pourcentageUtilisation*size);
-			result += model.toString() +" +"+ (getMap().get(model).size()-oldQueueSize) + " Packets \n";
-			result +="[" + getNbChar(bufferDisplaySize, '|') + getNbChar(size-bufferDisplaySize, ' ' ) + "] size : "+ getMap().get(model).size() + " \n";
+			result += "Name : "+ model.getTag() +" Size : "+ getMap().get(model).size() + "\n";
+			result +="[" + getNbChar(bufferDisplaySize, '|') + getNbChar(size-bufferDisplaySize, ' ' ) + "]\n";
 			_diff.remove(model);
 			_diff.put(model, getMap().get(model).size());
 		}
