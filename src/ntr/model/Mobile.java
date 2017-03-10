@@ -114,13 +114,9 @@ public class Mobile extends Model{
 		for(int i=0; i<nb_sub_carrier; i++){
 			double multi = RandomUtils.multitrajet();
 			double a = 1 + (3 * agent._diffusPower * multi * Math.pow(2,(1/ RandomUtils.setDelta(agent, this))));
-			System.out.println("power : "+agent._diffusPower);
-			System.out.println("multitrajet : "+multi);
-			System.out.println("mkn avant log : "+a);
 			double mkn = Math.log10(a) / Math.log10(2); // log2( a )
 			list.add(mkn);
 		}
-		System.out.println("liste des 10 mkn : "+list);
 		
 		if(_mknMap.get(agent) == null) {
 			ConcurrentHashMap<Integer, ArrayList<Double>> value = new ConcurrentHashMap<Integer, ArrayList<Double>>();
