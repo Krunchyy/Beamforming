@@ -19,6 +19,7 @@ public class Agent extends Model{
 	public final PacketGenerator generator;
 	public final OFDM _ofdm;
 	public final int _diffusPower = 10;
+	public final FlowRateCalculator _frc;
 	public Agent(Location loc, Environement env)
 	{
 		super(loc, env);
@@ -31,6 +32,7 @@ public class Agent extends Model{
 		//demmard l'ofdm
 		//_ofdm.startOFDM();
 		_ordonnanceur = new RoundRobin(map , _ofdm);
+		_frc = new FlowRateCalculator(this);
 	}
 	
 	
@@ -41,11 +43,13 @@ public class Agent extends Model{
 		generator.tick();
 		if(nextSchedul <= 0)
 		{
+			_frc.tick();
 			_ordonnanceur.tick();
 			nextSchedul = _ofdm._nb_time_slot;
 		}
 		nextSchedul--;
 		_ofdm.tick();
+
 	}
 	
 	@Override
