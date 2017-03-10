@@ -14,8 +14,8 @@ import ntr.utils.Config;
 public class Agent extends Model{
 	private char _tag = Config.AGENT_TAG;
 	
-	private AbstractOrdonnanceur ordonnanceur;
-	private final ConcurrentHashMap<IModel, Queue<PacketFragment>> map;
+	private AbstractOrdonnanceur _ordonnanceur;
+	public final ConcurrentHashMap<IModel, Queue<PacketFragment>> map;
 	public final PacketGenerator generator;
 	public final OFDM _ofdm;
 	public final int _diffusPower = 10;
@@ -30,7 +30,7 @@ public class Agent extends Model{
 		
 		//demmard l'ofdm
 		//_ofdm.startOFDM();
-		ordonnanceur = new RoundRobin(map , _ofdm);
+		_ordonnanceur = new RoundRobin(map , _ofdm);
 	}
 	
 	
@@ -41,7 +41,7 @@ public class Agent extends Model{
 		generator.tick();
 		if(nextSchedul <= 0)
 		{
-			ordonnanceur.tick();
+			_ordonnanceur.tick();
 			nextSchedul = _ofdm._nb_time_slot;
 		}
 		nextSchedul--;
@@ -53,6 +53,9 @@ public class Agent extends Model{
 		return _tag;
 	}
 	
+	public void setOrdonnanceur(AbstractOrdonnanceur ordonnanceur){
+		_ordonnanceur = ordonnanceur;
+	}
 	
 	public void setTag(char tag) {
 		_tag = tag;

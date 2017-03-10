@@ -7,6 +7,7 @@ import java.util.concurrent.TimeUnit;
 import ntr.environement.Environement;
 import ntr.model.Agent;
 import ntr.model.Location;
+import ntr.model.MaxSNR;
 import ntr.model.Mobile;
 import ntr.ui.JSwingGui;
 import ntr.ui.interf.IGui;
@@ -38,6 +39,8 @@ public class Main {
 		mob3.setTag('D');
 		Mobile mob4 = new Mobile(new Location(4,0), _env);
 		mob4.setTag('E');
+		
+		_env._mainAgent.setOrdonnanceur(new MaxSNR(_env._mainAgent.map ,_env._mainAgent._ofdm));
 		_env._mainAgent.requestConnecte(mob1);
 		_env._mainAgent.requestConnecte(mob2);
 		_env._mainAgent.requestConnecte(mob3);
