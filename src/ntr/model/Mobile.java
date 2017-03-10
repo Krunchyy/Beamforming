@@ -12,6 +12,7 @@ public class Mobile extends Model{
 	
 	private int networkCondition;
 	
+	//agent, timeslot(10) , subcarrier(10)
 	private ConcurrentHashMap<IModel, ConcurrentHashMap<Integer, ArrayList<Double>>> _mknMap = new ConcurrentHashMap<IModel, ConcurrentHashMap<Integer, ArrayList<Double>>>();;
 		
 	private int currentTimeSlot;
@@ -103,21 +104,28 @@ public class Mobile extends Model{
 	 * @param agent
 	 */
 	public void computeSNR(Agent agent) {
+		
+		//getMkn rand.get(0, 10/d);
+		
 		currentTimeSlot = currentTimeSlot%agent._ofdm._nb_time_slot; // currentTimeSlot between 0 and nb_sub_carrier excluded
 		int nb_sub_carrier = agent._ofdm._nb_sub_carrier;
 		ArrayList<Double> list = new ArrayList<>();
 		
 		for(int i=0; i<nb_sub_carrier; i++){
-			double a = 1 + (3 * agent._diffusPower * RandomUtils.multitrajet() * Math.pow(2,(1/ RandomUtils.setDelta(agent, this))));
+			double multi = RandomUtils.multitrajet();
+			double a = 1 + (3 * agent._diffusPower * multi * Math.pow(2,(1/ RandomUtils.setDelta(agent, this))));
+			System.out.println("power : "+agent._diffusPower);
+			System.out.println("multitrajet : "+multi);
+			System.out.println("mkn avant log : "+a);
 			double mkn = Math.log10(a) / Math.log10(2); // log2( a )
 			list.add(mkn);
 		}
-		ConcurrentHashMap<Integer, ArrayList<Double>> mkn = _mknMap.get(agent);
-		if(mkn == null)
-		{
-			mkn = new ConcurrentHashMap<Integer, ArrayList<Double>>();
-			_mknMap.put(agent, mkn);
-		} 
+		System.out.println("liste des 10 mkn : "+list);
+		
+		if(_mknMap.get(agent) == null) {
+			ConcurrentHashMap<Integer, ArrayList<Double>> value = new ConcurrentHashMap<Integer, ArrayList<Double>>();
+			_mknMap.put(agent, value);
+		}
 		_mknMap.get(agent).put(currentTimeSlot, list);
 
 		currentTimeSlot++;

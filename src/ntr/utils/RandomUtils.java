@@ -21,8 +21,8 @@ public class RandomUtils {
 	 * little workaround to compute easily multipathFading value
 	 * @return value in range [0, 100[
 	 */
-	public static int multitrajet() {
-		return RandomUtils.get(0, 101)/101;
+	public static double multitrajet() {
+		return RandomUtils.get(0, 101)/101.0;
 	}
 	
 	public static double setDelta(IModel sender, IModel receiver) {
