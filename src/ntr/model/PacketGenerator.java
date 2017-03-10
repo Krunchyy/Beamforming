@@ -1,5 +1,6 @@
 package ntr.model;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Queue;
@@ -13,7 +14,7 @@ import ntr.utils.RandomUtils;
 public class PacketGenerator {
 	private Agent _agent;
 	public HashMap<Mobile, Double> _modifier = new HashMap<>();
-	
+	public ArrayList<Integer> totals = new ArrayList<>();
 	public PacketGenerator(Agent agent) {
 		this._agent = agent;
 	}
@@ -25,6 +26,7 @@ public class PacketGenerator {
 		ConcurrentHashMap<IModel, Queue<PacketFragment>> map = _agent.getMap();
 		Set<IModel> keys = map.keySet();
 		Iterator<IModel> it = keys.iterator();
+		int totalPacket = 0;
 		
 		while(it.hasNext()) {
 			Mobile mobile = (Mobile) it.next();
@@ -54,6 +56,8 @@ public class PacketGenerator {
 					
 				}
 			}	
+			totalPacket += nbPackets;
 		}
+		totals.add(totalPacket);
 	}
 }
