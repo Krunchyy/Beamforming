@@ -34,8 +34,15 @@ public class PacketGenerator {
 			// number of packets to generate
 			int nbPacketsMoyen = mobile.getPacketFlow();
 			if(nbPacketsMoyen == -1) {
-				int expireDelay = Config.MIN_DELAY + RandomUtils.get(Config.MIN_DELAY, Config.MAX_DELAY);
-				nbPacketsMoyen = Config.MIN_AVERAGE + RandomUtils.get(Config.MIN_AVERAGE, Config.MAX_AVERAGE);
+				int expireDelay;
+				if(Config.MIN_DELAY == Config.MAX_DELAY){
+					expireDelay = Config.MAX_DELAY;
+				}
+				else expireDelay = Config.MIN_DELAY + RandomUtils.get(Config.MIN_DELAY, Config.MAX_DELAY);
+				if(Config.MIN_AVERAGE == Config.MAX_AVERAGE){
+					nbPacketsMoyen = Config.MAX_AVERAGE;
+				}
+				else nbPacketsMoyen = Config.MIN_AVERAGE + RandomUtils.get(Config.MIN_AVERAGE, Config.MAX_AVERAGE);
 				if(_modifier.containsKey(mobile))
 				{
 					nbPacketsMoyen *= _modifier.get(mobile);
@@ -43,7 +50,11 @@ public class PacketGenerator {
 				mobile.setPacketFlow(nbPacketsMoyen, expireDelay);
 			}
 			int nbPackets = nbPacketsMoyen;
-			int offset = RandomUtils.get(Config.MIN_OFFSET, Config.MAX_OFFSET);
+			int offset;
+			if(Config.MIN_OFFSET == Config.MAX_OFFSET){
+				offset = Config.MAX_OFFSET;
+			}
+			else offset = RandomUtils.get(Config.MIN_OFFSET, Config.MAX_OFFSET);
 			nbPackets += offset;
 			
 			// generation of packets
