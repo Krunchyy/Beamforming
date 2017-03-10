@@ -12,6 +12,9 @@ import ntr.signal.Signal;
 import ntr.utils.Config;
 
 public class Agent extends Model{
+	
+	public ModulationCalculator moduleur;
+
 	private char _tag = Config.AGENT_TAG;
 	
 	private AbstractOrdonnanceur _ordonnanceur;
@@ -33,6 +36,7 @@ public class Agent extends Model{
 		//_ofdm.startOFDM();
 		_ordonnanceur = new RoundRobin(map , _ofdm);
 		_frc = new FlowRateCalculator(this);
+		moduleur = new ModulationCalculator();
 	}
 	
 	
@@ -45,6 +49,7 @@ public class Agent extends Model{
 		{
 			_frc.tick();
 			_ordonnanceur.tick();
+			moduleur.tick();
 			nextSchedul = _ofdm._nb_time_slot;
 		}
 		nextSchedul--;
