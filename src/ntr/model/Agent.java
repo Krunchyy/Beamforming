@@ -45,9 +45,9 @@ public class Agent extends Model{
 	public void tick()
 	{
 		generator.tick();
+		_frc.tick();
 		if(nextSchedul <= 0)
 		{
-			_frc.tick();
 			_ordonnanceur.tick();
 			moduleur.tick();
 			nextSchedul = _ofdm._nb_time_slot;
