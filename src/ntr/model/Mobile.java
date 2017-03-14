@@ -1,6 +1,8 @@
 package ntr.model;
 
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 import ntr.environement.Environement;
@@ -13,7 +15,7 @@ public class Mobile extends Model{
 	private int networkCondition;
 	
 	//agent, timeslot(10) , subcarrier(10)
-	private ConcurrentHashMap<IModel, ConcurrentHashMap<Integer, ArrayList<Double>>> _mknMap = new ConcurrentHashMap<IModel, ConcurrentHashMap<Integer, ArrayList<Double>>>();;
+	private ConcurrentHashMap<IModel, ConcurrentHashMap<Integer, ArrayList<Double>>> _mknMap = new ConcurrentHashMap<IModel, ConcurrentHashMap<Integer, ArrayList<Double>>>();
 		
 	private int currentTimeSlot;
 	
@@ -103,12 +105,14 @@ public class Mobile extends Model{
 	 * @param agent
 	 */
 	public void computeAllSNR(Agent agent){
+		double dist = 0;
 		int nb_sub_carrier = agent._ofdm._nb_sub_carrier;
 		for(int i=0; i<agent._ofdm._nb_time_slot; i++) { // generate the timeslots
 			ArrayList<Double> list = new ArrayList<>();
 			
 			for(int j=0; j<nb_sub_carrier; j++){ // generate mkn for every subcarrier
 				double distance = RandomUtils.setDelta(agent, this);
+				dist = distance;
 				double mkn = 1 + RandomUtils.get(0, 10)/distance;
 				list.add(mkn);
 			}
@@ -118,7 +122,30 @@ public class Mobile extends Model{
 				_mknMap.put(agent, value);
 			}
 			_mknMap.get(agent).put(i, list);
+		}/*
+		System.out.println("-----------");
+		System.out.println("moyenne du SNR de "+this+"est de : "+averageSNR(agent));
+		System.out.println("distance de "+this+" :"+dist);*/
+	}
+	
+	public double averageSNR(Agent agent){
+		double res = 0;
+		int cmpt = 0;
+		
+		ConcurrentHashMap<Integer, ArrayList<Double>> map = _mknMap.get(agent);
+		Set<Integer> keys = map.keySet();
+		Iterator<Integer> it = keys.iterator();
+		while (it.hasNext()) {
+			int v = it.next();
+			ArrayList<Double> list = map.get(v);
+			Iterator<Double> it2 = list.iterator();
+			while(it2.hasNext()) {
+				res += it2.next();
+				cmpt++;
+			}
 		}
+				
+		return res/cmpt;
 	}
 	
 	/**
