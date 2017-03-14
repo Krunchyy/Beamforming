@@ -7,6 +7,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import ntr.environement.Environement;
 import ntr.utils.Config;
+import ntr.utils.Distance;
 import ntr.utils.RandomUtils;
 
 public class Mobile extends Model{
@@ -105,15 +106,13 @@ public class Mobile extends Model{
 	 * @param agent
 	 */
 	public void computeAllSNR(Agent agent){
-		double dist = 0;
 		int nb_sub_carrier = agent._ofdm._nb_sub_carrier;
+		double distance = Distance.setDelta(agent, this);
 		for(int i=0; i<agent._ofdm._nb_time_slot; i++) { // generate the timeslots
 			ArrayList<Double> list = new ArrayList<>();
 			
 			for(int j=0; j<nb_sub_carrier; j++){ // generate mkn for every subcarrier
-				double distance = RandomUtils.setDelta(agent, this);
-				dist = distance;
-				double mkn = 1 + RandomUtils.get(0, 10)/distance;
+				double mkn = 1 + RandomUtils.get(0, 10)/distance; //TODO: améliorer la valeur générée surtout pour les mobiles éloignées
 				list.add(mkn);
 			}
 			
@@ -125,9 +124,14 @@ public class Mobile extends Model{
 		}/*
 		System.out.println("-----------");
 		System.out.println("moyenne du SNR de "+this+"est de : "+averageSNR(agent));
-		System.out.println("distance de "+this+" :"+dist);*/
+		System.out.println("distance de "+this+" :"+distance);*/
 	}
 	
+	/**
+	 * Give the average value of all the mkn in the map (10 timeslots)
+	 * @param agent
+	 * @return the average value of mkn
+	 */
 	public double averageSNR(Agent agent){
 		double res = 0;
 		int cmpt = 0;
@@ -146,46 +150,5 @@ public class Mobile extends Model{
 		}
 				
 		return res/cmpt;
-	}
-	
-	/**
-	 * Compute mkn for every subcarrier of the current timeslot
-	 * @param agent
-	 * 
-	 * @deprecated use computeAllSNR instead
-	 */
-	@Deprecated
-	public void computeSNR(Agent agent) {
-		
-		//getMkn rand.get(0, 10/d);
-		
-		currentTimeSlot = currentTimeSlot%agent._ofdm._nb_time_slot; // currentTimeSlot between 0 and nb_sub_carrier excluded
-		int nb_sub_carrier = agent._ofdm._nb_sub_carrier;
-		ArrayList<Double> list = new ArrayList<>();
-		
-		for(int i=0; i<nb_sub_carrier; i++){
-			double multi = RandomUtils.multitrajet();
-			double a = 1 + (3 * agent._diffusPower * multi * Math.pow(2,(1/ RandomUtils.setDelta(agent, this))));
-			double mkn = Math.log10(a) / Math.log10(2); // log2( a )
-			list.add(mkn);
-		}
-		
-		if(_mknMap.get(agent) == null) {
-			ConcurrentHashMap<Integer, ArrayList<Double>> value = new ConcurrentHashMap<Integer, ArrayList<Double>>();
-			_mknMap.put(agent, value);
-		}
-		_mknMap.get(agent).put(currentTimeSlot, list);
-
-		currentTimeSlot++;
-		/*
-		 * dist: Le Mkn prend en compte l'Ã©loignement par rapport Ã  l'antenne,
-		 * noise: l'affaiblissement lie aux multi-trajets
-		 * puis: et la puissance (max) de transmission.
-		 *
-		 * mkn = log2( 1 + (3*puis*noisekn*(1/dist)Â²) )
-		 *
-		 * Dans le calcul du mkn, on ne prend pas en compte:
-		 * la densitÃ© spectrale du bruit, le taux d'erreur par bit.
-		 */
 	}
 }
