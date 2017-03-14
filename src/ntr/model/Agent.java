@@ -10,6 +10,7 @@ import ntr.signal.OFDM;
 import ntr.signal.PacketFragment;
 import ntr.signal.Signal;
 import ntr.utils.Config;
+import ntr.utils.Distance;
 
 public class Agent extends Model{
 	
@@ -17,7 +18,7 @@ public class Agent extends Model{
 
 	private char _tag = Config.AGENT_TAG;
 	
-	private AbstractOrdonnanceur _ordonnanceur;
+	public AbstractOrdonnanceur _ordonnanceur;
 	public final ConcurrentHashMap<IModel, Queue<PacketFragment>> map;
 	public final PacketGenerator generator;
 	public final OFDM _ofdm;
@@ -162,13 +163,14 @@ public class Agent extends Model{
 			}
 			double pourcentageUtilisation = (getMap().get(model).size() /  (double) Config.BUFFER_SIZE );
 			int bufferDisplaySize = (int)(pourcentageUtilisation*size);
-			result += "Name : "+ model.getTag() +" Size : "+ getMap().get(model).size() + "\n";
+			result += "Name : "+ model.getTag() +" Size : "+ getMap().get(model).size() + " rang : "+ Distance.setDelta(this,  model)+"\n";
 			result +="[" + getNbChar(bufferDisplaySize, '|') + getNbChar(size-bufferDisplaySize, ' ' ) + "]\n";
 			_diff.remove(model);
 			_diff.put(model, getMap().get(model).size());
 		}
 		return result;
 	}
+	
 	public static String getNbChar(int nb, char c)
 	{
 		String result = "";

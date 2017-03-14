@@ -20,7 +20,7 @@ public class BufferModule extends ModuleFrame{
 		String in = "";
 		if(super._window.getEnvironement()._mainAgent != null)
 		{
-			in += "<center>Buffer Max Size : "+ Config.BUFFER_SIZE + "\nAgent : "+ super._window.getEnvironement()._mainAgent.getTag() + "</center>\n\n";
+			in += "<center>Buffer Max Size : "+ Config.BUFFER_SIZE + "\nAgent : "+ super._window.getEnvironement()._mainAgent.getTag() + "\n "+super._window.getEnvironement()._mainAgent._ordonnanceur.getClass().getSimpleName()+"</center>\n\n";
 			in += super._window.getEnvironement()._mainAgent.displayBuffer(40);
 			in = in.replaceAll("\n", "<br/> ");
 			in = in.replaceAll(" ", "&ensp;");
