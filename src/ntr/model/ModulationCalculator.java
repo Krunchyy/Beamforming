@@ -8,16 +8,19 @@ import ntr.signal.PacketFragment;
 
 public class ModulationCalculator {
 	
-	private OFDM _ofdm;
-	private ConcurrentHashMap<IModel, Queue<PacketFragment>> _map;
+	private PacketFragment[][] ofdm;
 	
 	
-	public ModulationCalculator(ConcurrentHashMap<IModel, Queue<PacketFragment>> map, OFDM ofdm){
-		this._ofdm = ofdm;
-		this._map  = map;
+	public ModulationCalculator(OFDM ofdm){
+		this.ofdm = ofdm._ofdm;
 	}
 	
 	public void tick(){
+		for(int x = 0; x < 10; x++ ){
+			for(int  y = 0; y < 10; y++){
+				ofdm[x][y]._modulation = ntr.utils.RandomUtils.get(0, 10);
+			}
+		}
 	}
 
 
