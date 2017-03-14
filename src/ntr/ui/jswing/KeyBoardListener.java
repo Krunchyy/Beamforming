@@ -150,7 +150,6 @@ public class KeyBoardListener implements KeyListener, EventBroadCaster{
     
 	@Override
 	public void keyPressed(KeyEvent e) {
-		System.out.println("pressed");
         /*************************************************************
          * ShortCut Key
          **************************************************************/

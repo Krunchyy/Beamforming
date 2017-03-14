@@ -15,6 +15,7 @@ import ntr.ui.JSwingGui;
 import ntr.ui.jswing.frames.ModuleFrame;
 import ntr.ui.jswing.frames.TextFrame;
 import ntr.ui.jswing.frames.module.BufferModule;
+import ntr.ui.jswing.frames.module.DebitModule;
 import ntr.ui.jswing.frames.module.InputModule;
 import ntr.ui.jswing.frames.module.TickFrame;
 import ntr.ui.jswing.frames.module.OFDMFrame;
@@ -84,7 +85,7 @@ public class Window extends JFrame {
 		
 		pingFrame = new PingModule(this,10,10);
 		bufferFrame = new BufferModule(this,10,430);
-		inputFrame = new InputModule(this,510,10);
+		inputFrame = new DebitModule(this,510,10);
 		OFDMFrame = new OFDMFrame(this,510,430);
 		tickFrame = new TickFrame(this,1010,10);
 		

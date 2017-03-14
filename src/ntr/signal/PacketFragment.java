@@ -15,6 +15,7 @@ public class PacketFragment {
 	//taille des données envoyées dans ce fragment (= au SNR pour la target sur la subcarrier et le timeslot qu'il faut)
 	public int _dataSize;
 	//TODO data
+	public int modulation;
 	
 	public PacketFragment(Model sender, Model target, String data, long date)
 	{
