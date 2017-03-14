@@ -41,7 +41,6 @@ public class DebitModule extends ModuleFrame{
 				}
 				b.d += packet._dataSize;
 			}
-			super._window.getEnvironement().getEnvBuffer().clear();
 			ArrayList<Coordonnee> coord = new ArrayList<>();
 			for(int key : debits.keySet())
 			{

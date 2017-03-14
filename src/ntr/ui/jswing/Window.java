@@ -117,6 +117,9 @@ public class Window extends JFrame {
 		inputFrame.render();
 		OFDMFrame.render();
 		tickFrame.render();
+		
+		getEnvironement().getEnvBuffer().clear();
+		getEnvironement()._mainAgent.generator.totals.clear();
 	}
 	
 	public Environement getEnvironement(){
