@@ -108,10 +108,8 @@ public class Mobile extends Model{
 			ArrayList<Double> list = new ArrayList<>();
 			
 			for(int j=0; j<nb_sub_carrier; j++){ // generate mkn for every subcarrier
-				//getMkn rand.get(0, 10/d); simple algorithm
-				double multi = RandomUtils.multitrajet();
-				double a = 1 + (3 * agent._diffusPower * multi * Math.pow(2,(1/ RandomUtils.setDelta(agent, this))));
-				double mkn = Math.log10(a) / Math.log10(2); // log2( a )
+				double distance = RandomUtils.setDelta(agent, this);
+				double mkn = 1 + RandomUtils.get(0, 10)/distance;
 				list.add(mkn);
 			}
 			
@@ -122,7 +120,6 @@ public class Mobile extends Model{
 			_mknMap.get(agent).put(i, list);
 		}
 	}
-	
 	
 	/**
 	 * Compute mkn for every subcarrier of the current timeslot

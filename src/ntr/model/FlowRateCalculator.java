@@ -22,7 +22,6 @@ public class FlowRateCalculator {
 		
 		while(it.hasNext()) {
 			Mobile mobile = (Mobile) it.next();
-		//	mobile.computeSNR(_agent);
 			mobile.computeAllSNR(_agent);
 		}
 	}
