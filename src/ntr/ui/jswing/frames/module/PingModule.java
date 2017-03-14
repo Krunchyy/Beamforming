@@ -30,8 +30,6 @@ public class PingModule extends ModuleFrame{
 			{
 				coord.add(new Coordonnee((int)packet._dateExpedition%Config.OFDM_NB_TIME_SLOT, (int)(packet._dateExpedition - packet._dateCreation), packet._target.getTag()));
 			}
-			//super._window.getEnvironement().getEnvBuffer().clear();
-			
 			in = Graph.displayGraph(coord.toArray(new Coordonnee[0]), "Tick", "Ping", false);
 			in = in.replaceAll("\n", "<br/> ");
 			in = in.replaceAll(" ", "&ensp;");

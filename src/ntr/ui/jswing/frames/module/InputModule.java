@@ -30,7 +30,6 @@ public class InputModule extends ModuleFrame{
 			{
 				coord.add(new Coordonnee(tick++, nbPacket));
 			}
-			super._window.getEnvironement()._mainAgent.generator.totals.clear();
 			
 			in = Graph.displayGraph(coord.toArray(new Coordonnee[0]), "Tick", "Qte", false);
 			in = in.replaceAll("\n", "<br/> ");

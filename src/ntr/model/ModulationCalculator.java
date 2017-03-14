@@ -1,26 +1,33 @@
 package ntr.model;
 
-import java.util.Queue;
-import java.util.concurrent.ConcurrentHashMap;
-
 import ntr.signal.OFDM;
 import ntr.signal.PacketFragment;
 
 public class ModulationCalculator {
 	
 	private PacketFragment[][] ofdm;
+	private int nb_time_slot;
+	private int nb_sub_carrier;
 	
 	
 	public ModulationCalculator(OFDM ofdm){
 		this.ofdm = ofdm._ofdm;
+		nb_time_slot = ofdm._nb_time_slot;
+		nb_sub_carrier = ofdm._nb_sub_carrier;
 	}
 	
 	public void tick(){
-		for(int x = 0; x < 10; x++ ){
-			for(int  y = 0; y < 10; y++){
-				ofdm[x][y]._modulation = ntr.utils.RandomUtils.get(0, 10);
+		if (ofdm != null)
+			
+		for(int x = 0; x < nb_time_slot; x++ ){
+			for(int  y = 0; y < nb_sub_carrier; y++){
+				if(ofdm[x][y] != null){
+					// TODO : change this value with a real value
+					ofdm[x][y]._modulation = ntr.utils.RandomUtils.get(0, 10);
+				}
 			}
 		}
+
 	}
 
 
