@@ -49,7 +49,7 @@ public class Agent extends Model{
 		{
 			_frc.tick();
 			_ordonnanceur.tick();
-			moduleur.tick();
+			//moduleur.tick();
 			nextSchedul = _ofdm._nb_time_slot;
 		}
 		nextSchedul--;
