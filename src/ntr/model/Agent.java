@@ -20,7 +20,7 @@ public class Agent extends Model{
 	private char _tag = Config.AGENT_TAG;
 	
 	public AbstractOrdonnanceur _ordonnanceur;
-	public final ConcurrentHashMap<IModel, Queue<PacketFragment>> map;
+	public final ConcurrentHashMap<IModel, Queue<Packet>> map;
 	public final PacketGenerator generator;
 	public final OFDM _ofdm;
 	public final int _diffusPower = 10;
@@ -75,12 +75,12 @@ public class Agent extends Model{
 	
 	public void requestConnecte(IModel model)
 	{
-		map.put(model, new ArrayBlockingQueue<PacketFragment>(Config.BUFFER_SIZE));
+		map.put(model, new ArrayBlockingQueue<Packet>(Config.BUFFER_SIZE));
 	}
 	
 	public void deconnecteConnecte(IModel model)
 	{
-		map.put(model, new ArrayBlockingQueue<PacketFragment>(Config.BUFFER_SIZE));
+		map.put(model, new ArrayBlockingQueue<Packet>(Config.BUFFER_SIZE));
 	}
 	//called by OFDM schedule who call tick() method
 	public void sendPacket(Packet paket)
@@ -138,7 +138,7 @@ public class Agent extends Model{
 		return new int[]{0,0,1};//TODO
 	}
 	
-	public ConcurrentHashMap<IModel, Queue<PacketFragment>> getMap() {
+	public ConcurrentHashMap<IModel, Queue<Packet>> getMap() {
 		return this.map;
 	}
 	
