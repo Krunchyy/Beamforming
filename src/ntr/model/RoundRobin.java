@@ -99,7 +99,7 @@ public class RoundRobin extends AbstractOrdonnanceur {
 				break;
 			
 			double dataSize = ((Mobile)fragment._target).getSNR(this.getOfdm()._agent, i, slot);
-			fragment.setDataSize((int) Math.round(dataSize));
+			fragment.setDataAvailableSize((int) Math.round(dataSize));
 		}
 		
 		PacketFragment[] array = new PacketFragment[packets.size()];

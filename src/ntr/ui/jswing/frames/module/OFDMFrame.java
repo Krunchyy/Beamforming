@@ -42,7 +42,7 @@ public class OFDMFrame extends ModuleFrame{
 			{
 				PacketFragment packetF= ofdm._ofdm[y][x];
 				display += "<td height="+(350/Config.OFDM_NB_TIME_SLOT)+">";
-				display += (packetF == null ? " " : packetF._target.getTag()+":"+packetF._dataSize);
+				display += (packetF == null ? " " : packetF._target.getTag()+":"+packetF._dataAvailableSize);
 				display += "</td>";
 			}
 			display += "</tr>";

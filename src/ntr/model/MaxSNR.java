@@ -52,7 +52,7 @@ public class MaxSNR extends AbstractOrdonnanceur {
 			
 			if(buffer.size() > 0) {
 				PacketFragment fragment = buffer.poll();
-				fragment.setDataSize((int) Math.round(mobile.getSNR(this.agent, i, timeslot)));
+				fragment.setDataAvailableSize((int) Math.round(mobile.getSNR(this.agent, i, timeslot)));
 				fragments.add(fragment);
 			}
 			else {
