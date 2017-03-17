@@ -5,7 +5,7 @@ import java.util.Queue;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
-import ntr.signal.PacketFragment;
+import ntr.signal.Packet;
 
 public class FlowRateCalculator {
 	
@@ -16,7 +16,7 @@ public class FlowRateCalculator {
 	}
 	
 	public void tick() {
-		ConcurrentHashMap<IModel, Queue<PacketFragment>> map = _agent.getMap();
+		ConcurrentHashMap<IModel, Queue<Packet>> map = _agent.getMap();
 		Set<IModel> keys = map.keySet();
 		Iterator<IModel> it = keys.iterator();
 		
