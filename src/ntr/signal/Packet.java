@@ -1,6 +1,7 @@
 package ntr.signal;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import ntr.model.Agent;
@@ -54,4 +55,18 @@ public class Packet {
 	public void setSizeSend(int sizeSend) {
 		this.sizeSend = sizeSend;
 	}
+	
+	public boolean isFragmented() {
+		Iterator<PacketFragment> iterator = this.fragments.iterator();
+		
+		int computeSize = 0;
+		
+		while(iterator.hasNext()) {
+			PacketFragment fragment = iterator.next();
+			computeSize += fragment._dataSize;
+		}
+		
+		return computeSize >= this.size;
+	}
+	
 }
