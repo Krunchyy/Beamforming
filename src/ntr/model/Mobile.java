@@ -112,7 +112,7 @@ public class Mobile extends Model{
 			ArrayList<Double> list = new ArrayList<>();
 			
 			for(int j=0; j<nb_sub_carrier; j++){ // generate mkn for every subcarrier
-				double mkn = 1 + RandomUtils.get(0, 10)/distance; //TODO: améliorer la valeur générée surtout pour les mobiles éloignées
+				double mkn = 1 + RandomUtils.get(0, 10)/distance; //TODO: amï¿½liorer la valeur gï¿½nï¿½rï¿½e surtout pour les mobiles ï¿½loignï¿½es
 				list.add(mkn);
 			}
 			

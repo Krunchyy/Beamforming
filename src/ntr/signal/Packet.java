@@ -15,7 +15,7 @@ public class Packet {
 	private int sizeSend, size;
 	private List<PacketFragment> fragments;
 	
-	public Packet(Agent sender, Mobile receiver, int dateCreation) {
+	public Packet(Agent sender, Mobile receiver, long dateCreation) {
 		this.receiver = receiver;
 		this.sender = sender;
 		this.dateCreation = dateCreation;
