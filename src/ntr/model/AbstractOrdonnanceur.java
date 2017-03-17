@@ -9,19 +9,19 @@ import ntr.signal.PacketFragment;
 public abstract class AbstractOrdonnanceur {
 	private OFDM ofdm;
 	
-	private ConcurrentHashMap<IModel, Queue<PacketFragment>> map;
+	private ConcurrentHashMap<IModel, Queue<Packet>> map;
 	
 	/**
 	 * All ordonnanceurs event Opportunistic one should have access to the map in parameters
 	 * @param map
 	 * @param ofdm 
 	 */
-	public AbstractOrdonnanceur(ConcurrentHashMap<IModel, Queue<PacketFragment>> map, OFDM ofdm) {
+	public AbstractOrdonnanceur(ConcurrentHashMap<IModel, Queue<Packet>> map, OFDM ofdm) {
 		this.map = map;
 		this.ofdm = ofdm;
 	}
 	
-	public ConcurrentHashMap<IModel, Queue<PacketFragment>> getMap() {
+	public ConcurrentHashMap<IModel, Queue<Packet>> getMap() {
 		return map;
 	}
 

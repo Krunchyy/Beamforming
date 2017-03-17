@@ -130,7 +130,7 @@ public class MaxSNR extends AbstractOrdonnanceur {
 			if(!p.isFragmented())
 				return p;
 		}
-		throw new ArrayIndexOutOfBoundsException("Impossible de récupérer un packet non-envoyé dans le buffer");;
+		throw new ArrayIndexOutOfBoundsException("Impossible de récupérer un packet non-envoyé dans le buffer");
 	}
 
 }
