@@ -1,7 +1,5 @@
 package ntr.signal;
 
-import ntr.model.Model;
-
 public class PacketFragment {
 			
 	public Packet parent;
@@ -20,5 +18,16 @@ public class PacketFragment {
 	
 	public void setDataSize(int dataSize) {
 		this._dataSize = dataSize;			
+	}
+	
+	
+	public boolean sended(long currentTime){
+		parent.setSizeSend(parent.getSizeSend()+_dataSize);
+		if(parent.getSizeSend() >= parent.getSize())
+		{
+			parent.setDateArrivee(currentTime);
+			return true;
+		}
+		return false;
 	}
 }

@@ -10,7 +10,7 @@ import ntr.model.Agent;
 import ntr.model.IModel;
 import ntr.model.Location;
 import ntr.signal.Alteration;
-import ntr.signal.PacketFragment;
+import ntr.signal.Packet;
 
 public class Environement {
 	public boolean _stopAuto = false;
@@ -30,7 +30,7 @@ public class Environement {
 	
 	public final int _size;
 	private final List<IModel> _elements = new ArrayList<>();
-	private final List<PacketFragment> _buff = new ArrayList<>();
+	private final List<Packet> _buff = new ArrayList<>();
 	
 	public Environement(int size)
 	{
@@ -93,12 +93,11 @@ public class Environement {
 	 * Signal call
 	 **********************************/
 	
-	public void sendPacket(PacketFragment packet)
+	public void sendPacket(Packet packet)
 	{
-		packet._dateExpedition = _currentTick;
 		_buff.add(packet);
 	}
-	public List<PacketFragment> getEnvBuffer()
+	public List<Packet> getEnvBuffer()
 	{
 		return _buff;
 	}
@@ -112,8 +111,8 @@ public class Environement {
 		}
 		
 		
-		for(PacketFragment packet : _buff)
-			packet._target.receivePacket(packet);
+		for(Packet packet : _buff)
+			packet._receiver.receivePacket(packet);
 		
 		//clear for next wave
 		//_buff.clear();
@@ -122,6 +121,7 @@ public class Environement {
 	@Deprecated
 	public void sendSignal(IModel sender, IModel receiver)
 	{
+		/*
 		for(Alteration alt : _alteration)
 		{
 			//alterate the signal
@@ -132,6 +132,7 @@ public class Environement {
 		
 		receiver.getSignalTo(sender, sender.getSignalInProgress());
 		//TODO impl sending delay
+		 * */
 	}
 	
 	

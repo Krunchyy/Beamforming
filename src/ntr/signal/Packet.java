@@ -8,16 +8,16 @@ import ntr.model.Mobile;
 import ntr.utils.Config;
 
 public class Packet {
-	private Mobile receiver;
-	private Agent sender;
+	public Mobile _receiver;
+	public Agent _sender;
 	
 	private long dateCreation, dateArrivee;
 	private int sizeSend, size;
 	private List<PacketFragment> fragments;
 	
 	public Packet(Agent sender, Mobile receiver, long dateCreation) {
-		this.receiver = receiver;
-		this.sender = sender;
+		this._receiver = receiver;
+		this._sender = sender;
 		this.dateCreation = dateCreation;
 		this.size = Config.SIZE;
 		this.sizeSend = 0;

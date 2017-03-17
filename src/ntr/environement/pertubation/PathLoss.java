@@ -1,13 +1,11 @@
 package ntr.environement.pertubation;
 
 import java.util.List;
-import java.util.Random;
 
 import ntr.environement.Environement;
 import ntr.model.IModel;
 import ntr.signal.Alteration;
-import ntr.signal.PacketFragment;
-import ntr.utils.Config;
+import ntr.signal.Packet;
 
 public class PathLoss extends Alteration{
 	
@@ -44,11 +42,11 @@ public class PathLoss extends Alteration{
 //		return generator.nextInt(100);
 //	}
 	
-	private void PathLossAlteration(PacketFragment packet, Environement env){
+	private void PathLossAlteration(Packet packet, Environement env){
 		
 		double delta = getDelta();
 		double maxSize = Math.sqrt(2)*env._size;
-		setDelta(packet._sender, packet._target);
+		setDelta(packet._sender, packet._receiver);
 			
 		// Distance between sender and receiver is far
 		if(  (3/4)*maxSize <= delta && delta <= maxSize) {

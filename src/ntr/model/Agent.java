@@ -7,6 +7,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import ntr.environement.Environement;
 import ntr.signal.OFDM;
+import ntr.signal.Packet;
 import ntr.signal.PacketFragment;
 import ntr.signal.Signal;
 import ntr.utils.Config;
@@ -82,7 +83,7 @@ public class Agent extends Model{
 		map.put(model, new ArrayBlockingQueue<PacketFragment>(Config.BUFFER_SIZE));
 	}
 	//called by OFDM schedule who call tick() method
-	public void sendPacket(PacketFragment paket, int sub_carrier_id)
+	public void sendPacket(Packet paket)
 	{
 		if(paket == null)
 				return;
@@ -155,12 +156,7 @@ public class Agent extends Model{
 		String result = "";
 		for(IModel model : getMap().keySet())
 		{
-			int oldQueueSize = 0;
-			
-			if(_diff.containsKey(model))
-			{
-				oldQueueSize = _diff.get(model);
-			}
+
 			double pourcentageUtilisation = (getMap().get(model).size() /  (double) Config.BUFFER_SIZE );
 			int bufferDisplaySize = (int)(pourcentageUtilisation*size);
 			result += "Name : "+ model.getTag() +" Size : "+ getMap().get(model).size() + " rang : "+ Distance.setDelta(this,  model)+"\n";

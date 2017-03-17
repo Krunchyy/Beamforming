@@ -33,20 +33,23 @@ public class OFDM {
 		//Remplie l'ofdm (une ligne ou tout)
 		
 		//send une colonne de time slot
-		PacketFragment[] packets = getNextTimeSlot();
-		if(packets == null)
+		PacketFragment[] packetsFrag = getNextTimeSlot();
+		if(packetsFrag == null)
 		{
 			System.out.println("[ERROR:OFDM] nextTimeSlot invalid : null");
 			return;
 		}
-		if(packets.length < _nb_sub_carrier)
+		if(packetsFrag.length < _nb_sub_carrier)
 		{
-			System.out.println("[ERROR:OFDM] nextTimeSlot invalid : bad length "+ packets.length);
+			System.out.println("[ERROR:OFDM] nextTimeSlot invalid : bad length "+ packetsFrag.length);
 			return;
 		}
 		for(int subCar = 0 ; subCar < _nb_sub_carrier ; subCar++)
 		{
-			_agent.sendPacket(packets[subCar], subCar);
+			if(packetsFrag[subCar] != null && packetsFrag[subCar].sended(_agent.getEnvironement().getCurrentTick()))
+			{
+				_agent.sendPacket(packetsFrag[subCar].parent);
+			}
 		}
 	}
 	

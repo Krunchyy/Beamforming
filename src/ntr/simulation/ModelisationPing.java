@@ -9,6 +9,7 @@ import ntr.environement.Environement;
 import ntr.model.Agent;
 import ntr.model.Location;
 import ntr.model.Mobile;
+import ntr.signal.Packet;
 import ntr.signal.PacketFragment;
 import ntr.utils.Config;
 
@@ -76,9 +77,9 @@ public class ModelisationPing {
 			_env.tick();
 		}
 		long average = 0;
-		for(PacketFragment packet : _env.getEnvBuffer())
+		for(Packet packet : _env.getEnvBuffer())
 		{
-			average += packet._dateExpedition - packet._dateCreation;
+			average += packet.getDateArrivee() - packet.getDateCreation();
 		}
 		
 		

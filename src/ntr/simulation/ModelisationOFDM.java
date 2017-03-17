@@ -105,7 +105,7 @@ public class ModelisationOFDM {
 			for(int y = 0 ; y < ofdm._nb_sub_carrier ; y++)
 			{
 				PacketFragment packetF= ofdm._ofdm[y][x];
-				display += (packetF == null ? " " : packetF._target.getTag())+"|";
+				display += (packetF == null ? " " : packetF.parent._receiver.getTag())+"|";
 			}
 			display += "\n";
 		}

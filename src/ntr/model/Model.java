@@ -1,9 +1,8 @@
 package ntr.model;
 
 import ntr.environement.Environement;
-import ntr.signal.PacketFragment;
+import ntr.signal.Packet;
 import ntr.signal.Signal;
-import ntr.utils.Config;
 
 public abstract class Model implements IModel{
 	public Location _loc;
@@ -97,10 +96,11 @@ public abstract class Model implements IModel{
 	}
 	
 	
-	public void receivePacket(PacketFragment packet)
+	public void receivePacket(Packet packet)
 	{
-		if(packet._target != this)
+		if(packet._receiver != this)
 			return;
+		/*
 		if(packet._isValid)
 		{
 			_bitsReceivedAtTime += Config.PACKET_DATA_SIZE;
@@ -108,7 +108,7 @@ public abstract class Model implements IModel{
 		else
 		{
 			_bitsFail += Config.PACKET_DATA_SIZE;
-		}
+		}*/
 		
 	}
 	//validate sending of _signalInProgress
@@ -130,7 +130,7 @@ public abstract class Model implements IModel{
 		_env.sendSignal(this, receiver);
 	}
 	
-	public void sendPacket(PacketFragment packet)
+	public void sendPacket(Packet packet)
 	{
 		_env.sendPacket(packet);
 	}

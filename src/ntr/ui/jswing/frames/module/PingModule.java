@@ -2,7 +2,7 @@ package ntr.ui.jswing.frames.module;
 
 import java.util.ArrayList;
 
-import ntr.signal.PacketFragment;
+import ntr.signal.Packet;
 import ntr.simulation.Coordonnee;
 import ntr.simulation.Graph;
 import ntr.ui.jswing.Window;
@@ -26,9 +26,9 @@ public class PingModule extends ModuleFrame{
 		if(super._window.getEnvironement()._mainAgent != null)
 		{
 			final ArrayList<Coordonnee> coord = new ArrayList<>();
-			for(PacketFragment packet : super._window.getEnvironement().getEnvBuffer())
+			for(Packet packet : super._window.getEnvironement().getEnvBuffer())
 			{
-				coord.add(new Coordonnee((int)packet._dateExpedition%Config.OFDM_NB_TIME_SLOT, (int)(packet._dateExpedition - packet._dateCreation), packet._target.getTag()));
+				coord.add(new Coordonnee((int)packet.getDateArrivee()%Config.OFDM_NB_TIME_SLOT, (int)(packet.getDateArrivee() - packet.getDateCreation()), packet._receiver.getTag()));
 			}
 			in = Graph.displayGraph(coord.toArray(new Coordonnee[0]), "Tick", "Ping", false);
 			in = in.replaceAll("\n", "<br/> ");

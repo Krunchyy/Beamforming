@@ -5,11 +5,9 @@ import ntr.model.Agent;
 import ntr.model.Location;
 import ntr.model.MaxSNR;
 import ntr.model.Mobile;
-import ntr.signal.PacketFragment;
+import ntr.signal.Packet;
 import ntr.utils.BuildCSV;
 import ntr.utils.Config;
-import ntr.utils.EEvent;
-import ntr.utils.RandomUtils;
 
 public class BuildCSVDebitByUsers {
 
@@ -55,9 +53,9 @@ public class BuildCSVDebitByUsers {
 				{
 					_env.tick(Config.OFDM_NB_TIME_SLOT);
 					
-					for(PacketFragment pack : _env.getEnvBuffer())
+					for(Packet pack : _env.getEnvBuffer())
 					{
-						debit += pack._mkn;
+						debit += pack.getSize();
 					}
 					
 					_env.getEnvBuffer().clear();

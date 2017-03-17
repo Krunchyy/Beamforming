@@ -3,6 +3,7 @@ package ntr.ui.jswing.frames.module;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import ntr.signal.Packet;
 import ntr.signal.PacketFragment;
 import ntr.simulation.Coordonnee;
 import ntr.simulation.Graph;
@@ -31,15 +32,15 @@ public class DebitModule extends ModuleFrame{
 		{
 			HashMap<Integer, debit> debits = new HashMap<>();
 			
-			for(PacketFragment packet : super._window.getEnvironement().getEnvBuffer())
+			for(Packet packet : super._window.getEnvironement().getEnvBuffer())
 			{
-				debit b = debits.get((int)packet._dateExpedition%Config.OFDM_NB_TIME_SLOT);
+				debit b = debits.get((int)packet.getDateArrivee()%Config.OFDM_NB_TIME_SLOT);
 				if(b == null)
 				{
 					b = new debit();
-					debits.put((int)packet._dateExpedition%Config.OFDM_NB_TIME_SLOT, b);
+					debits.put((int)packet.getDateArrivee()%Config.OFDM_NB_TIME_SLOT, b);
 				}
-				b.d += packet._mkn;
+				b.d += packet.getSize();
 			}
 			ArrayList<Coordonnee> coord = new ArrayList<>();
 			for(int key : debits.keySet())
