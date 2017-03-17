@@ -67,7 +67,8 @@ public class Main {
 	{
 		try
 		{
-			_env.tick(Config.OFDM_NB_TIME_SLOT);
+			_env.tick(Config.OFDM_NB_TIME_SLOT, true);
+			if(!_env._stopAuto)
 			_dispatcher.onEvent(EEvent.GUI_UPDATE, new Object[]{_env.getCurrentTick()}, null);
 		}
 		catch(Exception e)
