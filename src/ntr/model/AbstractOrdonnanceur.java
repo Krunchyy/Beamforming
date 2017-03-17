@@ -4,6 +4,7 @@ import java.util.Queue;
 import java.util.concurrent.ConcurrentHashMap;
 
 import ntr.signal.OFDM;
+import ntr.signal.Packet;
 import ntr.signal.PacketFragment;
 
 public abstract class AbstractOrdonnanceur {

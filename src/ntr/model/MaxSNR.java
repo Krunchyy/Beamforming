@@ -15,7 +15,7 @@ public class MaxSNR extends AbstractOrdonnanceur {
 
 	private Agent agent;
 	
-	public MaxSNR(ConcurrentHashMap<IModel, Queue<PacketFragment>> map, OFDM ofdm) {
+	public MaxSNR(ConcurrentHashMap<IModel, Queue<Packet>> map, OFDM ofdm) {
 		super(map, ofdm);
 		this.agent = this.getOfdm()._agent;
 	}
@@ -45,17 +45,17 @@ public class MaxSNR extends AbstractOrdonnanceur {
 				return;
 			}
 			
-			Queue<PacketFragment> buffer = this.getMap().get(mobile);
+			Queue<Packet> buffer = this.getMap().get(mobile);
 			if(buffer == null)
 			{
 				System.out.println("buff null");
 			}
 			
-			if(buffer.size() > 0) {
-				Packet packet = buffer.peek();
-				
-				fragment.setDataAvailableSize((int) Math.round(mobile.getSNR(this.agent, i, timeslot)));
-				fragments.add(fragment);
+			if(this.hasNextPacket(buffer)) {
+				Packet packet = this.getNextPacket(buffer);
+				PacketFragment fragment = new PacketFragment(packet);
+				fragment.setMkn((int) Math.round(mobile.getSNR(this.agent, i, timeslot)));
+				packet.addFragment(fragment);
 			}
 			else {
 				emptyBuffersMobile.add(mobile);
@@ -74,12 +74,12 @@ public class MaxSNR extends AbstractOrdonnanceur {
 	private Mobile getMobileWithBestSNR(int timeslot, int subcarrier, ArrayList<Mobile> emptyBuffersMobile) {
 		Mobile chosen = null;
 		
-		Set<Entry<IModel, Queue<PacketFragment>>> entry = this.getMap().entrySet();
+		Set<Entry<IModel, Queue<Packet>>> entry = this.getMap().entrySet();
 		
 		double SNR = 0;
 		
-		for (Iterator<Entry<IModel, Queue<PacketFragment>>> iterator = entry.iterator(); iterator.hasNext();){
-			Entry<IModel, Queue<PacketFragment>> iter = iterator.next();
+		for (Iterator<Entry<IModel, Queue<Packet>>> iterator = entry.iterator(); iterator.hasNext();){
+			Entry<IModel, Queue<Packet>> iter = iterator.next();
 			if(!iter.getKey().isMobile())
 				continue;
 			
