@@ -25,7 +25,7 @@ public class PacketGenerator {
 	 * Generate a random quantity of packets for every mobile connected to the agent
 	 */
 	public void tick() {
-		ConcurrentHashMap<IModel, Queue<PacketFragment>> map = _agent.getMap();
+		ConcurrentHashMap<IModel, Queue<Packet>> map = _agent.getMap();
 		Set<IModel> keys = map.keySet();
 		Iterator<IModel> it = keys.iterator();
 		int totalPacket = 0;
