@@ -23,7 +23,7 @@ public class ModulationCalculator {
 			for(int  y = 0; y < nb_sub_carrier; y++){
 				if(ofdm[x][y] != null){
 					// TODO : change this value with a real value
-					ofdm[x][y]._modulation = ntr.utils.RandomUtils.get(0, 10);
+					ofdm[x][y]._mkn = ntr.utils.RandomUtils.get(0, 10);
 				}
 			}
 		}
