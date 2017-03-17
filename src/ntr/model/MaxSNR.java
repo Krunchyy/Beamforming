@@ -8,6 +8,7 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 import ntr.signal.OFDM;
+import ntr.signal.Packet;
 import ntr.signal.PacketFragment;
 
 public class MaxSNR extends AbstractOrdonnanceur {
@@ -51,7 +52,8 @@ public class MaxSNR extends AbstractOrdonnanceur {
 			}
 			
 			if(buffer.size() > 0) {
-				PacketFragment fragment = buffer.poll();
+				Packet packet = buffer.peek();
+				
 				fragment.setDataAvailableSize((int) Math.round(mobile.getSNR(this.agent, i, timeslot)));
 				fragments.add(fragment);
 			}
@@ -91,6 +93,44 @@ public class MaxSNR extends AbstractOrdonnanceur {
 	    }
 		
 		return chosen;
+	}
+	
+	/**
+	 * Vérifie si un Packet est coupable en PacketFragment
+	 * @param buffer
+	 * @return true|false
+	 */
+	private boolean hasNextPacket(Queue<Packet> buffer) {
+		if(buffer.size() == 0)
+			return false;
+		
+		Iterator<Packet> iterator = buffer.iterator();
+		
+		while(iterator.hasNext()) {
+			Packet p = iterator.next();
+			if(!p.isFragmented())
+				return true;
+		}
+		return false;
+	}
+	
+	/**
+	 * 
+	 * @param buffer
+	 * @return null|Packet
+	 */
+	private Packet getNextPacket(Queue<Packet> buffer) {
+		if(buffer.size() == 0)
+			throw new ArrayIndexOutOfBoundsException("Impossible de récupérer un packet non-envoyé dans le buffer");
+		
+		Iterator<Packet> iterator = buffer.iterator();
+		
+		while(iterator.hasNext()) {
+			Packet p = iterator.next();
+			if(!p.isFragmented())
+				return p;
+		}
+		throw new ArrayIndexOutOfBoundsException("Impossible de récupérer un packet non-envoyé dans le buffer");;
 	}
 
 }
