@@ -116,8 +116,9 @@ public class KeyBoardListener implements KeyListener, EventBroadCaster{
         	*/
         	
         	//DynaBuffer -> Gui
-        	_window.getEnvironement().tick(Config.OFDM_NB_TIME_SLOT);
-        	event = EEvent.GUI_UPDATE;
+            _window.getEnvironement().tick(Config.OFDM_NB_TIME_SLOT);
+            event = EEvent.GUI_UPDATE;
+
         }
         /*************************************************************
          * Selection Event
@@ -165,6 +166,11 @@ public class KeyBoardListener implements KeyListener, EventBroadCaster{
         		//System.out.println("[DEBUG]ControlPressed Pressed");
         	ControlPressed = true;
         }
+    	if(e.getKeyCode() == KeyEvent.VK_ENTER)
+    	{
+    		_window.getEnvironement()._stopAuto = !_window.getEnvironement()._stopAuto;
+    		return;
+    	}
 		 displayInfo(e, "KEY TYPED: ");
 	}
 

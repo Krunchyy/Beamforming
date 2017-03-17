@@ -13,6 +13,7 @@ import ntr.signal.Alteration;
 import ntr.signal.PacketFragment;
 
 public class Environement {
+	public boolean _stopAuto = false;
 	public long _currentTick = 0;
 	public Agent _mainAgent;
 	
@@ -151,6 +152,14 @@ public class Environement {
 		for(int i = 0 ; i < nbTick ; i++)
 		{
 			tick();
+		}
+	}
+	
+	public void tick(int nbTick, boolean auto)
+	{
+		if(!auto || !_stopAuto)
+		{
+			tick(nbTick);
 		}
 	}
 }
