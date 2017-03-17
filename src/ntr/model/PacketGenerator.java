@@ -8,6 +8,7 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 import ntr.signal.PacketFragment;
+import ntr.signal.Packet;
 import ntr.utils.Config;
 import ntr.utils.RandomUtils;
 
@@ -15,6 +16,7 @@ public class PacketGenerator {
 	private Agent _agent;
 	public HashMap<Mobile, Double> _modifier = new HashMap<>();
 	public ArrayList<Integer> totals = new ArrayList<>();
+	
 	public PacketGenerator(Agent agent) {
 		this._agent = agent;
 	}
@@ -59,7 +61,7 @@ public class PacketGenerator {
 			
 			// generation of packets
 			for(int i=0; i != nbPackets; i++) {
-				PacketFragment p = new PacketFragment(_agent, mobile, "", _agent.getEnvironement().getCurrentTick());
+				Packet p = new Packet(_agent, mobile, _agent.getEnvironement().getCurrentTick());
 				try {
 					map.get(mobile).add(p);
 				}
