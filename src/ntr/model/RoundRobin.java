@@ -8,6 +8,7 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 import ntr.signal.OFDM;
+import ntr.signal.Packet;
 import ntr.signal.PacketFragment;
 
 
@@ -16,7 +17,7 @@ public class RoundRobin extends AbstractOrdonnanceur {
 	private int internTick;
 	private IModel lastModel;
 	
-	public RoundRobin(ConcurrentHashMap<IModel, Queue<PacketFragment>> map, OFDM ofdm) {
+	public RoundRobin(ConcurrentHashMap<IModel, Queue<Packet>> map, OFDM ofdm) {
 		super(map, ofdm);
 		this.lastModel = null;
 		this.internTick = 0;
@@ -33,9 +34,9 @@ public class RoundRobin extends AbstractOrdonnanceur {
 	}
 	
 	private void internTick() {
-		Set<Entry<IModel, Queue<PacketFragment>>> entryset = this.getMap().entrySet();
+		Set<Entry<IModel, Queue<Packet>>> entryset = this.getMap().entrySet();
 		
-		Iterator<Entry<IModel, Queue<PacketFragment>>> iter = entryset.iterator();
+		Iterator<Entry<IModel, Queue<Packet>>> iter = entryset.iterator();
 		boolean lastModelFound = false;
 		
 		ArrayList<PacketFragment> packets = new ArrayList<>();
@@ -44,7 +45,7 @@ public class RoundRobin extends AbstractOrdonnanceur {
 			if(!iter.hasNext())
 				iter = entryset.iterator();
 			
-			Entry<IModel, Queue<PacketFragment>> entry = iter.next();
+			Entry<IModel, Queue<Packet>> entry = iter.next();
 			
 			if(this.lastModel != null && this.getMap().containsKey(this.lastModel)) {
 				if(lastModelFound) {
@@ -62,10 +63,10 @@ public class RoundRobin extends AbstractOrdonnanceur {
 		this.updateOFDM(packets);
 	}
 	
-	private void allow(IModel model, ArrayList<PacketFragment> packets) {
+	private void allow(IModel model, ArrayList<Packet> packets) {
 		this.lastModel = model;
 		
-		Queue<PacketFragment> buffer = this.getMap().get(model);
+		Queue<Packet> buffer = this.getMap().get(model);
 		
 		for(int i=packets.size() ; i< this.getOfdm()._nb_sub_carrier ; i++) {
 			if(!buffer.isEmpty()) {
@@ -104,17 +105,17 @@ public class RoundRobin extends AbstractOrdonnanceur {
 		
 		PacketFragment[] array = new PacketFragment[packets.size()];
 		
-		this.getOfdm().setTimeSlot(slot, (PacketFragment[]) packets.toArray(array));
+		this.getOfdm().setTimeSlot(slot, (Packet[]) packets.toArray(array));
 	}
 	
 	private boolean hasMorePackets() {
 		
-		Set<Entry<IModel, Queue<PacketFragment>>> entryset = this.getMap().entrySet();
+		Set<Entry<IModel, Queue<Packet>>> entryset = this.getMap().entrySet();
 		
-		Iterator<Entry<IModel, Queue<PacketFragment>>> iter = entryset.iterator();
+		Iterator<Entry<IModel, Queue<Packet>>> iter = entryset.iterator();
 		
 		while(iter.hasNext()) {
-			Entry<IModel, Queue<PacketFragment>> entry = iter.next();
+			Entry<IModel, Queue<Packet>> entry = iter.next();
 			if(entry.getValue().size() > 0) {
 				return true;
 			}
