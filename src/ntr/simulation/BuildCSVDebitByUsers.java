@@ -57,7 +57,7 @@ public class BuildCSVDebitByUsers {
 					
 					for(PacketFragment pack : _env.getEnvBuffer())
 					{
-						debit += pack._dataAvailableSize;
+						debit += pack._mkn;
 					}
 					
 					_env.getEnvBuffer().clear();

@@ -39,7 +39,7 @@ public class DebitModule extends ModuleFrame{
 					b = new debit();
 					debits.put((int)packet._dateExpedition%Config.OFDM_NB_TIME_SLOT, b);
 				}
-				b.d += packet._dataAvailableSize;
+				b.d += packet._mkn;
 			}
 			ArrayList<Coordonnee> coord = new ArrayList<>();
 			for(int key : debits.keySet())
