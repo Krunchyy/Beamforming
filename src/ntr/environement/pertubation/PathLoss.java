@@ -10,8 +10,6 @@ import ntr.signal.Packet;
 public class PathLoss extends Alteration{
 	
 	private double _delta; // delta between sender and receiver
-	private long seed;
-
 
 	@Override
 	public void alterate(List<IModel> elements, Environement env) {

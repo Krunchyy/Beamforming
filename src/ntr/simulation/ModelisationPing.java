@@ -10,11 +10,9 @@ import ntr.model.Agent;
 import ntr.model.Location;
 import ntr.model.Mobile;
 import ntr.signal.Packet;
-import ntr.signal.PacketFragment;
 import ntr.utils.Config;
 
 public class ModelisationPing {
-
 	
 	public static long DELAY_BETWEEN_TIME_SLOT = 1000;//in MILLISECONDS
 	public static long MAX_TIME = 50;//100 delay
@@ -22,7 +20,6 @@ public class ModelisationPing {
 	
 	public static int ENVIRONEMENT_SIZE = 10;
 	public static int SIZE = 40;
-	
 	
 	public static Environement _env;
 	public static Agent _agent; 

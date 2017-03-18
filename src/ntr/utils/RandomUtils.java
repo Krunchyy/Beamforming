@@ -2,8 +2,6 @@ package ntr.utils;
 
 import java.util.Random;
 
-import ntr.model.IModel;
-
 public class RandomUtils {
 	private static final Random random = new Random();
 	
