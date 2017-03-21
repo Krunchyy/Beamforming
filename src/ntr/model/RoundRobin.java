@@ -63,16 +63,16 @@ public class RoundRobin extends AbstractOrdonnanceur {
 		this.updateOFDM(packets);
 	}
 	
-	private void allow(IModel model, ArrayList<PacketFragment> packets) {
+	private void allow(IModel model, ArrayList<PacketFragment> packetFragments) {
 		this.lastModel = model;
 		
 		Queue<Packet> buffer = this.getMap().get(model);
 		
-		for(int i=packets.size() ; i< this.getOfdm()._nb_sub_carrier ; i++) {
+		for(int i= packetFragments.size() ; i< this.getOfdm()._nb_sub_carrier ; i++) {
 			if(this.hasNextPacket(buffer)) {
 				Packet packet = this.getNextPacket(buffer);
 				PacketFragment fragment = new PacketFragment(packet);
-				packets.add(fragment);
+				packetFragments.add(fragment);
 			}
 			else {
 				break;
@@ -85,29 +85,30 @@ public class RoundRobin extends AbstractOrdonnanceur {
 	
 	/**
 	 * Send packets of user into ofdm current Timeslot and fill blank in timeslot if not enough buffers
-	 * @param packets to send to OFDM current timeslot
+	 * @param packetFragments to send to OFDM current timeslot
 	 */
-	private void updateOFDM(ArrayList<PacketFragment> packets) {
+	private void updateOFDM(ArrayList<PacketFragment> packetFragments) {
 		int slot = (this.getOfdm()._currentIndex + this.internTick) % this.getOfdm()._nb_time_slot;
 		
-		if(packets.size() < this.getOfdm()._nb_sub_carrier) {
-			for(int i = packets.size() ; i < this.getOfdm()._nb_sub_carrier ; i++)
-				packets.add(null);
+		if(packetFragments.size() < this.getOfdm()._nb_sub_carrier) {
+			for(int i = packetFragments.size() ; i < this.getOfdm()._nb_sub_carrier ; i++)
+				packetFragments.add(null);
 		}
 			
-		for(int i = 0 ;  i < packets.size() ; i++) {
-			PacketFragment fragment = packets.get(i);
+		for(int i = 0 ;  i < packetFragments.size() ; i++) {
+			PacketFragment fragment = packetFragments.get(i);
 			
 			if(fragment == null)
 				break;
 			
-			double dataSize = ((Mobile)fragment.parent._receiver).getSNR(this.getOfdm()._agent, i, slot);
-			fragment.setMkn((int) Math.round(dataSize));
+			double mkn = ((Mobile)fragment.parent._receiver).getSNR(this.getOfdm()._agent, i, slot);
+			fragment.setMkn((int) Math.round(mkn));
+			fragment.addData();
 		}
 		
-		PacketFragment[] array = new PacketFragment[packets.size()];
+		PacketFragment[] array = new PacketFragment[packetFragments.size()];
 		
-		this.getOfdm().setTimeSlot(slot, (PacketFragment[]) packets.toArray(array));
+		this.getOfdm().setTimeSlot(slot, (PacketFragment[]) packetFragments.toArray(array));
 	}
 	
 	private boolean hasMorePackets() {

@@ -56,6 +56,23 @@ public class Packet {
 		this.sizeSend = sizeSend;
 	}
 	
+	public int getRestToSend() {
+		Iterator<PacketFragment> iterator = this.fragments.iterator();
+		
+		int computeSize = 0;
+		
+		while(iterator.hasNext()) {
+			PacketFragment fragment = iterator.next();
+			computeSize += Math.max(0, fragment._dataSize);
+		}
+		
+		return Math.max(0, this.getSize() - computeSize);
+	}
+	
+	/**
+	 * Return whether or not this packet is fully fragmented
+	 * @return boolean
+	 */
 	public boolean isFragmented() {
 		Iterator<PacketFragment> iterator = this.fragments.iterator();
 		
@@ -63,7 +80,7 @@ public class Packet {
 		
 		while(iterator.hasNext()) {
 			PacketFragment fragment = iterator.next();
-			computeSize += fragment._dataSize;
+			computeSize += Math.max(0, fragment._dataSize);
 		}
 		
 		return computeSize >= this.size;

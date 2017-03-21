@@ -17,8 +17,8 @@ public class PacketFragment {
 		this._mkn = mkn;
 	}
 	
-	public void setDataSize(int dataSize) {
-		this._dataSize = dataSize;			
+	public void addData() {
+		this._dataSize = Math.min(this._mkn, this.parent.getRestToSend());		
 	}
 	
 	

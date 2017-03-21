@@ -36,7 +36,7 @@ public class Agent extends Model{
 		
 		//demmard l'ofdm
 		//_ofdm.startOFDM();
-		//_ordonnanceur = new RoundRobin(map , _ofdm);
+		_ordonnanceur = new RoundRobin(map , _ofdm);
 		_frc = new FlowRateCalculator(this);
 		moduleur = new ModulationCalculator(_ofdm);
 	}

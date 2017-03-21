@@ -22,12 +22,12 @@ public class Main {
 	
 	public static void main(String[] args)
 	{
-		Config.MAX_AVERAGE = 2;
+		Config.MAX_AVERAGE = 5;
 		Config.MIN_AVERAGE = 0;
-		Config.MAX_OFFSET = 0;
+		Config.MAX_OFFSET = 2;
 		Config.MIN_OFFSET = 0;
-		Config.OFDM_NB_SUB_CARRIER = 2;
-		Config.OFDM_NB_TIME_SLOT = 2;
+		Config.OFDM_NB_SUB_CARRIER = 50;
+		Config.OFDM_NB_TIME_SLOT = 50;
 		
 		_env = new Environement(Config.ENVIRONEMENT_SIZE);
 		new Agent(new Location(3,1), _env);
@@ -40,7 +40,7 @@ public class Main {
 		Mobile mob4 = new Mobile(new Location(4,0), _env);
 		mob4.setTag('E');
 		
-		_env._mainAgent.setOrdonnanceur(new MaxSNR(_env._mainAgent.map ,_env._mainAgent._ofdm));
+		//_env._mainAgent.setOrdonnanceur(new MaxSNR(_env._mainAgent.map ,_env._mainAgent._ofdm));
 		_env._mainAgent.requestConnecte(mob1);
 		//_env._mainAgent.requestConnecte(mob2);
 		//_env._mainAgent.requestConnecte(mob3);

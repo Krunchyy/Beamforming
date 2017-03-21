@@ -55,7 +55,7 @@ public class MaxSNR extends AbstractOrdonnanceur {
 				Packet packet = this.getNextPacket(buffer);
 				PacketFragment fragment = new PacketFragment(packet);
 				fragment.setMkn((int) Math.round(mobile.getSNR(this.agent, i, timeslot)));
-				
+				fragment.addData();
 				packet.addFragment(fragment);
 				
 				fragments.add(fragment);
