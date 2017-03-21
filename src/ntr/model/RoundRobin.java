@@ -30,7 +30,6 @@ public class RoundRobin extends AbstractOrdonnanceur {
 			this.internTick();
 			this.internTick++;
 		}
-		
 	}
 	
 	private void internTick() {
@@ -72,6 +71,7 @@ public class RoundRobin extends AbstractOrdonnanceur {
 			if(this.hasNextPacket(buffer)) {
 				Packet packet = this.getNextPacket(buffer);
 				PacketFragment fragment = new PacketFragment(packet);
+				packet.addFragment(fragment);
 				packetFragments.add(fragment);
 			}
 			else {
@@ -104,6 +104,7 @@ public class RoundRobin extends AbstractOrdonnanceur {
 			double mkn = ((Mobile)fragment.parent._receiver).getSNR(this.getOfdm()._agent, i, slot);
 			fragment.setMkn((int) Math.round(mkn));
 			fragment.addData();
+			
 		}
 		
 		PacketFragment[] array = new PacketFragment[packetFragments.size()];

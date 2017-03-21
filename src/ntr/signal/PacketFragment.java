@@ -1,5 +1,7 @@
 package ntr.signal;
 
+import ntr.utils.Config;
+
 public class PacketFragment {
 			
 	public Packet parent;
@@ -18,20 +20,29 @@ public class PacketFragment {
 	}
 	
 	public void addData() {
-		this._dataSize = Math.min(this._mkn, this.parent.getRestToSend());		
+		System.err.println("mkn:" + this._mkn + " rest:" + this.parent.getRestToSend());
+		
+		this._dataSize = Math.min(this._mkn, this.parent.getRestToSend());
+		
+		if(this._dataSize == 0)
+			System.err.println("[WARNING] add empty data to packet fragment:" + this + " with parent: " + this.parent);
 	}
 	
 	
 	public boolean sended(long currentTime){
+		
 		parent.setSizeSend(parent.getSizeSend()+ (_dataSize == -1 ? _mkn : _dataSize));
-		System.out.println("p : "+ parent + " pf:"+ this + " "+parent.getSizeSend() + " / "+ parent.getSize()+ " Fragment Size "+ (_dataSize == -1 ? _mkn : _dataSize));
+		if(Config.OFDM_DEBUG)
+			System.out.println("p : "+ parent + " pf:"+ this + " "+parent.getSizeSend() + " / "+ parent.getSize()+ " Fragment Size "+ (_dataSize == -1 ? _mkn : _dataSize));
 		if(parent.getSizeSend() >= parent.getSize())
 		{
 			parent.setDateArrivee(currentTime);
-			System.out.println("end");
+			if(Config.OFDM_DEBUG)
+				System.out.println("end");
 			return true;
 		}
-		System.out.println("down");
+		if(Config.OFDM_DEBUG)
+			System.out.println("down");
 		return false;
 	}
 }
