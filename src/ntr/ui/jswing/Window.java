@@ -85,13 +85,13 @@ public class Window extends JFrame {
 		
 		pingFrame = new PingModule(this,10,10);
 		bufferFrame = new BufferModule(this,10,430);
-		inputFrame = new DebitModule(this,510,10);
+		//inputFrame = new DebitModule(this,510,10);
 		OFDMFrame = new OFDMFrame(this,510,430);
 		tickFrame = new TickFrame(this,1010,10);
 		
 		panel.add(pingFrame);
 		panel.add(bufferFrame);
-		panel.add(inputFrame);
+		//panel.add(inputFrame);
 		panel.add(OFDMFrame);
 		panel.add(tickFrame);
 
@@ -114,7 +114,7 @@ public class Window extends JFrame {
 	{
 		pingFrame.render();
 		bufferFrame.render();
-		inputFrame.render();
+		//inputFrame.render();
 		OFDMFrame.render();
 		tickFrame.render();
 		

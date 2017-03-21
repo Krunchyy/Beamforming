@@ -46,8 +46,10 @@ public class OFDM {
 		}
 		for(int subCar = 0 ; subCar < _nb_sub_carrier ; subCar++)
 		{
+			System.out.println("ofd");
 			if(packetsFrag[subCar] != null && packetsFrag[subCar].sended(_agent.getEnvironement().getCurrentTick()))
 			{
+				System.out.println("send");
 				_agent.sendPacket(packetsFrag[subCar].parent);
 			}
 		}

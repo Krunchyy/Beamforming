@@ -8,6 +8,7 @@ public class PacketFragment {
 	
 	public PacketFragment(Packet parent)
 	{
+		this.parent = parent;
 		_mkn = -1;
 		_dataSize = -1;
 	}
@@ -22,12 +23,15 @@ public class PacketFragment {
 	
 	
 	public boolean sended(long currentTime){
-		parent.setSizeSend(parent.getSizeSend()+_dataSize);
+		parent.setSizeSend(parent.getSizeSend()+ (_dataSize == -1 ? _mkn : _dataSize));
+		System.out.println("p : "+ parent + " pf:"+ this + " "+parent.getSizeSend() + " / "+ parent.getSize()+ " Fragment Size "+ (_dataSize == -1 ? _mkn : _dataSize));
 		if(parent.getSizeSend() >= parent.getSize())
 		{
 			parent.setDateArrivee(currentTime);
+			System.out.println("end");
 			return true;
 		}
+		System.out.println("down");
 		return false;
 	}
 }

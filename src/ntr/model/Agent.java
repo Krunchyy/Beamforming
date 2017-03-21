@@ -36,7 +36,7 @@ public class Agent extends Model{
 		
 		//demmard l'ofdm
 		//_ofdm.startOFDM();
-		_ordonnanceur = new RoundRobin(map , _ofdm);
+		//_ordonnanceur = new RoundRobin(map , _ofdm);
 		_frc = new FlowRateCalculator(this);
 		moduleur = new ModulationCalculator(_ofdm);
 	}
@@ -91,6 +91,8 @@ public class Agent extends Model{
 		
 		//prepare le Model a envoyer un message
 		//setSignalInProgress(signal);
+		System.out.println("vidage packet de : "+ paket._receiver.getTag()+ " nom : "+ paket);
+		map.get(paket._receiver).remove(paket);
 		super.sendPacket(paket);//envoi le message (call environement)
 	}
 	

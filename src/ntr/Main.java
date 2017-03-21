@@ -22,12 +22,12 @@ public class Main {
 	
 	public static void main(String[] args)
 	{
-		Config.MAX_AVERAGE = 4;
-		Config.MIN_AVERAGE = 1;
-		Config.MAX_OFFSET = 1;
-		Config.MIN_OFFSET = -1;
-		Config.OFDM_NB_SUB_CARRIER = 10;
-		Config.OFDM_NB_TIME_SLOT = 10;
+		Config.MAX_AVERAGE = 2;
+		Config.MIN_AVERAGE = 0;
+		Config.MAX_OFFSET = 0;
+		Config.MIN_OFFSET = 0;
+		Config.OFDM_NB_SUB_CARRIER = 2;
+		Config.OFDM_NB_TIME_SLOT = 2;
 		
 		_env = new Environement(Config.ENVIRONEMENT_SIZE);
 		new Agent(new Location(3,1), _env);
@@ -42,9 +42,9 @@ public class Main {
 		
 		_env._mainAgent.setOrdonnanceur(new MaxSNR(_env._mainAgent.map ,_env._mainAgent._ofdm));
 		_env._mainAgent.requestConnecte(mob1);
-		_env._mainAgent.requestConnecte(mob2);
-		_env._mainAgent.requestConnecte(mob3);
-		_env._mainAgent.requestConnecte(mob4);
+		//_env._mainAgent.requestConnecte(mob2);
+		//_env._mainAgent.requestConnecte(mob3);
+		//_env._mainAgent.requestConnecte(mob4);
 
 		_dispatcher = new EventDispatcher();
 		
