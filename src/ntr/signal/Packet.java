@@ -80,7 +80,7 @@ public class Packet {
 		
 		while(iterator.hasNext()) {
 			PacketFragment fragment = iterator.next();
-			computeSize += Math.max(0, fragment._dataSize);
+			computeSize += Math.max(0, fragment._mkn);
 		}
 		
 		return computeSize >= this.size;

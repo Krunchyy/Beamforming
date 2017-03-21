@@ -20,7 +20,6 @@ public class PacketFragment {
 	}
 	
 	public void addData() {
-		System.err.println("mkn:" + this._mkn + " rest:" + this.parent.getRestToSend());
 		
 		this._dataSize = Math.min(this._mkn, this.parent.getRestToSend());
 		

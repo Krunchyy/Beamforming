@@ -63,6 +63,7 @@ public class RoundRobin extends AbstractOrdonnanceur {
 	}
 	
 	private void allow(IModel model, ArrayList<PacketFragment> packetFragments) {
+		int slot = (this.getOfdm()._currentIndex + this.internTick) % this.getOfdm()._nb_time_slot;
 		this.lastModel = model;
 		
 		Queue<Packet> buffer = this.getMap().get(model);
@@ -72,6 +73,14 @@ public class RoundRobin extends AbstractOrdonnanceur {
 				Packet packet = this.getNextPacket(buffer);
 				PacketFragment fragment = new PacketFragment(packet);
 				packet.addFragment(fragment);
+				
+				/*
+				 * Set Mkn and set data on packet fragment
+				 */
+				double mkn = ((Mobile)fragment.parent._receiver).getSNR(this.getOfdm()._agent, i, slot);
+				fragment.setMkn((int) Math.round(mkn));
+				fragment.addData();
+				
 				packetFragments.add(fragment);
 			}
 			else {
@@ -95,17 +104,6 @@ public class RoundRobin extends AbstractOrdonnanceur {
 				packetFragments.add(null);
 		}
 			
-		for(int i = 0 ;  i < packetFragments.size() ; i++) {
-			PacketFragment fragment = packetFragments.get(i);
-			
-			if(fragment == null)
-				break;
-			
-			double mkn = ((Mobile)fragment.parent._receiver).getSNR(this.getOfdm()._agent, i, slot);
-			fragment.setMkn((int) Math.round(mkn));
-			fragment.addData();
-			
-		}
 		
 		PacketFragment[] array = new PacketFragment[packetFragments.size()];
 		

@@ -46,11 +46,7 @@ public class MaxSNR extends AbstractOrdonnanceur {
 			}
 			
 			Queue<Packet> buffer = this.getMap().get(mobile);
-			if(buffer == null)
-			{
-				System.out.println("buff null");
-			}
-			
+
 			if(this.hasNextPacket(buffer)) {
 				Packet packet = this.getNextPacket(buffer);
 				PacketFragment fragment = new PacketFragment(packet);
