@@ -10,21 +10,16 @@ import ntr.utils.Config;
 import ntr.utils.Distance;
 import ntr.utils.RandomUtils;
 
-public class Mobile extends Model{
+public class Mobile extends Model {
 	private char _tag = Config.MOBILE_TAG;
-	
 	private int networkCondition;
 	
 	//agent, timeslot(10) , subcarrier(10)
 	private ConcurrentHashMap<IModel, ConcurrentHashMap<Integer, ArrayList<Double>>> _mknMap = new ConcurrentHashMap<IModel, ConcurrentHashMap<Integer, ArrayList<Double>>>();
-		
-	private int currentTimeSlot;
-	
-	public Mobile(Location loc, Environement env)
-	{
+
+	public Mobile(Location loc, Environement env) {
 		super(loc, env);
 		this.networkCondition = 0;
-		this.currentTimeSlot = 0;
 	}	
 	
 	@Override
@@ -39,8 +34,7 @@ public class Mobile extends Model{
 	
 	
 	@Override
-	public boolean isMobile()
-	{
+	public boolean isMobile() {
 		return true;
 	}
 	
@@ -148,7 +142,6 @@ public class Mobile extends Model{
 				cmpt++;
 			}
 		}
-				
 		return res/cmpt;
 	}
 }
