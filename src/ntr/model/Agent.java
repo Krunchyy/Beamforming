@@ -46,16 +46,26 @@ public class Agent extends Model{
 	@Override
 	public void tick()
 	{
+
+		//System.out.println("tick buff elements : "+ this +" buff "+map.size());
 		generator.tick();
+
+		//System.out.println("generator buff elements : "+ this +" buff "+map.size());
 		if(nextSchedul <= 0)
 		{
 			_frc.tick();
+
+			//System.out.println("frc buff elements : "+ this +" buff "+map.size());
 			_ordonnanceur.tick();
+
+			//System.out.println("ordo buff elements : "+ this +" buff "+map.size());
 			//moduleur.tick();
 			nextSchedul = _ofdm._nb_time_slot;
 		}
 		nextSchedul--;
 		_ofdm.tick();
+
+		//System.out.println("ofdm buff elements : "+ this +" buff "+map.size());
 
 	}
 	
@@ -87,11 +97,14 @@ public class Agent extends Model{
 	{
 		if(paket == null)
 				return;
+		if(paket._isSended)
+			return;
+		paket._isSended = true;
 		//Signal signal = buildSignal(paket, sub_carrier_id);
 		
 		//prepare le Model a envoyer un message
 		//setSignalInProgress(signal);
-		System.out.println("vidage packet de : "+ paket._receiver.getTag()+ " nom : "+ paket);
+		//System.out.println("vidage packet de : "+ paket._receiver.getTag()+ " nom : "+ paket);
 		map.get(paket._receiver).remove(paket);
 		super.sendPacket(paket);//envoi le message (call environement)
 	}

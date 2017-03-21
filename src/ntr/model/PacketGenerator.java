@@ -70,6 +70,7 @@ public class PacketGenerator {
 			}	
 			totalPacket += nbPackets;
 		}
+		//System.out.println("generated packet : "+totalPacket);
 		totals.add(totalPacket);
 	}
 }

@@ -11,7 +11,7 @@ import ntr.utils.Config;
 public class Packet {
 	public Mobile _receiver;
 	public Agent _sender;
-	
+	public boolean _isSended = false;
 	private long dateCreation, dateArrivee;
 	private int sizeSend, size;
 	private List<PacketFragment> fragments;

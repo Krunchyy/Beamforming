@@ -31,16 +31,16 @@ public class OFDMFrame extends ModuleFrame{
 		this.repaint();
 	}
 	
-	public static String displayOFDM(OFDM ofdm)
+	public String displayOFDM(OFDM ofdm)
 	{
 		
-		String display = "<table border=1 width=400>";
+		String display = "nbPacketSend : "+ super._window.getEnvironement().getEnvBuffer().size() +"<br/><table border=1 width=400>";
 		for(int x = 0  ; x < ofdm._nb_time_slot ; x++)
 		{
 			display += "<tr>";
 			for(int y = 0 ; y < ofdm._nb_sub_carrier ; y++)
 			{
-				PacketFragment packetF= ofdm._ofdm[y][x];
+				PacketFragment packetF= ofdm._ofdm[x][y];
 				display += "<td height="+(350/Config.OFDM_NB_TIME_SLOT)+">";
 				display += (packetF == null ? " " : packetF.parent._receiver.getTag()+":"+packetF._mkn);
 				display += "</td>";

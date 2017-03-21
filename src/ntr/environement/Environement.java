@@ -140,10 +140,12 @@ public class Environement {
 	{
 		pushPacket();//do alteration on environement
 		
+		//System.out.println("buff : "+_mainAgent.map.size());
 		//tick all elements
 		for(IModel elements : _elements)
 		{
 			elements.tick();
+			//System.out.println("buff elements : "+ elements +" buff "+_mainAgent.map.size());
 		}
 		_currentTick++;
 	}

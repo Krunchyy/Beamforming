@@ -9,20 +9,19 @@ import ntr.signal.Packet;
 import ntr.utils.BuildCSV;
 import ntr.utils.Config;
 
-public class BuildCSVDebitByUsers {
+public class BuildCSVPingByUsers {
 
-	public static final boolean SNR = false;
+	public static final boolean SNR = true;
 	
 	public static Environement _env;
 	public static void main(String[] args)
 	{
 		
-		Config.SIZE = 5;
 		Config.MAX_AVERAGE = 2;
 		Config.MIN_AVERAGE = 2;
 		Config.MAX_OFFSET = 0;
 		Config.MIN_OFFSET = 0;
-		Config.OFDM_NB_SUB_CARRIER = 50;
+		Config.OFDM_NB_SUB_CARRIER = 10;
 		Config.OFDM_NB_TIME_SLOT = 10;
 		
 		_env = new Environement(Config.ENVIRONEMENT_SIZE);
@@ -30,11 +29,11 @@ public class BuildCSVDebitByUsers {
 		if(SNR)
 			_env._mainAgent.setOrdonnanceur(new MaxSNR(_env._mainAgent.map ,_env._mainAgent._ofdm));
 
-		startSimulation(SNR ? "debitByMobileMaxSNRPacket": "debitByMobileRR");
+		startSimulation(SNR ? "pingByMobileMaxSNRPacket": "pingByMobileRR");
 		
 	}
 	
-	public static final int _maxMobile = 50;
+	public static final int _maxMobile = 10;
 	public static final int _nbODFMTrameByRoll = 100;
 	/**
 	 * Do N roll with 
@@ -42,7 +41,7 @@ public class BuildCSVDebitByUsers {
 	 * and logs systems debit
 	 */
 	public static void startSimulation(String fileName){
-		System.out.println("Start Simulation : BuildCSVDebitByUsers");
+		System.out.println("Start Simulation : "+fileName);
 		long[] result = new long[_maxMobile];
 		for(int nbMobiles = 0; nbMobiles < _maxMobile ; nbMobiles++)
 		{
@@ -58,7 +57,7 @@ public class BuildCSVDebitByUsers {
 					{
 						debit += pack.getSize();
 					}
-					//System.out.println("debit : "+ debit + " nb packet send : "+ _env.getEnvBuffer().size());
+					
 					_env.getEnvBuffer().clear();
 					_env._mainAgent.generator.totals.clear();
 				}
@@ -68,7 +67,6 @@ public class BuildCSVDebitByUsers {
 				}
 			}
 			debit /= _nbODFMTrameByRoll;
-			//System.out.println("debit Moyen : "+ debit);
 			result[nbMobiles] = debit;
 			
 			
