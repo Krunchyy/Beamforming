@@ -63,21 +63,23 @@ public class RoundRobin extends AbstractOrdonnanceur {
 		this.updateOFDM(packets);
 	}
 	
-	private void allow(IModel model, ArrayList<Packet> packets) {
+	private void allow(IModel model, ArrayList<PacketFragment> packets) {
 		this.lastModel = model;
 		
 		Queue<Packet> buffer = this.getMap().get(model);
 		
 		for(int i=packets.size() ; i< this.getOfdm()._nb_sub_carrier ; i++) {
-			if(!buffer.isEmpty()) {
-				packets.add(buffer.poll());
+			if(this.hasNextPacket(buffer)) {
+				Packet packet = this.getNextPacket(buffer);
+				PacketFragment fragment = new PacketFragment(packet);
+				packets.add(fragment);
 			}
 			else {
 				break;
 			}
 		}
 		
-		this.getMap().put(model, buffer);
+		//this.getMap().put(model, buffer);
 		
 	}
 	
@@ -99,13 +101,13 @@ public class RoundRobin extends AbstractOrdonnanceur {
 			if(fragment == null)
 				break;
 			
-			double dataSize = ((Mobile)fragment._target).getSNR(this.getOfdm()._agent, i, slot);
-			fragment.setDataAvailableSize((int) Math.round(dataSize));
+			double dataSize = ((Mobile)fragment.parent._receiver).getSNR(this.getOfdm()._agent, i, slot);
+			fragment.setMkn((int) Math.round(dataSize));
 		}
 		
 		PacketFragment[] array = new PacketFragment[packets.size()];
 		
-		this.getOfdm().setTimeSlot(slot, (Packet[]) packets.toArray(array));
+		this.getOfdm().setTimeSlot(slot, (PacketFragment[]) packets.toArray(array));
 	}
 	
 	private boolean hasMorePackets() {
@@ -116,7 +118,7 @@ public class RoundRobin extends AbstractOrdonnanceur {
 		
 		while(iter.hasNext()) {
 			Entry<IModel, Queue<Packet>> entry = iter.next();
-			if(entry.getValue().size() > 0) {
+			if(this.hasNextPacket(entry.getValue())) {
 				return true;
 			}
 		}
@@ -124,4 +126,41 @@ public class RoundRobin extends AbstractOrdonnanceur {
 		return false;
 	}
 
+	/**
+	 * Vérifie si un Packet est coupable en PacketFragment
+	 * @param buffer
+	 * @return true|false
+	 */
+	private boolean hasNextPacket(Queue<Packet> buffer) {
+		if(buffer.size() == 0)
+			return false;
+		
+		Iterator<Packet> iterator = buffer.iterator();
+		
+		while(iterator.hasNext()) {
+			Packet p = iterator.next();
+			if(!p.isFragmented())
+				return true;
+		}
+		return false;
+	}
+	
+	/**
+	 * 
+	 * @param buffer
+	 * @return null|Packet
+	 */
+	private Packet getNextPacket(Queue<Packet> buffer) {
+		if(buffer.size() == 0)
+			throw new ArrayIndexOutOfBoundsException("Impossible de récupérer un packet non-envoyé dans le buffer");
+		
+		Iterator<Packet> iterator = buffer.iterator();
+		
+		while(iterator.hasNext()) {
+			Packet p = iterator.next();
+			if(!p.isFragmented())
+				return p;
+		}
+		throw new ArrayIndexOutOfBoundsException("Impossible de récupérer un packet non-envoyé dans le buffer");
+	}
 }
