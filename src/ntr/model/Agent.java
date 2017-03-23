@@ -53,7 +53,8 @@ public class Agent extends Model{
 		//System.out.println("generator buff elements : "+ this +" buff "+map.size());
 		if(nextSchedul <= 0)
 		{
-			_frc.tick();
+			// appelé dans l'environnement
+			//_frc.tick();
 
 			//System.out.println("frc buff elements : "+ this +" buff "+map.size());
 			_ordonnanceur.tick();
@@ -67,6 +68,15 @@ public class Agent extends Model{
 
 		//System.out.println("ofdm buff elements : "+ this +" buff "+map.size());
 
+	}
+	
+	@Override
+	public void tickFRC()
+	{		
+		if(nextSchedul <= 0)
+		{
+		_frc.tick();
+		}
 	}
 	
 	@Override

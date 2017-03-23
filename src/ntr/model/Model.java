@@ -48,6 +48,10 @@ public abstract class Model implements IModel{
 		
 	}
 	
+	public void tickFRC(){
+		
+	}
+	
 	public char getTag() {
 		return 'E';
 	}

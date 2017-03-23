@@ -9,9 +9,6 @@ public class Config {
 	public static char MOBILE_TAG = 'M';
 	public static char AGENT_TAG = 'A';
 	
-	//PacketFragment config:
-	public static int PACKET_DATA_SIZE = 100;
-	
 	//PacketGenerator config:
 	public static int SIZE = 100;
 	public static int MIN_AVERAGE = 1; // average quantity of packets

@@ -20,6 +20,7 @@ public interface IModel {
 	
 	public void sendSignalTo(IModel receiver);
 	public void tick();
+	public void tickFRC();
 	
 	/**
 	 * 

@@ -139,9 +139,15 @@ public class Environement {
 	public void tick()
 	{
 		pushPacket();//do alteration on environement
-		
 		//System.out.println("buff : "+_mainAgent.map.size());
+		
+		//TODO: update environment for each agent to add mobiles if selected mobile is in range of the agent.
 		//tick all elements
+		for(IModel elements : _elements)
+		{
+			elements.tickFRC();
+		}
+		
 		for(IModel elements : _elements)
 		{
 			elements.tick();

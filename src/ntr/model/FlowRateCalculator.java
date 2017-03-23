@@ -12,7 +12,7 @@ public class FlowRateCalculator {
 	private Agent _agent;
 	
 	public FlowRateCalculator(Agent agent) {
-		this._agent = agent;
+		_agent = agent;
 	}
 	
 	public void tick() {
@@ -23,6 +23,7 @@ public class FlowRateCalculator {
 		while(it.hasNext()) {
 			Mobile mobile = (Mobile) it.next();
 			mobile.computeAllSNR(_agent);
+			mobile.computeBeamCarrier(_agent);
 		}
 	}
 

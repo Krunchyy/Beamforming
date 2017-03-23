@@ -17,13 +17,13 @@ public class PacketGenerator {
 	public ArrayList<Integer> totals = new ArrayList<>();
 	
 	public PacketGenerator(Agent agent) {
-		this._agent = agent;
+		_agent = agent;
 	}
 	
 	/**
 	 * Generate a random quantity of packets for every mobile connected to the agent
 	 */
-	public void tick() {
+	public void tick() { //TODO: gérer la génération de paquets pour Beamforming (genère actuellement sur chaque agent une valeur différente)
 		ConcurrentHashMap<IModel, Queue<Packet>> map = _agent.getMap();
 		Set<IModel> keys = map.keySet();
 		Iterator<IModel> it = keys.iterator();
