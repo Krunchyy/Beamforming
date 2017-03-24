@@ -113,6 +113,7 @@ public class Mobile extends Model {
 			System.out.println("getSNR for mobile timeslot inexistant");
 			return 0;
 		}
+		
 		return mapTimeslot.get(sub_carrier);
 	}
 
