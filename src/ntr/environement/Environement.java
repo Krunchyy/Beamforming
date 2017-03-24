@@ -15,7 +15,7 @@ import ntr.signal.Packet;
 public class Environement {
 	public boolean _stopAuto = false;
 	public long _currentTick = 0;
-	public Agent _mainAgent;
+	public List<Agent> _mainAgent = new ArrayList<>();
 	
 	public long getCurrentTick()
 	{
@@ -60,7 +60,7 @@ public class Environement {
 		}
 		if(model instanceof Agent)
 		{
-			_mainAgent = (Agent) model;
+			_mainAgent.add((Agent) model);
 		}
 		_elements.add(model);
 	}

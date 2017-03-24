@@ -27,7 +27,7 @@ public class Main {
 		Config.MIN_AVERAGE = 2;
 		Config.MAX_OFFSET = 0;
 		Config.MIN_OFFSET = 0;
-		Config.OFDM_NB_SUB_CARRIER = 50;
+		Config.OFDM_NB_SUB_CARRIER = 10;
 		Config.OFDM_NB_TIME_SLOT = 10;
 		
 		_env = new Environement(Config.ENVIRONEMENT_SIZE);
@@ -41,9 +41,9 @@ public class Main {
 		//Mobile mob4 = new Mobile(new Location(4,0), _env);
 		//mob4.setTag('E');
 		
-		_env._mainAgent.setOrdonnanceur(new MaxSNR(_env._mainAgent.map ,_env._mainAgent._ofdm));
-		_env._mainAgent.requestConnecte(mob1);
-		_env._mainAgent.requestConnecte(mob2);
+		_env._mainAgent.get(0).setOrdonnanceur(new MaxSNR(_env._mainAgent.get(0).map ,_env._mainAgent.get(0)._ofdm));
+		_env._mainAgent.get(0).requestConnecte(mob1);
+		_env._mainAgent.get(0).requestConnecte(mob2);
 		//_env._mainAgent.requestConnecte(mob3);
 		//_env._mainAgent.requestConnecte(mob4);
 

@@ -16,24 +16,24 @@ public class BuildCSVPingByUsers {
 	public static Environement _env;
 	public static void main(String[] args)
 	{
-		
+		Config.SIZE = 5;
 		Config.MAX_AVERAGE = 2;
 		Config.MIN_AVERAGE = 2;
 		Config.MAX_OFFSET = 0;
 		Config.MIN_OFFSET = 0;
-		Config.OFDM_NB_SUB_CARRIER = 10;
+		Config.OFDM_NB_SUB_CARRIER = 50;
 		Config.OFDM_NB_TIME_SLOT = 10;
 		
 		_env = new Environement(Config.ENVIRONEMENT_SIZE);
 		new Agent(new Location(3,1), _env);
 		if(SNR)
-			_env._mainAgent.setOrdonnanceur(new MaxSNR(_env._mainAgent.map ,_env._mainAgent._ofdm));
+			_env._mainAgent.get(0).setOrdonnanceur(new MaxSNR(_env._mainAgent.get(0).map ,_env._mainAgent.get(0)._ofdm));
 
 		startSimulation(SNR ? "pingByMobileMaxSNRPacket": "pingByMobileRR");
 		
 	}
 	
-	public static final int _maxMobile = 10;
+	public static final int _maxMobile = 17;
 	public static final int _nbODFMTrameByRoll = 100;
 	/**
 	 * Do N roll with 
@@ -47,6 +47,7 @@ public class BuildCSVPingByUsers {
 		{
 			System.out.println("["+nbMobiles + "/"+ _maxMobile+"]");
 			long debit = 0;
+			int ping = 0;
 			for(int nbRoll = 0 ; nbRoll < _nbODFMTrameByRoll ; nbRoll++)
 			{
 				try
@@ -55,23 +56,30 @@ public class BuildCSVPingByUsers {
 					
 					for(Packet pack : _env.getEnvBuffer())
 					{
-						debit += pack.getSize();
+						debit++;
+						ping += pack.getDateArrivee() - pack.getDateCreation();
 					}
 					
 					_env.getEnvBuffer().clear();
-					_env._mainAgent.generator.totals.clear();
+					_env._mainAgent.get(0).generator.totals.clear();
 				}
 				catch(Exception e)
 				{
 					e.printStackTrace();
 				}
 			}
-			debit /= _nbODFMTrameByRoll;
-			result[nbMobiles] = debit;
+			if(debit != 0)
+			{
+				ping /= debit;
+			}else{
+				ping = 0;
+			}
+			
+			result[nbMobiles] = ping;
 			
 			
 			Mobile mob = new Mobile(new Location(10,10), _env);
-			_env._mainAgent.requestConnecte(mob);
+			_env._mainAgent.get(0).requestConnecte(mob);
 		}
 		
 		BuildCSV.buildCSV(fileName, result, new String[]{"NbMobile", "Debit"});

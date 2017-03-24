@@ -182,17 +182,19 @@ public class Mobile extends Model {
 			System.out.println("computeBeamCarrier for mobile : timeslots inexistants");
 			return;
 		}
-
+		
+		System.out.println("agents connectés : "+_nbAgentsConnected);
+		
 		if(_nbAgentsConnected == 0) {
 			Set<IModel> keys = _mknMap.keySet();
 			Iterator<IModel> it = keys.iterator();
 			while (it.hasNext()) {
 				_nbAgentsConnected++;
 				_beamformingAgents.add(it.next());
-				//_beamforming = true;
 			}
 		}
 		if(_nbAgentsConnected == 2) {
+			_beamforming = true;
 			_beamformingBestSubCarriers.clear(); // on vide la liste des meilleurs subcarriers
 			ConcurrentHashMap<Integer, ArrayList<Double>> map = _mknMap.get(_beamformingAgents.get(0));
 			Set<Integer> keys = map.keySet(); // Set des timeslots de l'agent 1

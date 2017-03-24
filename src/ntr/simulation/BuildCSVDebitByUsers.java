@@ -28,7 +28,7 @@ public class BuildCSVDebitByUsers {
 		_env = new Environement(Config.ENVIRONEMENT_SIZE);
 		new Agent(new Location(3,1), _env);
 		if(SNR)
-			_env._mainAgent.setOrdonnanceur(new MaxSNR(_env._mainAgent.map ,_env._mainAgent._ofdm));
+			_env._mainAgent.get(0).setOrdonnanceur(new MaxSNR(_env._mainAgent.get(0).map ,_env._mainAgent.get(0)._ofdm));
 
 		startSimulation(SNR ? "debitByMobileMaxSNRPacket": "debitByMobileRR");
 		
@@ -60,7 +60,7 @@ public class BuildCSVDebitByUsers {
 					}
 					//System.out.println("debit : "+ debit + " nb packet send : "+ _env.getEnvBuffer().size());
 					_env.getEnvBuffer().clear();
-					_env._mainAgent.generator.totals.clear();
+					_env._mainAgent.get(0).generator.totals.clear();
 				}
 				catch(Exception e)
 				{
@@ -73,7 +73,7 @@ public class BuildCSVDebitByUsers {
 			
 			
 			Mobile mob = new Mobile(new Location(10,10), _env);
-			_env._mainAgent.requestConnecte(mob);
+			_env._mainAgent.get(0).requestConnecte(mob);
 		}
 		
 		BuildCSV.buildCSV(fileName, result, new String[]{"NbMobile", "Debit"});
