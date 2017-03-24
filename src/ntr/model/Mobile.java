@@ -193,6 +193,16 @@ public class Mobile extends Model {
 				_beamformingAgents.add(it.next());
 			}
 		}
+		if(_nbAgentsConnected == 1) {
+			_beamformingAgents.clear();
+			_nbAgentsConnected = 0;
+			Set<IModel> keys = _mknMap.keySet();
+			Iterator<IModel> it = keys.iterator();
+			while (it.hasNext()) {
+				_nbAgentsConnected++;
+				_beamformingAgents.add(it.next());
+			}
+		}
 		if(_nbAgentsConnected == 2) {
 			_beamforming = true;
 			_beamformingBestSubCarriers.clear(); // on vide la liste des meilleurs subcarriers
