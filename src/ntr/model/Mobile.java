@@ -217,7 +217,7 @@ public class Mobile extends Model {
 				for(int i=0; it11.hasNext(); i++) { // d�termination du meilleur subcarrier selon les mkn des deux agents
 					Double a1 = it11.next();
 					Double a2 = it22.next();
-					if(a1 > valA1 && a2 > valA2){
+					if((a1+a2) > (valA1+valA2)){
 						valA1 = a1;
 						valA2 = a2;
 						sub=i;
