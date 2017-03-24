@@ -5,13 +5,12 @@ import ntr.model.Agent;
 import ntr.model.Location;
 import ntr.model.MaxSNR;
 import ntr.model.Mobile;
-import ntr.signal.Packet;
 import ntr.utils.BuildCSV;
 import ntr.utils.Config;
 
-public class BuildCSVPingByUsers {
+public class BuildCSVURByUsers {
 
-	public static final boolean SNR = true;
+	public static final boolean SNR = false;
 	
 	public static Environement _env;
 	public static void main(String[] args)
@@ -29,7 +28,7 @@ public class BuildCSVPingByUsers {
 		if(SNR)
 			_env._mainAgent.get(0).setOrdonnanceur(new MaxSNR(_env._mainAgent.get(0).map ,_env._mainAgent.get(0)._ofdm));
 
-		startSimulation(SNR ? "pingByMobileMaxSNRPacket": "pingByMobileRR");
+		startSimulation(SNR ? "urByMobileMaxSNRPacket": "urByMobileRR");
 		
 	}
 	
@@ -46,18 +45,25 @@ public class BuildCSVPingByUsers {
 		for(int nbMobiles = 0; nbMobiles < _maxMobile ; nbMobiles++)
 		{
 			System.out.println("["+nbMobiles + "/"+ _maxMobile+"]");
-			long debit = 0;
-			int ping = 0;
+			long ur = 0;
 			for(int nbRoll = 0 ; nbRoll < _nbODFMTrameByRoll ; nbRoll++)
 			{
 				try
 				{
-					_env.tick(Config.OFDM_NB_TIME_SLOT);
-					
-					for(Packet pack : _env.getEnvBuffer())
+					for(int i = 0 ; i < Config.OFDM_NB_TIME_SLOT ; i++)
 					{
-						debit++;
-						ping += pack.getDateArrivee() - pack.getDateCreation();
+						int nbUR = 0;
+						_env.tick(Config.OFDM_NB_TIME_SLOT);
+						for(int x = 0 ; x < Config.OFDM_NB_TIME_SLOT ; x++)
+						{
+							for(int y = 0 ; y < Config.OFDM_NB_SUB_CARRIER; y++)
+							{
+								if(_env._mainAgent.get(0)._ofdm._ofdm[x][y] != null)
+									nbUR++;
+							}
+						}
+						ur += nbUR;//add 1 frame
+						//System.out.println("UR : "+ ur);
 					}
 					_env.getEnvBuffer().clear();
 					_env._mainAgent.get(0).generator.totals.clear();
@@ -67,21 +73,16 @@ public class BuildCSVPingByUsers {
 					e.printStackTrace();
 				}
 			}
-			if(debit != 0)
-			{
-				ping /= debit;
-			}else{
-				ping = 0;
-			}
+			ur /= (Config.OFDM_NB_TIME_SLOT * _nbODFMTrameByRoll);
 			
-			result[nbMobiles] = ping;
+			result[nbMobiles] = ur;
 			
 			
 			Mobile mob = new Mobile(new Location(10,10), _env);
 			_env._mainAgent.get(0).requestConnecte(mob);
 		}
 		
-		BuildCSV.buildCSV(fileName, result, new String[]{"NbMobile", "Debit"});
+		BuildCSV.buildCSV(fileName, result, new String[]{"NbMobile", "UR"});
 		
 		System.out.println("DONE");
 	}

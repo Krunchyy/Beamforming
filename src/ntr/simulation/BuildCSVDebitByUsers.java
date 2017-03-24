@@ -16,7 +16,6 @@ public class BuildCSVDebitByUsers {
 	public static Environement _env;
 	public static void main(String[] args)
 	{
-		
 		Config.SIZE = 5;
 		Config.MAX_AVERAGE = 2;
 		Config.MIN_AVERAGE = 2;
@@ -34,8 +33,8 @@ public class BuildCSVDebitByUsers {
 		
 	}
 	
-	public static final int _maxMobile = 50;
-	public static final int _nbODFMTrameByRoll = 100;
+	public static final int _maxMobile = 17;
+	public static final int _nbODFMTrameByRoll = 1;
 	/**
 	 * Do N roll with 
 	 * 1 ,2 ... N mobile,

@@ -182,7 +182,7 @@ public class Mobile extends Model {
 			return;
 		}
 		
-		System.out.println("agents connectés : "+_nbAgentsConnected);
+		//System.out.println("agents connectés : "+_nbAgentsConnected);
 		
 		if(_nbAgentsConnected == 0) {
 			Set<IModel> keys = _mknMap.keySet();
