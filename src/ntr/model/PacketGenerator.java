@@ -15,23 +15,23 @@ public class PacketGenerator {
 	private Agent _agent;
 	public HashMap<Mobile, Double> _modifier = new HashMap<>();
 	public ArrayList<Integer> totals = new ArrayList<>();
-	
+
 	public PacketGenerator(Agent agent) {
 		_agent = agent;
 	}
-	
+
 	/**
 	 * Generate a random quantity of packets for every mobile connected to the agent
 	 */
-	public void tick() { //TODO: gérer la génération de paquets pour Beamforming (genère actuellement sur chaque agent une valeur différente)
+	public void tick() {
 		ConcurrentHashMap<IModel, Queue<Packet>> map = _agent.getMap();
 		Set<IModel> keys = map.keySet();
 		Iterator<IModel> it = keys.iterator();
 		int totalPacket = 0;
-		
+
 		while(it.hasNext()) {
 			Mobile mobile = (Mobile) it.next();
-			
+
 			// number of packets to generate
 			int nbPacketsMoyen = mobile.getPacketFlow();
 			if(nbPacketsMoyen == -1) {
@@ -57,17 +57,31 @@ public class PacketGenerator {
 			}
 			else offset = RandomUtils.get(Config.MIN_OFFSET, Config.MAX_OFFSET);
 			nbPackets += offset;
-			
-			// generation of packets
-			for(int i=0; i != nbPackets; i++) {
-				Packet p = new Packet(_agent, mobile, _agent.getEnvironement().getCurrentTick());
-				try {
-					map.get(mobile).add(p);
+
+			if(mobile.isBeamforming() && mobile._beamformingAgents.size() > 0 && mobile._beamformingAgents.get(0) == _agent) {
+				for(int i=0; i != nbPackets; i++) {
+					Packet p = new Packet(_agent, mobile, _agent.getEnvironement().getCurrentTick());
+					try {
+						mobile._filePacketsBeam.add(p);
+					}
+					catch(Exception e) {
+
+					}
 				}
-				catch(Exception e) {
-					
+			}
+
+			else {
+				// generation of packets
+				for(int i=0; i != nbPackets; i++) {
+					Packet p = new Packet(_agent, mobile, _agent.getEnvironement().getCurrentTick());
+					try {
+						map.get(mobile).add(p);
+					}
+					catch(Exception e) {
+
+					}
 				}
-			}	
+			}
 			totalPacket += nbPackets;
 		}
 		//System.out.println("generated packet : "+totalPacket);

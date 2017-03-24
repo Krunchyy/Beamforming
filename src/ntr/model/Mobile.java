@@ -2,11 +2,14 @@ package ntr.model;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Queue;
 import java.util.Set;
+import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.ConcurrentHashMap;
 
 import ntr.environement.Environement;
 import ntr.signal.BeamSubCarrier;
+import ntr.signal.Packet;
 import ntr.utils.Config;
 import ntr.utils.Distance;
 import ntr.utils.RandomUtils;
@@ -14,9 +17,13 @@ import ntr.utils.RandomUtils;
 public class Mobile extends Model {
 	private char _tag = Config.MOBILE_TAG;
 	private int _networkCondition;
-	private ArrayList<IModel> _beamformingAgents = new ArrayList<>();
+	
+	// Beamforming
+	public ArrayList<IModel> _beamformingAgents = new ArrayList<>();
 	private ArrayList<Integer> _beamformingBestSubCarriers; // Liste des meilleurs subcarriers par timeslot
 	private int _nbAgentsConnected;
+	private boolean _beamforming;
+	public Queue<Packet> _filePacketsBeam = new ArrayBlockingQueue<Packet>(Config.BUFFER_SIZE);
 
 	//agent, timeslot(10) , subcarrier(10)
 	private ConcurrentHashMap<IModel, ConcurrentHashMap<Integer, ArrayList<Double>>> _mknMap = new ConcurrentHashMap<IModel, ConcurrentHashMap<Integer, ArrayList<Double>>>();
@@ -25,7 +32,16 @@ public class Mobile extends Model {
 		super(loc, env);
 		_networkCondition = 0;
 		_nbAgentsConnected = 0;
-	}	
+		_beamforming = false;
+	}
+	
+	public boolean isBeamforming() {
+		return _beamforming;
+	}
+	
+	public void setBeamforfing(boolean b) {
+		_beamforming = b;
+	}
 
 	@Override
 	public char getTag() {
@@ -104,7 +120,7 @@ public class Mobile extends Model {
 	 * Compute mkn for every subcarrier of every timeslots
 	 * @param agent
 	 */
-	public void computeAllSNR(Agent agent){
+	public void computeAllSNR(Agent agent) {
 		int nb_sub_carrier = agent._ofdm._nb_sub_carrier;
 		double distance = Distance.setDelta(agent, this);
 		for(int i=0; i<agent._ofdm._nb_time_slot; i++) { // generate the timeslots
@@ -131,7 +147,7 @@ public class Mobile extends Model {
 	 * @param agent
 	 * @return the average value of mkn
 	 */
-	public double averageSNR(Agent agent){
+	public double averageSNR(Agent agent) {
 		double res = 0;
 		int cmpt = 0;
 
@@ -172,6 +188,7 @@ public class Mobile extends Model {
 			while (it.hasNext()) {
 				_nbAgentsConnected++;
 				_beamformingAgents.add(it.next());
+				_beamforming = true;
 			}
 		}
 		if(_nbAgentsConnected == 2) {
@@ -194,7 +211,7 @@ public class Mobile extends Model {
 				int sub=0;
 				Double valA1 = (double) 0;
 				Double valA2 = (double) 0;
-				for(int i=0; it11.hasNext(); i++) { // détermination du meilleur subcarrier selon les mkn des deux agents
+				for(int i=0; it11.hasNext(); i++) { // dï¿½termination du meilleur subcarrier selon les mkn des deux agents
 					Double a1 = it11.next();
 					Double a2 = it22.next();
 					if(a1 > valA1 && a2 > valA2){

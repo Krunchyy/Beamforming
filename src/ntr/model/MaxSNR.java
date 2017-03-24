@@ -70,6 +70,12 @@ public class MaxSNR extends AbstractOrdonnanceur {
 		this.getOfdm().setTimeSlot(timeslot, fragments.toArray(array));
 	}
 
+	/*
+	 * Pour gérer le Beamforming verifier si un mobile est connecté en Beamforming avec mobile.isBeamforming
+	 * récupérer le subcarrier du timeslot avec getBeamSubCarrier qui retourne un BeamSubCarrier contenant le subcarrier et le mkn
+	 * pour eviter d'avoir des quantités différentes de paquets générés et en quantité doublée on a placé la queue dans le mobile
+	 * pour y acceder -> mobile._filePacketsBeam
+	 */
 	private Mobile getMobileWithBestSNR(int timeslot, int subcarrier, ArrayList<Mobile> emptyBuffersMobile) {
 		Mobile chosen = null;
 		
