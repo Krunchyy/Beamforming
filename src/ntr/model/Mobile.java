@@ -188,7 +188,7 @@ public class Mobile extends Model {
 			while (it.hasNext()) {
 				_nbAgentsConnected++;
 				_beamformingAgents.add(it.next());
-				_beamforming = true;
+				//_beamforming = true;
 			}
 		}
 		if(_nbAgentsConnected == 2) {
