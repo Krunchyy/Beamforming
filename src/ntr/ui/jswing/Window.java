@@ -95,13 +95,14 @@ public class Window extends JFrame {
 		panel.add(OFDMFrame);
 		panel.add(tickFrame);
 
-		
+		/*
 		panel.add(new TextFrame(this, 1040, 100));
 		panel.add(new TextFrame(this, 1040, 200));
 		panel.add(new TextFrame(this, 1040, 300));
 		panel.add(new TextFrame(this, 1040, 400));
 		panel.add(new TextFrame(this, 1040, 500));
 		panel.add(new TextFrame(this, 1040, 600));
+		*/
         this.addKeyListener(new KeyBoardListener(this));
         
 		setFocusable(true);
@@ -119,7 +120,7 @@ public class Window extends JFrame {
 		tickFrame.render();
 		
 		getEnvironement().getEnvBuffer().clear();
-		getEnvironement()._mainAgent.generator.totals.clear();
+		getEnvironement()._mainAgent.get(0).generator.totals.clear();
 	}
 	
 	public Environement getEnvironement(){

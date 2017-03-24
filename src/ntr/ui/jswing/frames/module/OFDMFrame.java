@@ -23,7 +23,7 @@ public class OFDMFrame extends ModuleFrame{
 		if(super._window.getEnvironement()._mainAgent != null)
 		{
 			//in += "<center>Buffer Max Size : "+ Config.BUFFER_SIZE + "\nAgent : "+ super._window.getEnvironement()._mainAgent.getTag() + "</center>\n\n";
-			in = displayOFDM(super._window.getEnvironement()._mainAgent._ofdm);
+			in = displayOFDM(super._window.getEnvironement()._mainAgent.get(0)._ofdm);
 		}
 		value += in;
 		value += "</td></tr></html>";

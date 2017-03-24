@@ -26,7 +26,7 @@ public class InputModule extends ModuleFrame{
 		{
 			final ArrayList<Coordonnee> coord = new ArrayList<>();
 			int tick = 0;
-			for(int nbPacket : super._window.getEnvironement()._mainAgent.generator.totals)
+			for(int nbPacket : super._window.getEnvironement()._mainAgent.get(0).generator.totals)
 			{
 				coord.add(new Coordonnee(tick++, nbPacket));
 			}
