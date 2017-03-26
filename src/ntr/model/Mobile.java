@@ -20,7 +20,7 @@ public class Mobile extends Model {
 	
 	// Beamforming
 	public ArrayList<IModel> _beamformingAgents = new ArrayList<>();
-	private ArrayList<Integer> _beamformingBestSubCarriers; // Liste des meilleurs subcarriers par timeslot
+	private ArrayList<Integer> _beamformingBestSubCarriers = new ArrayList<>(); // Liste des meilleurs subcarriers par timeslot
 	private int _nbAgentsConnected;
 	private boolean _beamforming;
 	public Queue<Packet> _filePacketsBeam = new ArrayBlockingQueue<Packet>(Config.BUFFER_SIZE);
@@ -38,16 +38,11 @@ public class Mobile extends Model {
 	public boolean isBeamforming() {
 		return _beamforming;
 	}
-	
-	public void setBeamforfing(boolean b) {
-		_beamforming = b;
-	}
 
 	@Override
 	public char getTag() {
 		return _tag;
 	}
-
 
 	public void setTag(char tag) {
 		_tag = tag;
@@ -193,7 +188,7 @@ public class Mobile extends Model {
 				_beamformingAgents.add(it.next());
 			}
 		}
-		if(_nbAgentsConnected == 1) {
+		else if(_nbAgentsConnected == 1) {
 			_beamformingAgents.clear();
 			_nbAgentsConnected = 0;
 			Set<IModel> keys = _mknMap.keySet();
@@ -203,7 +198,7 @@ public class Mobile extends Model {
 				_beamformingAgents.add(it.next());
 			}
 		}
-		if(_nbAgentsConnected == 2) {
+		else if(_nbAgentsConnected == 2) {
 			_beamforming = true;
 			_beamformingBestSubCarriers.clear(); // on vide la liste des meilleurs subcarriers
 			ConcurrentHashMap<Integer, ArrayList<Double>> map = _mknMap.get(_beamformingAgents.get(0));
@@ -224,7 +219,7 @@ public class Mobile extends Model {
 				int sub=0;
 				Double valA1 = (double) 0;
 				Double valA2 = (double) 0;
-				for(int i=0; it11.hasNext(); i++) { // d�termination du meilleur subcarrier selon les mkn des deux agents
+				for(int i=0; it11.hasNext(); i++) { // détermination du meilleur subcarrier selon les mkn des deux agents
 					Double a1 = it11.next();
 					Double a2 = it22.next();
 					if((a1+a2) > (valA1+valA2)){
