@@ -28,7 +28,7 @@ public class DebitModule extends ModuleFrame{
 	{
 		String value = 	"<html><table border=1 width=400 ><tr><td height=350>";
 		String in = "";
-		if(super._window.getEnvironement()._mainAgent != null)
+		if(super._window.getEnvironement()._mainAgent.size() > 0)
 		{
 			HashMap<Integer, debit> debits = new HashMap<>();
 			

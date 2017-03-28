@@ -28,4 +28,8 @@ public class Config {
 	//Environment
 	public static int ENVIRONEMENT_SIZE = 10;
 	
+	
+	//IHM
+	public static boolean OFDM_FOR_ALL = true;
+	
 }

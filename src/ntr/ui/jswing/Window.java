@@ -1,6 +1,8 @@
 package ntr.ui.jswing;
 
 import java.awt.Color;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JFrame;
 import javax.swing.JLayeredPane;
@@ -20,6 +22,7 @@ import ntr.ui.jswing.frames.module.InputModule;
 import ntr.ui.jswing.frames.module.TickFrame;
 import ntr.ui.jswing.frames.module.OFDMFrame;
 import ntr.ui.jswing.frames.module.PingModule;
+import ntr.utils.Config;
 import ntr.utils.ISubject;
 
 
@@ -32,11 +35,13 @@ public class Window extends JFrame {
 	ModuleFrame inputFrame;
 	ModuleFrame OFDMFrame;
 	ModuleFrame tickFrame;
+	List<ExtentedWindow> extendedWindows;
 	
-	private final JSwingGui _gui;
+	public final JSwingGui _gui;
 	
 	public Window(JSwingGui gui){
 		super();
+		this.extendedWindows = new ArrayList<>();
 		_gui = gui;
 		start();
 	}
@@ -86,7 +91,7 @@ public class Window extends JFrame {
 		pingFrame = new PingModule(this,10,10);
 		bufferFrame = new BufferModule(this,10,430);
 		//inputFrame = new DebitModule(this,510,10);
-		OFDMFrame = new OFDMFrame(this,510,430);
+		OFDMFrame = new OFDMFrame(this,510,430, getEnvironement()._mainAgent.get(0));
 		tickFrame = new TickFrame(this,1010,10);
 		
 		panel.add(pingFrame);
@@ -94,6 +99,15 @@ public class Window extends JFrame {
 		//panel.add(inputFrame);
 		panel.add(OFDMFrame);
 		panel.add(tickFrame);
+		
+		if(Config.OFDM_FOR_ALL) {
+			for(int i = 0 ; i < getEnvironement()._mainAgent.size() ; i++) {
+				ExtentedWindow extension = new ExtentedWindow("OFDM De Agent:" + getEnvironement()._mainAgent.get(i).getTag(), this);
+				System.out.println("Agent: " + getEnvironement()._mainAgent.get(i));
+				extension.start(new OFDMFrame(this, 510,430, getEnvironement()._mainAgent.get(i)));
+				this.extendedWindows.add(extension);
+			}
+		}
 
 		/*
 		panel.add(new TextFrame(this, 1040, 100));
@@ -119,6 +133,9 @@ public class Window extends JFrame {
 		OFDMFrame.render();
 		tickFrame.render();
 		
+		for(int i = 0 ; i < this.extendedWindows.size() ; i++) {
+			this.extendedWindows.get(i).updateRender();
+		}
 		getEnvironement().getEnvBuffer().clear();
 		getEnvironement()._mainAgent.get(0).generator.totals.clear();
 	}
