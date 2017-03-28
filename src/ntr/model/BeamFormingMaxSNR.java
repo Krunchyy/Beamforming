@@ -95,6 +95,9 @@ private Agent agent;
 				continue;
 			
 			if(iter.getKey().isBeamforming() && iter.getKey().getBeamSubCarrier(agent, timeslot).getSubCarrier() == subcarrier) {
+				if(!iter.getKey()._filePacketsBeam.equals(agent.getMap().get(iter.getKey()))) {
+					System.err.println("Buffers Reference Mismatch");
+				}
 				return iter.getKey();
 			}
 			

@@ -10,6 +10,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import ntr.signal.Packet;
 import ntr.utils.Config;
 import ntr.utils.RandomUtils;
+import sun.management.resources.agent;
 
 public class PacketGenerator {
 	private Agent _agent;
@@ -63,7 +64,11 @@ public class PacketGenerator {
 					Packet p = new Packet(_agent, mobile, _agent.getEnvironement().getCurrentTick());
 					try {
 						mobile._filePacketsBeam.add(p);
-						map.put(mobile, mobile._filePacketsBeam);
+						
+						//It's not enough to update the map of one agent, all agents need to be aware of the new beamforming map
+						for(int j = 0 ; j < _agent.getEnvironement()._mainAgent.size() ; j++) {
+							_agent.getEnvironement()._mainAgent.get(j).getMap().put(mobile, mobile._filePacketsBeam);
+						}
 					}
 					catch(Exception e) {
 

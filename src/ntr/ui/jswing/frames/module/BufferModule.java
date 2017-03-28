@@ -20,6 +20,7 @@ public class BufferModule extends ModuleFrame{
 	public void render()
 	{
 		List<Agent> agents = super._window.getEnvironement()._mainAgent;
+		
 		String value = 	"<html><table border=1 width=400 ><tr><td height=350>";
 		String in = "";
 		for(int i=0 ; i < agents.size() ; i++)

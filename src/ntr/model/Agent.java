@@ -184,7 +184,7 @@ public class Agent extends Model{
 
 			double pourcentageUtilisation = (getMap().get(model).size() /  (double) Config.BUFFER_SIZE );
 			int bufferDisplaySize = (int)(pourcentageUtilisation*size);
-			result += "Name : "+ model.getTag() +" Size : "+ getMap().get(model).size() + " rang : "+ Distance.setDelta(this,  model)+"\n";
+			result += (((Mobile)model).isBeamforming() ? "[BEAMFORMING]>" : "") + "Name : "+ model.getTag() + " Size : "+ getMap().get(model).size() + " rang : "+ Distance.setDelta(this,  model)+"\n";
 			result +="[" + getNbChar(bufferDisplaySize, '|') + getNbChar(size-bufferDisplaySize, ' ' ) + "]\n";
 			_diff.remove(model);
 			_diff.put(model, getMap().get(model).size());
