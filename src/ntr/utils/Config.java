@@ -30,6 +30,6 @@ public class Config {
 	
 	
 	//IHM
-	public static boolean OFDM_FOR_ALL = true;
+	public static boolean OFDM_FOR_ALL = false;
 	
 }

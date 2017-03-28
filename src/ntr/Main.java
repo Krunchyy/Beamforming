@@ -23,6 +23,8 @@ public class Main {
 	
 	public static void main(String[] args)
 	{
+		
+		//Config.OFDM_FOR_ALL = true;
 		Config.SIZE = 100;
 		Config.MAX_AVERAGE = 1;
 		Config.MIN_AVERAGE = 1;

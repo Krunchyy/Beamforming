@@ -36,7 +36,7 @@ public class OFDMFrame extends ModuleFrame{
 	public String displayOFDM(OFDM ofdm)
 	{
 		
-		String display = "nbPacketSend : "+ super._window.getEnvironement().getEnvBuffer().size() +"<br/><table border=1 width=400>";
+		String display = "Tick: ["+ this._window.getEnvironement()._currentTick + "] nbPacketSend : "+ super._window.getEnvironement().getEnvBuffer().size() +"<br/><table border=1 width=400>";
 		for(int x = 0  ; x < ofdm._nb_time_slot ; x++)
 		{
 			display += "<tr>";
