@@ -123,7 +123,7 @@ public class Mobile extends Model {
 			ArrayList<Double> list = new ArrayList<>();
 
 			for(int j=0; j<nb_sub_carrier; j++){ // generate mkn for every subcarrier
-				double mkn = 1 + RandomUtils.get(0, 10)/distance; //TODO: amï¿½liorer la valeur gï¿½nï¿½rï¿½e surtout pour les mobiles ï¿½loignï¿½es
+				double mkn = 1 + RandomUtils.get(1, 10)/distance; //TODO: amï¿½liorer la valeur gï¿½nï¿½rï¿½e surtout pour les mobiles ï¿½loignï¿½es
 				list.add(mkn);
 			}
 
@@ -178,7 +178,7 @@ public class Mobile extends Model {
 			return;
 		}
 		
-		//System.out.println("agents connectÃ©s : "+_nbAgentsConnected);
+		System.out.println(this+" agents connectÃ©s : "+_nbAgentsConnected);
 		
 		if(_nbAgentsConnected == 0) {
 			Set<IModel> keys = _mknMap.keySet();
@@ -232,6 +232,11 @@ public class Mobile extends Model {
 			}
 		}
 	}
+	
+	/*
+	 * TODO: faire une liste ordonnée de X valeurs de mkn par ordre croissant des valeurs cumulées agent1+2
+	 * remplir cette liste avec les X premières valeurs générées puis remplacer ces valeurs par les suivantes si elles sont plus élevées
+	 */
 
 	/**
 	 * Give the best subcarrier and the mkn for Beamforming

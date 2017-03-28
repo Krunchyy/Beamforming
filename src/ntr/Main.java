@@ -6,6 +6,7 @@ import java.util.concurrent.TimeUnit;
 
 import ntr.environement.Environement;
 import ntr.model.Agent;
+import ntr.model.BeamFormingMaxSNR;
 import ntr.model.Location;
 import ntr.model.MaxSNR;
 import ntr.model.Mobile;
@@ -23,27 +24,31 @@ public class Main {
 	public static void main(String[] args)
 	{
 		Config.SIZE = 5;
-		Config.MAX_AVERAGE = 2;
-		Config.MIN_AVERAGE = 2;
+		Config.MAX_AVERAGE = 1;
+		Config.MIN_AVERAGE = 1;
 		Config.MAX_OFFSET = 0;
 		Config.MIN_OFFSET = 0;
-		Config.OFDM_NB_SUB_CARRIER = 10;
+		Config.OFDM_NB_SUB_CARRIER = 50;
 		Config.OFDM_NB_TIME_SLOT = 10;
 		
 		_env = new Environement(Config.ENVIRONEMENT_SIZE);
-		new Agent(new Location(3,1), _env);
-		Mobile mob1 = new Mobile(new Location(0,0), _env);
+		new Agent(new Location(2,0), _env);
+		new Agent(new Location(4,0), _env);
+		Mobile mob1 = new Mobile(new Location(3,0), _env);
 		mob1.setTag('B');
-		Mobile mob2 = new Mobile(new Location(0,0), _env);
+		Mobile mob2 = new Mobile(new Location(2,1), _env);
 		mob2.setTag('C');
-		//Mobile mob3 = new Mobile(new Location(3,0), _env);
-		//mob3.setTag('D');
+		Mobile mob3 = new Mobile(new Location(5,0), _env);
+		mob3.setTag('D');
 		//Mobile mob4 = new Mobile(new Location(4,0), _env);
 		//mob4.setTag('E');
 		
-		_env._mainAgent.get(0).setOrdonnanceur(new MaxSNR(_env._mainAgent.get(0).map ,_env._mainAgent.get(0)._ofdm));
+		_env._mainAgent.get(0).setOrdonnanceur(new BeamFormingMaxSNR(_env._mainAgent.get(0).map ,_env._mainAgent.get(0)._ofdm));
+		_env._mainAgent.get(1).setOrdonnanceur(new BeamFormingMaxSNR(_env._mainAgent.get(1).map ,_env._mainAgent.get(1)._ofdm));
 		_env._mainAgent.get(0).requestConnecte(mob1);
+		_env._mainAgent.get(1).requestConnecte(mob1);
 		_env._mainAgent.get(0).requestConnecte(mob2);
+		_env._mainAgent.get(1).requestConnecte(mob3);
 		//_env._mainAgent.requestConnecte(mob3);
 		//_env._mainAgent.requestConnecte(mob4);
 

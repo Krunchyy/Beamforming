@@ -64,7 +64,6 @@ public class PacketGenerator {
 					try {
 						mobile._filePacketsBeam.add(p);
 						map.put(mobile, mobile._filePacketsBeam);
-						System.err.println("mobile queue reference: " + mobile._filePacketsBeam + ", agent reference for same mobile: " + map.get(mobile));
 					}
 					catch(Exception e) {
 
