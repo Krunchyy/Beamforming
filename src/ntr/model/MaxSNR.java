@@ -15,7 +15,7 @@ public class MaxSNR extends AbstractOrdonnanceur {
 
 	private Agent agent;
 	
-	public MaxSNR(ConcurrentHashMap<IModel, Queue<Packet>> map, OFDM ofdm) {
+	public MaxSNR(ConcurrentHashMap<Mobile, Queue<Packet>> map, OFDM ofdm) {
 		super(map, ofdm);
 		this.agent = this.getOfdm()._agent;
 	}
@@ -79,21 +79,21 @@ public class MaxSNR extends AbstractOrdonnanceur {
 	private Mobile getMobileWithBestSNR(int timeslot, int subcarrier, ArrayList<Mobile> emptyBuffersMobile) {
 		Mobile chosen = null;
 		
-		Set<Entry<IModel, Queue<Packet>>> entry = this.getMap().entrySet();
+		Set<Entry<Mobile, Queue<Packet>>> entry = this.getMap().entrySet();
 		
 		double SNR = 0;
 		
-		for (Iterator<Entry<IModel, Queue<Packet>>> iterator = entry.iterator(); iterator.hasNext();){
-			Entry<IModel, Queue<Packet>> iter = iterator.next();
+		for (Iterator<Entry<Mobile, Queue<Packet>>> iterator = entry.iterator(); iterator.hasNext();){
+			Entry<Mobile, Queue<Packet>> iter = iterator.next();
 			if(!iter.getKey().isMobile())
 				continue;
 			
 			if(emptyBuffersMobile.contains(iter.getKey()))
 				continue;
 			
-			if(((Mobile) iter.getKey()).getSNR(this.agent, subcarrier, timeslot) > SNR) {
-				SNR = ((Mobile) iter.getKey()).getSNR(this.agent, subcarrier, timeslot);
-				chosen = (Mobile) iter.getKey();
+			if(iter.getKey().getSNR(this.agent, subcarrier, timeslot) > SNR) {
+				SNR =  iter.getKey().getSNR(this.agent, subcarrier, timeslot);
+				chosen = iter.getKey();
 			}
 	    }
 		

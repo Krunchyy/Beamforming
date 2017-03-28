@@ -15,9 +15,9 @@ import ntr.signal.PacketFragment;
 public class RoundRobin extends AbstractOrdonnanceur {
 	
 	private int internTick;
-	private IModel lastModel;
+	private Mobile lastModel;
 	
-	public RoundRobin(ConcurrentHashMap<IModel, Queue<Packet>> map, OFDM ofdm) {
+	public RoundRobin(ConcurrentHashMap<Mobile, Queue<Packet>> map, OFDM ofdm) {
 		super(map, ofdm);
 		this.lastModel = null;
 		this.internTick = 0;
@@ -33,9 +33,9 @@ public class RoundRobin extends AbstractOrdonnanceur {
 	}
 	
 	private void internTick() {
-		Set<Entry<IModel, Queue<Packet>>> entryset = this.getMap().entrySet();
+		Set<Entry<Mobile, Queue<Packet>>> entryset = this.getMap().entrySet();
 		
-		Iterator<Entry<IModel, Queue<Packet>>> iter = entryset.iterator();
+		Iterator<Entry<Mobile, Queue<Packet>>> iter = entryset.iterator();
 		boolean lastModelFound = false;
 		
 		ArrayList<PacketFragment> packets = new ArrayList<>();
@@ -44,7 +44,7 @@ public class RoundRobin extends AbstractOrdonnanceur {
 			if(!iter.hasNext())
 				iter = entryset.iterator();
 			
-			Entry<IModel, Queue<Packet>> entry = iter.next();
+			Entry<Mobile, Queue<Packet>> entry = iter.next();
 			
 			if(this.lastModel != null && this.getMap().containsKey(this.lastModel)) {
 				if(lastModelFound) {
@@ -62,7 +62,7 @@ public class RoundRobin extends AbstractOrdonnanceur {
 		this.updateOFDM(packets);
 	}
 	
-	private void allow(IModel model, ArrayList<PacketFragment> packetFragments) {
+	private void allow(Mobile model, ArrayList<PacketFragment> packetFragments) {
 		int slot = (this.getOfdm()._currentIndex + this.internTick) % this.getOfdm()._nb_time_slot;
 		this.lastModel = model;
 		
@@ -77,7 +77,7 @@ public class RoundRobin extends AbstractOrdonnanceur {
 				/*
 				 * Set Mkn and set data on packet fragment
 				 */
-				double mkn = ((Mobile)fragment.parent._receiver).getSNR(this.getOfdm()._agent, i, slot);
+				double mkn = fragment.parent._receiver.getSNR(this.getOfdm()._agent, i, slot);
 				fragment.setMkn((int) Math.round(mkn));
 				fragment.addData();
 				
@@ -112,12 +112,12 @@ public class RoundRobin extends AbstractOrdonnanceur {
 	
 	private boolean hasMorePackets() {
 		
-		Set<Entry<IModel, Queue<Packet>>> entryset = this.getMap().entrySet();
+		Set<Entry<Mobile, Queue<Packet>>> entryset = this.getMap().entrySet();
 		
-		Iterator<Entry<IModel, Queue<Packet>>> iter = entryset.iterator();
+		Iterator<Entry<Mobile, Queue<Packet>>> iter = entryset.iterator();
 		
 		while(iter.hasNext()) {
-			Entry<IModel, Queue<Packet>> entry = iter.next();
+			Entry<Mobile, Queue<Packet>> entry = iter.next();
 			if(this.hasNextPacket(entry.getValue())) {
 				return true;
 			}

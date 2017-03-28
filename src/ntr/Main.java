@@ -32,23 +32,27 @@ public class Main {
 		Config.OFDM_NB_TIME_SLOT = 10;
 		
 		_env = new Environement(Config.ENVIRONEMENT_SIZE);
-		new Agent(new Location(2,0), _env);
-		new Agent(new Location(4,0), _env);
-		Mobile mob1 = new Mobile(new Location(3,0), _env);
-		mob1.setTag('B');
-		Mobile mob2 = new Mobile(new Location(2,1), _env);
-		mob2.setTag('C');
-		Mobile mob3 = new Mobile(new Location(5,0), _env);
-		mob3.setTag('D');
+		Agent a = new Agent(new Location(2,1), _env);
+		Agent z = new Agent(new Location(9,1), _env);
+		z.setTag('Z');
+		Mobile b = new Mobile(new Location(2,0), _env);
+		b.setTag('B');
+		Mobile c = new Mobile(new Location(9,0), _env);
+		c.setTag('C');
+		Mobile d = new Mobile(new Location(5,1), _env);
+		d.setTag('D');
 		//Mobile mob4 = new Mobile(new Location(4,0), _env);
 		//mob4.setTag('E');
 		
-		_env._mainAgent.get(0).setOrdonnanceur(new BeamFormingMaxSNR(_env._mainAgent.get(0).map ,_env._mainAgent.get(0)._ofdm));
-		_env._mainAgent.get(1).setOrdonnanceur(new BeamFormingMaxSNR(_env._mainAgent.get(1).map ,_env._mainAgent.get(1)._ofdm));
-		_env._mainAgent.get(0).requestConnecte(mob1);
-		_env._mainAgent.get(1).requestConnecte(mob1);
-		_env._mainAgent.get(0).requestConnecte(mob2);
-		_env._mainAgent.get(1).requestConnecte(mob3);
+		a.setOrdonnanceur(new BeamFormingMaxSNR(a.map ,a._ofdm));
+		z.setOrdonnanceur(new BeamFormingMaxSNR(z.map ,z._ofdm));
+		
+		a.requestConnecte(b);
+		a.requestConnecte(d);
+		
+		z.requestConnecte(c);
+		z.requestConnecte(d);
+		
 		//_env._mainAgent.requestConnecte(mob3);
 		//_env._mainAgent.requestConnecte(mob4);
 

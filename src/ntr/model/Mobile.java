@@ -178,7 +178,8 @@ public class Mobile extends Model {
 			return;
 		}
 		
-		System.out.println(this+" agents connectÃ©s : "+_nbAgentsConnected);
+		if(Config.OFDM_DEBUG)
+			System.out.println(this+" agents connectÃ©s : "+_nbAgentsConnected);
 		
 		if(_nbAgentsConnected == 0) {
 			Set<IModel> keys = _mknMap.keySet();
@@ -234,8 +235,8 @@ public class Mobile extends Model {
 	}
 	
 	/*
-	 * TODO: faire une liste ordonnée de X valeurs de mkn par ordre croissant des valeurs cumulées agent1+2
-	 * remplir cette liste avec les X premières valeurs générées puis remplacer ces valeurs par les suivantes si elles sont plus élevées
+	 * TODO: faire une liste ordonnï¿½e de X valeurs de mkn par ordre croissant des valeurs cumulï¿½es agent1+2
+	 * remplir cette liste avec les X premiï¿½res valeurs gï¿½nï¿½rï¿½es puis remplacer ces valeurs par les suivantes si elles sont plus ï¿½levï¿½es
 	 */
 
 	/**

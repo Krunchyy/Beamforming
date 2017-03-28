@@ -20,7 +20,7 @@ public class Agent extends Model{
 	private char _tag = Config.AGENT_TAG;
 	
 	public AbstractOrdonnanceur _ordonnanceur;
-	public final ConcurrentHashMap<IModel, Queue<Packet>> map;
+	public final ConcurrentHashMap<Mobile, Queue<Packet>> map;
 	public final PacketGenerator generator;
 	public final OFDM _ofdm;
 	public final int _diffusPower = 10;
@@ -53,7 +53,7 @@ public class Agent extends Model{
 		//System.out.println("generator buff elements : "+ this +" buff "+map.size());
 		if(nextSchedul <= 0)
 		{
-			// appelé dans l'environnement
+			// appelï¿½ dans l'environnement
 			//_frc.tick();
 
 			//System.out.println("frc buff elements : "+ this +" buff "+map.size());
@@ -93,12 +93,12 @@ public class Agent extends Model{
 	}
 	
 	
-	public void requestConnecte(IModel model)
+	public void requestConnecte(Mobile model)
 	{
 		map.put(model, new ArrayBlockingQueue<Packet>(Config.BUFFER_SIZE));
 	}
 	
-	public void deconnecteConnecte(IModel model)
+	public void deconnecteConnecte(Mobile model)
 	{
 		map.put(model, new ArrayBlockingQueue<Packet>(Config.BUFFER_SIZE));
 	}
@@ -163,7 +163,7 @@ public class Agent extends Model{
 		return new int[]{0,0,1};//TODO
 	}
 	
-	public ConcurrentHashMap<IModel, Queue<Packet>> getMap() {
+	public ConcurrentHashMap<Mobile, Queue<Packet>> getMap() {
 		return this.map;
 	}
 	

@@ -1,5 +1,8 @@
 package ntr.ui.jswing.frames.module;
 
+import java.util.List;
+
+import ntr.model.Agent;
 import ntr.ui.jswing.Window;
 import ntr.ui.jswing.frames.ModuleFrame;
 import ntr.utils.Config;
@@ -16,12 +19,13 @@ public class BufferModule extends ModuleFrame{
 	@Override
 	public void render()
 	{
+		List<Agent> agents = super._window.getEnvironement()._mainAgent;
 		String value = 	"<html><table border=1 width=400 ><tr><td height=350>";
 		String in = "";
-		if(super._window.getEnvironement()._mainAgent != null)
+		for(int i=0 ; i < agents.size() ; i++)
 		{
-			in += "<center>Buffer Max Size : "+ Config.BUFFER_SIZE + "\nAgent : "+ super._window.getEnvironement()._mainAgent.get(0).getTag() + "\n "+super._window.getEnvironement()._mainAgent.get(0)._ordonnanceur.getClass().getSimpleName()+"</center>\n\n";
-			in += super._window.getEnvironement()._mainAgent.get(0).displayBuffer(40);
+			in += "<center>Buffer Max Size : "+ Config.BUFFER_SIZE + "\nAgent : "+ agents.get(i).getTag() + "\n "+agents.get(0)._ordonnanceur.getClass().getSimpleName()+"</center>\n\n";
+			in += 	agents.get(i).displayBuffer(40);
 			in = in.replaceAll("\n", "<br/> ");
 			in = in.replaceAll(" ", "&ensp;");
 		}

@@ -16,12 +16,12 @@ public class FlowRateCalculator {
 	}
 	
 	public void tick() {
-		ConcurrentHashMap<IModel, Queue<Packet>> map = _agent.getMap();
-		Set<IModel> keys = map.keySet();
-		Iterator<IModel> it = keys.iterator();
+		ConcurrentHashMap<Mobile, Queue<Packet>> map = _agent.getMap();
+		Set<Mobile> keys = map.keySet();
+		Iterator<Mobile> it = keys.iterator();
 		
 		while(it.hasNext()) {
-			Mobile mobile = (Mobile) it.next();
+			Mobile mobile = it.next();
 			mobile.computeAllSNR(_agent);
 			mobile.computeBeamCarrier(_agent);
 		}

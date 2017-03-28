@@ -23,11 +23,13 @@ public class PacketFragment {
 		
 		this._dataSize = Math.min(this._mkn, this.parent.getRestToSend());
 		
-		if(this._dataSize == 0)
+		if(this._dataSize <= 0)
 			System.err.println("[WARNING] add empty data to packet fragment:" + this + " with parent: " + this.parent);
 	}
 	
-	
+	public synchronized int getDataSize() {
+		return this._dataSize;
+	}
 	public boolean sended(long currentTime){
 		
 		parent.setSizeSend(parent.getSizeSend()+ (_dataSize == -1 ? _mkn : _dataSize));

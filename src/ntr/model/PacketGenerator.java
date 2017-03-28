@@ -24,13 +24,13 @@ public class PacketGenerator {
 	 * Generate a random quantity of packets for every mobile connected to the agent
 	 */
 	public void tick() {
-		ConcurrentHashMap<IModel, Queue<Packet>> map = _agent.getMap();
-		Set<IModel> keys = map.keySet();
-		Iterator<IModel> it = keys.iterator();
+		ConcurrentHashMap<Mobile, Queue<Packet>> map = _agent.getMap();
+		Set<Mobile> keys = map.keySet();
+		Iterator<Mobile> it = keys.iterator();
 		int totalPacket = 0;
 
 		while(it.hasNext()) {
-			Mobile mobile = (Mobile) it.next();
+			Mobile mobile = it.next();
 
 			// number of packets to generate
 			int nbPacketsMoyen = mobile.getPacketFlow();
