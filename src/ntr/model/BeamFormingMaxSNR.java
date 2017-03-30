@@ -51,7 +51,7 @@ private Agent agent;
 				Packet packet = this.getNextPacket(buffer);
 				PacketFragment fragment = new PacketFragment(packet);
 				if(mobile.isBeamforming())
-					fragment.setMkn((int) Math.round(mobile.getBeamSubCarrier(agent, timeslot).getMkn()));
+					fragment.setMkn((int) Math.round(mobile.getBeamSubCarrier(agent, timeslot).getMkn(i)));
 				else
 					fragment.setMkn((int) Math.round(mobile.getSNR(this.agent, i, timeslot)));
 				fragment.addData();
@@ -94,14 +94,15 @@ private Agent agent;
 			if(emptyBuffersMobile.contains(iter.getKey()))
 				continue;
 			
-			if(iter.getKey().isBeamforming() && iter.getKey().getBeamSubCarrier(agent, timeslot).getSubCarrier() == subcarrier) {
+			if(iter.getKey().isBeamforming() && iter.getKey().getBeamSubCarrier(agent, timeslot).isBeamFormingable(subcarrier)){
 				if(!iter.getKey()._filePacketsBeam.equals(agent.getMap().get(iter.getKey()))) {
 					System.err.println("Buffers Reference Mismatch");
 				}
 				return iter.getKey();
 			}
 			
-			if(iter.getKey().getSNR(this.agent, subcarrier, timeslot) > SNR) {
+			
+			if(!iter.getKey().isBeamforming() && iter.getKey().getSNR(this.agent, subcarrier, timeslot) > SNR) {
 				SNR =  iter.getKey().getSNR(this.agent, subcarrier, timeslot);
 				chosen = iter.getKey();
 			}
