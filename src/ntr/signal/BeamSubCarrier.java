@@ -1,12 +1,13 @@
 package ntr.signal;
 
 import java.util.HashMap;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class BeamSubCarrier {
-	private HashMap<Integer, Double> mknBySubcarriers;
+	private ConcurrentHashMap<Integer, Double> mknBySubcarriers;
 	
 	
-	public BeamSubCarrier(HashMap<Integer, Double> mknBySubcarriers) {
+	public BeamSubCarrier(ConcurrentHashMap<Integer, Double> mknBySubcarriers) {
 		this.mknBySubcarriers = mknBySubcarriers;
 	}
 	
