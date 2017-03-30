@@ -3,7 +3,6 @@ package ntr.signal;
 import ntr.utils.Config;
 
 public class PacketFragment {
-			
 	public Packet parent;
 	//taille des données envoyées dans ce fragment (= au SNR pour la target sur la subcarrier et le timeslot qu'il faut)
 	public int _mkn, _dataSize;

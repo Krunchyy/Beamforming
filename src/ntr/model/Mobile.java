@@ -213,7 +213,13 @@ public class Mobile extends Model {
 			ConcurrentHashMap<Integer, ArrayList<Double>> map2 = _mknMap.get(_beamformingAgents.get(1));
 			Set<Integer> keys2 = map2.keySet(); // Set des timeslots de l'agent 2
 			Iterator<Integer> it2 = keys2.iterator();
-
+			try {
+				BeamSubCarriersCalculator.printComputation(agent.getEnvironement()._mainAgent, this);
+			} catch (Exception e) {
+				System.err.println(e.getMessage());
+				e.printStackTrace();
+				System.exit(0);
+			}
 			while (it1.hasNext()) {
 				ArrayList<Double> list1 = map.get(it1.next()); // liste des subcarriers de l'agent 1
 				Iterator<Double> it11 = list1.iterator();
