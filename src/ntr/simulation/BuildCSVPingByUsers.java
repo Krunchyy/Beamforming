@@ -11,7 +11,7 @@ import ntr.utils.Config;
 
 public class BuildCSVPingByUsers {
 
-	public static final boolean SNR = true;
+	public static final boolean SNR = false;
 	
 	public static Environement _env;
 	public static void main(String[] args)
@@ -19,8 +19,8 @@ public class BuildCSVPingByUsers {
 		Config.SIZE = 5;
 		Config.MAX_AVERAGE = 2;
 		Config.MIN_AVERAGE = 2;
-		Config.MAX_OFFSET = 0;
-		Config.MIN_OFFSET = 0;
+		Config.MAX_OFFSET = 2;
+		Config.MIN_OFFSET = -2;
 		Config.OFDM_NB_SUB_CARRIER = 50;
 		Config.OFDM_NB_TIME_SLOT = 10;
 		

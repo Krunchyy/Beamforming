@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileWriter;
 
 import ntr.simulation.Coordonnee;
+import ntr.simulation.CoordonneeL;
 
 public class BuildCSV {
 
@@ -30,6 +31,36 @@ public class BuildCSV {
         	   }
         	   writer.write("\n");
         	   for(Coordonnee co : coord)
+        	   {
+        		   writer.write(co._x+";"+co._y+"\n");
+        	   }
+           } finally {
+               // quoiqu'il arrive, on ferme le fichier
+               writer.close();
+           }
+       } catch (Exception e) {
+           System.out.println("Impossible de creer le fichier");
+       }
+	}
+	
+	public static void buildCSV(String fileName, CoordonneeL[] coord, String[] header)
+	{
+       final String chemin = "./"+fileName+".csv";
+       final File fichier =new File(chemin); 
+       try {
+           // Creation du fichier
+           fichier .createNewFile();
+           // creation d'un writer (un écrivain)
+           final FileWriter writer = new FileWriter(fichier);
+           try {
+        	   for(int i = 0 ; i < header.length ; i++)
+        	   {
+        		   writer.write(header[i]);
+        		   if(i < header.length-1)
+        			   writer.write(";");
+        	   }
+        	   writer.write("\n");
+        	   for(CoordonneeL co : coord)
         	   {
         		   writer.write(co._x+";"+co._y+"\n");
         	   }

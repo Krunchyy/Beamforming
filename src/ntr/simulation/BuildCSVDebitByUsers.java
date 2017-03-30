@@ -19,8 +19,8 @@ public class BuildCSVDebitByUsers {
 		Config.SIZE = 5;
 		Config.MAX_AVERAGE = 2;
 		Config.MIN_AVERAGE = 2;
-		Config.MAX_OFFSET = 0;
-		Config.MIN_OFFSET = 0;
+		Config.MAX_OFFSET = 2;
+		Config.MIN_OFFSET = -2;
 		Config.OFDM_NB_SUB_CARRIER = 50;
 		Config.OFDM_NB_TIME_SLOT = 10;
 		
