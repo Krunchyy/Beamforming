@@ -23,6 +23,10 @@ public class Config {
 	public static int OFDM_NB_TIME_SLOT = 10;
 	public static int OFDM_NB_SUB_CARRIER = 10;
 	
+	//BeamForming when true ordonnanceur fill the rest of the ofdm with BeamForming Packet Fragment if all other mobile buffers are empty
+	public static boolean FILL_OFDM_WITH_BEAM_MOBILE = false;
+	
+	
 	public static int BUFFER_SIZE = 1024;
 	
 	//Environment

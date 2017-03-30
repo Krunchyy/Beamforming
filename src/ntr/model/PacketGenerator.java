@@ -71,6 +71,12 @@ public class PacketGenerator {
 						for(int j = 0 ; j < _agent.getEnvironement()._mainAgent.size() ; j++) {
 							_agent.getEnvironement()._mainAgent.get(j).getMap().put(mobile, mobile._filePacketsBeam);
 						}
+						
+//						System.out.println("Reference checker:");
+//						System.out.println("[" + mobile._filePacketsBeam.size() + "]" +  mobile._filePacketsBeam);
+//						for (int j = 0; j < _agent.getEnvironement()._mainAgent.size(); j++) {
+//							System.out.println("[" + _agent.getMap().get(mobile).size() + "]" + (mobile._filePacketsBeam.toString().equals(_agent.getMap().get(mobile).toString()) ? "IDEM AS INTERN" : "SOMEHOW DIFFERENT"));
+//						}
 					}
 					catch(Exception e) {
 

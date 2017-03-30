@@ -384,6 +384,7 @@ public class Mobile extends Model {
 		for(int i = 0 ; i < this._env._mainAgent.size() ; i++) {
 			if(this._env._mainAgent.get(i).map.containsKey(this)) {
 				connectedAgents++;
+				this._beamformingAgents.add(this._env._mainAgent.get(i));
 			}
 		}
 		if(connectedAgents >= 2) {
@@ -399,6 +400,11 @@ public class Mobile extends Model {
 				e.printStackTrace();
 				System.exit(0);
 			}
+		}
+		else {
+			this._beamforming = false;
+			this._beamformingAgents.clear();
+			this.bestSubCarrierOnEachTimeslot.clear();
 		}
 	}
 	

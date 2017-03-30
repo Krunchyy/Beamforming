@@ -11,6 +11,7 @@ import ntr.signal.BeamSubCarriers;
 import ntr.signal.OFDM;
 import ntr.signal.Packet;
 import ntr.signal.PacketFragment;
+import ntr.utils.Config;
 
 public class BeamFormingMaxSNR extends AbstractOrdonnanceur {
 private Agent agent;
@@ -22,7 +23,8 @@ private Agent agent;
 
 	@Override
 	public void tick() {
-		for(int i=0 ; i < this.getOfdm()._nb_time_slot ; i++) {
+		for(int i=0 ; i < Config.OFDM_NB_TIME_SLOT ; i++) {
+			//System.out.println("Allocate timeslot: " + i);
 			this.allocateTimeslot(this.getOfdm()._currentIndex + i);
 		}
 	}
@@ -34,6 +36,7 @@ private Agent agent;
 		ArrayList<Mobile> emptyBuffersMobile = new ArrayList<Mobile>();
 		
 		for(int i = 0 ; i < subcarriers ; i++) {
+			
 			if(this.getMap().size() == emptyBuffersMobile.size()) {
 				fragments.add(null);
 				continue;
@@ -42,7 +45,8 @@ private Agent agent;
 			Mobile mobile = this.getMobileWithBestSNR(timeslot, i, emptyBuffersMobile);
 			if(mobile == null)
 			{
-				return;
+				fragments.add(null);
+				continue;
 			}
 			
 			Queue<Packet> buffer = this.getMap().get(mobile);
@@ -50,7 +54,7 @@ private Agent agent;
 			if(this.hasNextPacket(buffer)) {
 				Packet packet = this.getNextPacket(buffer);
 				PacketFragment fragment = new PacketFragment(packet);
-				if(mobile.isBeamforming()) {
+				if(mobile.isBeamforming() && mobile.getBeamSubCarrier(agent, timeslot).isBeamFormingable(i)) {
 					fragment.setMkn((int) Math.round(mobile.getBeamSubCarrier(agent, timeslot).getMkn(i)));
 				}
 				else
@@ -103,9 +107,17 @@ private Agent agent;
 			}
 			
 			
-			if(!iter.getKey().isBeamforming() && iter.getKey().getSNR(this.agent, subcarrier, timeslot) > SNR) {
-				SNR =  iter.getKey().getSNR(this.agent, subcarrier, timeslot);
-				chosen = iter.getKey();
+			if(!Config.FILL_OFDM_WITH_BEAM_MOBILE) {
+				if(!iter.getKey().isBeamforming() && iter.getKey().getSNR(this.agent, subcarrier, timeslot) > SNR) {
+					SNR =  iter.getKey().getSNR(this.agent, subcarrier, timeslot);
+					chosen = iter.getKey();
+				}
+			}
+			else {
+				if(iter.getKey().getSNR(this.agent, subcarrier, timeslot) > SNR) {
+					SNR =  iter.getKey().getSNR(this.agent, subcarrier, timeslot);
+					chosen = iter.getKey();
+				}
 			}
 	    }
 		
