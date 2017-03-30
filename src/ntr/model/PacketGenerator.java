@@ -30,9 +30,10 @@ public class PacketGenerator {
 		Iterator<Mobile> it = keys.iterator();
 		int totalPacket = 0;
 
+		//System.out.println("tick generator");
 		while(it.hasNext()) {
 			Mobile mobile = it.next();
-
+			//System.out.println("next mobile");
 			// number of packets to generate
 			int nbPacketsMoyen = mobile.getPacketFlow();
 			if(nbPacketsMoyen == -1) {
@@ -56,9 +57,10 @@ public class PacketGenerator {
 			if(Config.MIN_OFFSET == Config.MAX_OFFSET){
 				offset = Config.MAX_OFFSET;
 			}
-			else offset = RandomUtils.get(Config.MIN_OFFSET, Config.MAX_OFFSET);
+			else offset = RandomUtils.get(Config.MIN_OFFSET, Config.MAX_OFFSET+1);
 			nbPackets += offset;
 
+			//System.out.println("nbPacketsMoyen : "+ nbPacketsMoyen + " nbPacket : "+nbPackets+ " offset : "+ offset);
 			if(mobile.isBeamforming() && mobile._beamformingAgents.size() > 0 && mobile._beamformingAgents.get(0) == _agent) {
 				for(int i=0; i != nbPackets; i++) {
 					Packet p = new Packet(_agent, mobile, _agent.getEnvironement().getCurrentTick());

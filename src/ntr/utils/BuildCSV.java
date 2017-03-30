@@ -76,6 +76,7 @@ public class BuildCSV {
 	public static void buildCSV(String fileName, long[] coord, String[] header)
 	{
        final String chemin = "./"+fileName+".csv";
+       System.out.println("build : "+ chemin);
        final File fichier =new File(chemin); 
        try {
            // Creation du fichier

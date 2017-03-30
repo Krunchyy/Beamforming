@@ -2,8 +2,8 @@ package ntr.simulation;
 
 import ntr.environement.Environement;
 import ntr.model.Agent;
+import ntr.model.BeamFormingMaxSNR;
 import ntr.model.Location;
-import ntr.model.MaxSNR;
 import ntr.model.Mobile;
 import ntr.signal.Packet;
 import ntr.utils.BuildCSV;
@@ -17,18 +17,19 @@ public class BuildCSVPingByUsers {
 	public static void main(String[] args)
 	{
 		Config.SIZE = 5;
-		Config.MAX_AVERAGE = 2;
-		Config.MIN_AVERAGE = 2;
-		Config.MAX_OFFSET = 2;
-		Config.MIN_OFFSET = -2;
+		Config.MAX_AVERAGE = 0;
+		Config.MIN_AVERAGE = 0;
+		Config.MAX_OFFSET = 4;
+		Config.MIN_OFFSET = 0;
 		Config.OFDM_NB_SUB_CARRIER = 50;
 		Config.OFDM_NB_TIME_SLOT = 10;
 		
 		_env = new Environement(Config.ENVIRONEMENT_SIZE);
-		new Agent(new Location(3,1), _env);
+		new Agent(new Location(1,1), _env);		
+		//new Agent(new Location(9,9), _env);
 		if(SNR)
-			_env._mainAgent.get(0).setOrdonnanceur(new MaxSNR(_env._mainAgent.get(0).map ,_env._mainAgent.get(0)._ofdm));
-
+			_env._mainAgent.get(0).setOrdonnanceur(new BeamFormingMaxSNR(_env._mainAgent.get(0).map ,_env._mainAgent.get(0)._ofdm));
+	
 		startSimulation(SNR ? "pingByMobileMaxSNRPacket": "pingByMobileRR");
 		
 	}
@@ -79,6 +80,8 @@ public class BuildCSVPingByUsers {
 			
 			Mobile mob = new Mobile(new Location(10,10), _env);
 			_env._mainAgent.get(0).requestConnecte(mob);
+			//_env._mainAgent.get(1).requestConnecte(mob);
+			
 		}
 		
 		BuildCSV.buildCSV(fileName, result, new String[]{"NbMobile", "Debit"});

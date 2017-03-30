@@ -17,10 +17,10 @@ public class BuildCSVDebitByUsers {
 	public static void main(String[] args)
 	{
 		Config.SIZE = 5;
-		Config.MAX_AVERAGE = 2;
-		Config.MIN_AVERAGE = 2;
-		Config.MAX_OFFSET = 2;
-		Config.MIN_OFFSET = -2;
+		Config.MAX_AVERAGE = 0;
+		Config.MIN_AVERAGE = 0;
+		Config.MAX_OFFSET = 4;
+		Config.MIN_OFFSET = 0;
 		Config.OFDM_NB_SUB_CARRIER = 50;
 		Config.OFDM_NB_TIME_SLOT = 10;
 		
@@ -34,7 +34,7 @@ public class BuildCSVDebitByUsers {
 	}
 	
 	public static final int _maxMobile = 17;
-	public static final int _nbODFMTrameByRoll = 1;
+	public static final int _nbODFMTrameByRoll = 100;
 	/**
 	 * Do N roll with 
 	 * 1 ,2 ... N mobile,

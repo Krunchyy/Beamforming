@@ -247,6 +247,6 @@ public class Mobile extends Model {
 	 */
 	public BeamSubCarrier getBeamSubCarrier(Agent agent, int timeslot) {
 		double val = _mknMap.get(agent).get(timeslot).get(_beamformingBestSubCarriers.get(timeslot));
-		return new BeamSubCarrier(_beamformingBestSubCarriers.get(timeslot), val);
+		return null ;//new BeamSubCarrier(_beamformingBestSubCarriers.get(timeslot), val);
 	}
 }
