@@ -7,7 +7,7 @@ import java.util.Queue;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
-import ntr.signal.BeamSubCarrier;
+import ntr.signal.BeamSubCarriers;
 import ntr.signal.OFDM;
 import ntr.signal.Packet;
 import ntr.signal.PacketFragment;
@@ -50,8 +50,9 @@ private Agent agent;
 			if(this.hasNextPacket(buffer)) {
 				Packet packet = this.getNextPacket(buffer);
 				PacketFragment fragment = new PacketFragment(packet);
-				if(mobile.isBeamforming())
+				if(mobile.isBeamforming()) {
 					fragment.setMkn((int) Math.round(mobile.getBeamSubCarrier(agent, timeslot).getMkn(i)));
+				}
 				else
 					fragment.setMkn((int) Math.round(mobile.getSNR(this.agent, i, timeslot)));
 				fragment.addData();

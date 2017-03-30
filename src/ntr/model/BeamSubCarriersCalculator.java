@@ -33,10 +33,10 @@ public class BeamSubCarriersCalculator {
 		HashMap<Long, HashMap<Integer, Double>> returnDatas = new HashMap<>();
 		
 		
-		for(long i = this.agents.get(0).getEnvironement()._currentTick ; i < this.agents.get(0).getEnvironement()._currentTick + Config.OFDM_NB_TIME_SLOT ; i++) {
+		for(long i = 0; i < Config.OFDM_NB_TIME_SLOT ; i++) {
 			returnDatas.put(i, this.computeTimeslot(i, nb_subcarrier));
 		}
-		
+	
 		return returnDatas;
 	}
 	
@@ -90,7 +90,7 @@ public class BeamSubCarriersCalculator {
 		HashMap<Long, HashMap<Integer, Double>> datastructure = calculator.getBeamSubCarrierByTimeslot(5);
 		
 		System.out.println("Five Best Couple <SubCarrier, MknSummed> for each timeslot:");
-		for(long i = calculator.agents.get(0).getEnvironement()._currentTick ; i < calculator.agents.get(0).getEnvironement()._currentTick + Config.OFDM_NB_TIME_SLOT ; i++) {
+		for(long i = 0 ; i < Config.OFDM_NB_TIME_SLOT ; i++) {
 			System.out.print("Slot: " + i + "<[");
 			for(int j = 0 ; j < Config.OFDM_NB_SUB_CARRIER ; j++) {
 				

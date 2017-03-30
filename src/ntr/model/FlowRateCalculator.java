@@ -23,7 +23,7 @@ public class FlowRateCalculator {
 		while(it.hasNext()) {
 			Mobile mobile = it.next();
 			mobile.computeAllSNR(_agent);
-			mobile.computeBeamCarrier(_agent);
+			mobile.computeBeamSubCarriers();
 		}
 	}
 

@@ -1,6 +1,7 @@
 package ntr.model;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Queue;
 import java.util.Set;
@@ -9,7 +10,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import ntr.environement.Environement;
 import ntr.signal.BeamMkn;
-import ntr.signal.BeamSubCarrier;
+import ntr.signal.BeamSubCarriers;
 import ntr.signal.Packet;
 import ntr.utils.Config;
 import ntr.utils.Distance;
@@ -24,10 +25,21 @@ public class Mobile extends Model {
 	private ArrayList<Integer> _beamformingBestSubCarriers = new ArrayList<>(); // Liste des meilleurs subcarriers par timeslot
 	private int _nbAgentsConnected;
 	private boolean _beamforming;
+	
+	
+	
+	/**
+	 * WARNING !!! Important the HashMap key is a Long object 
+	 * WARNING !!! when you want to access make sure to use map.get() 
+	 * WARNING !!! with a Long Instance, not a long primitive or int
+	 */
+	private HashMap<Long, HashMap<Integer, Double>> bestSubCarrierOnEachTimeslot;
+	private BeamSubCarriersCalculator calculator;
+	
 	public Queue<Packet> _filePacketsBeam = new ArrayBlockingQueue<Packet>(Config.BUFFER_SIZE);
 
 	private ConcurrentHashMap<Integer, ArrayList<BeamMkn>> _mapBeam = new ConcurrentHashMap<>();
-	private ConcurrentHashMap<IModel, ConcurrentHashMap<Integer, BeamSubCarrier>> _mapBeamAgents = new ConcurrentHashMap<IModel, ConcurrentHashMap<Integer, BeamSubCarrier>>();
+	private ConcurrentHashMap<IModel, ConcurrentHashMap<Integer, BeamSubCarriers>> _mapBeamAgents = new ConcurrentHashMap<IModel, ConcurrentHashMap<Integer, BeamSubCarriers>>();
 
 	//agent, timeslot(10) , subcarrier(10)
 	private ConcurrentHashMap<IModel, ConcurrentHashMap<Integer, ArrayList<Double>>> _mknMap = new ConcurrentHashMap<IModel, ConcurrentHashMap<Integer, ArrayList<Double>>>();
@@ -37,6 +49,8 @@ public class Mobile extends Model {
 		_networkCondition = 0;
 		_nbAgentsConnected = 0;
 		_beamforming = false;
+		bestSubCarrierOnEachTimeslot = new HashMap<>();
+		this.calculator = new BeamSubCarriersCalculator(env._mainAgent, this);
 	}
 
 	public synchronized boolean isBeamforming() {
@@ -103,6 +117,7 @@ public class Mobile extends Model {
 
 		ConcurrentHashMap<Integer, ArrayList<Double>> mapAgent = _mknMap.get(agent);
 		if(mapAgent == null) {
+			System.out.println("Requested Agent:" + agent.getTag() + ", subcarriers: "+  sub_carrier + ", timeslot: " + timeslot);
 			System.out.println("getSNR for mobile agent pas dans la map");
 			return 0;
 		}
@@ -170,196 +185,230 @@ public class Mobile extends Model {
 	 * Add to _beamformingBestSubCarriers the best subcarrier of the agents for every timeslot
 	 * @param agent
 	 */
-	public void computeBeamCarrier(Agent agent) {
-		ConcurrentHashMap<Integer, ArrayList<Double>> mapAgent = _mknMap.get(agent);
-		if(mapAgent == null) {
-			System.out.println("computeBeamCarrier for mobile : agent pas dans la map");
-			return;
-		}
-		ArrayList<Double> mapTimeslot = mapAgent.get(0);
-		if(mapTimeslot == null) {
-			System.out.println("computeBeamCarrier for mobile : timeslots inexistants");
-			return;
-		}
-
-		if(Config.OFDM_DEBUG)
-			System.out.println(this+" agents connectés : "+_nbAgentsConnected);
-
-		if(_nbAgentsConnected == 0) {
-			Set<IModel> keys = _mknMap.keySet();
-			Iterator<IModel> it = keys.iterator();
-			while (it.hasNext()) {
-				_nbAgentsConnected++;
-				_beamformingAgents.add(it.next());
-			}
-		}
-		else if(_nbAgentsConnected == 1) {
-			_beamformingAgents.clear();
-			_nbAgentsConnected = 0;
-			Set<IModel> keys = _mknMap.keySet();
-			Iterator<IModel> it = keys.iterator();
-			while (it.hasNext()) {
-				_nbAgentsConnected++;
-				_beamformingAgents.add(it.next());
-			}
-		}
-		else if(_nbAgentsConnected == 2) {
-			_beamforming = true;
-			_beamformingBestSubCarriers.clear(); // on vide la liste des meilleurs subcarriers
-			ConcurrentHashMap<Integer, ArrayList<Double>> map = _mknMap.get(_beamformingAgents.get(0));
-			Set<Integer> keys = map.keySet(); // Set des timeslots de l'agent 1
-			Iterator<Integer> it1 = keys.iterator();
-
-			ConcurrentHashMap<Integer, ArrayList<Double>> map2 = _mknMap.get(_beamformingAgents.get(1));
-			Set<Integer> keys2 = map2.keySet(); // Set des timeslots de l'agent 2
-			Iterator<Integer> it2 = keys2.iterator();
-			try {
-				BeamSubCarriersCalculator.printComputation(agent.getEnvironement()._mainAgent, this);
-			} catch (Exception e) {
-				System.err.println(e.getMessage());
-				e.printStackTrace();
-				System.exit(0);
-			}
-			while (it1.hasNext()) {
-				ArrayList<Double> list1 = map.get(it1.next()); // liste des subcarriers de l'agent 1
-				Iterator<Double> it11 = list1.iterator();
-
-				ArrayList<Double> list2 = map.get(it2.next()); // liste des subcarriers de l'agent 2
-				Iterator<Double> it22 = list2.iterator();
-
-				int sub=0;
-				Double valA1 = (double) 0;
-				Double valA2 = (double) 0;
-				for(int i=0; it11.hasNext(); i++) { // détermination du meilleur subcarrier selon les mkn des deux agents
-					Double a1 = it11.next();
-					Double a2 = it22.next();
-					if((a1+a2) > (valA1+valA2)){
-						valA1 = a1;
-						valA2 = a2;
-						sub=i;
-					}
-				}
-				_beamformingBestSubCarriers.add(sub);
-			}
-		}
-	}
+//	public void computeBeamCarrier(Agent agent) {
+//		ConcurrentHashMap<Integer, ArrayList<Double>> mapAgent = _mknMap.get(agent);
+//		if(mapAgent == null) {
+//			System.out.println("computeBeamCarrier for mobile : agent pas dans la map");
+//			return;
+//		}
+//		ArrayList<Double> mapTimeslot = mapAgent.get(0);
+//		if(mapTimeslot == null) {
+//			System.out.println("computeBeamCarrier for mobile : timeslots inexistants");
+//			return;
+//		}
+//
+//		if(Config.OFDM_DEBUG)
+//			System.out.println(this+" agents connectés : "+_nbAgentsConnected);
+//
+//		if(_nbAgentsConnected == 0) {
+//			Set<IModel> keys = _mknMap.keySet();
+//			Iterator<IModel> it = keys.iterator();
+//			while (it.hasNext()) {
+//				_nbAgentsConnected++;
+//				_beamformingAgents.add(it.next());
+//			}
+//		}
+//		else if(_nbAgentsConnected == 1) {
+//			_beamformingAgents.clear();
+//			_nbAgentsConnected = 0;
+//			Set<IModel> keys = _mknMap.keySet();
+//			Iterator<IModel> it = keys.iterator();
+//			while (it.hasNext()) {
+//				_nbAgentsConnected++;
+//				_beamformingAgents.add(it.next());
+//			}
+//		}
+//		else if(_nbAgentsConnected == 2) {
+//			_beamforming = true;
+//			_beamformingBestSubCarriers.clear(); // on vide la liste des meilleurs subcarriers
+//			ConcurrentHashMap<Integer, ArrayList<Double>> map = _mknMap.get(_beamformingAgents.get(0));
+//			Set<Integer> keys = map.keySet(); // Set des timeslots de l'agent 1
+//			Iterator<Integer> it1 = keys.iterator();
+//
+//			ConcurrentHashMap<Integer, ArrayList<Double>> map2 = _mknMap.get(_beamformingAgents.get(1));
+//			Set<Integer> keys2 = map2.keySet(); // Set des timeslots de l'agent 2
+//			Iterator<Integer> it2 = keys2.iterator();
+//			try {
+//				BeamSubCarriersCalculator.printComputation(agent.getEnvironement()._mainAgent, this);
+//			} catch (Exception e) {
+//				System.err.println(e.getMessage());
+//				e.printStackTrace();
+//				System.exit(0);
+//			}
+//			while (it1.hasNext()) {
+//				ArrayList<Double> list1 = map.get(it1.next()); // liste des subcarriers de l'agent 1
+//				Iterator<Double> it11 = list1.iterator();
+//
+//				ArrayList<Double> list2 = map.get(it2.next()); // liste des subcarriers de l'agent 2
+//				Iterator<Double> it22 = list2.iterator();
+//
+//				int sub=0;
+//				Double valA1 = (double) 0;
+//				Double valA2 = (double) 0;
+//				for(int i=0; it11.hasNext(); i++) { // détermination du meilleur subcarrier selon les mkn des deux agents
+//					Double a1 = it11.next();
+//					Double a2 = it22.next();
+//					if((a1+a2) > (valA1+valA2)){
+//						valA1 = a1;
+//						valA2 = a2;
+//						sub=i;
+//					}
+//				}
+//				_beamformingBestSubCarriers.add(sub);
+//			}
+//		}
+//	}
 
 	/*
 	 * TODO: faire une liste ordonn�e de X valeurs de mkn par ordre croissant des valeurs cumul�es agent1+2
 	 * remplir cette liste avec les X premi�res valeurs g�n�r�es puis remplacer ces valeurs par les suivantes si elles sont plus �lev�es
 	 */
-	public void computeAllBeamCarrier(Agent agent) {
-		ConcurrentHashMap<Integer, ArrayList<Double>> mapAgent = _mknMap.get(agent);
-		if(mapAgent == null) {
-			System.out.println("computeBeamCarrier for mobile : agent pas dans la map");
-			return;
-		}
-		ArrayList<Double> mapTimeslot = mapAgent.get(0);
-		if(mapTimeslot == null) {
-			System.out.println("computeBeamCarrier for mobile : timeslots inexistants");
-			return;
-		}
+//	public void computeAllBeamCarrier(Agent agent) {
+//		ConcurrentHashMap<Integer, ArrayList<Double>> mapAgent = _mknMap.get(agent);
+//		if(mapAgent == null) {
+//			System.out.println("computeBeamCarrier for mobile : agent pas dans la map");
+//			return;
+//		}
+//		ArrayList<Double> mapTimeslot = mapAgent.get(0);
+//		if(mapTimeslot == null) {
+//			System.out.println("computeBeamCarrier for mobile : timeslots inexistants");
+//			return;
+//		}
+//
+//		System.out.println(this+" agents connectés : "+_nbAgentsConnected);
+//
+//		if(_nbAgentsConnected == 0) {
+//			_beamformingAgents.clear();
+//			Set<IModel> keys = _mknMap.keySet();
+//			Iterator<IModel> it = keys.iterator();
+//			while (it.hasNext()) {
+//				_nbAgentsConnected++;
+//				_beamformingAgents.add(it.next());
+//			}
+//		}
+//		else if(_nbAgentsConnected == 1) {
+//			_beamformingAgents.clear();
+//			_nbAgentsConnected = 0;
+//			Set<IModel> keys = _mknMap.keySet();
+//			Iterator<IModel> it = keys.iterator();
+//			while (it.hasNext()) {
+//				_nbAgentsConnected++;
+//				_beamformingAgents.add(it.next());
+//			}
+//		}
+//		else if(_nbAgentsConnected == 2) {
+//			_beamforming = true;
+//			_mapBeam.clear();
+//			int nbMknToGenerate = agent._ofdm._nb_sub_carrier/(agent.getEnvironement().getElements().size() - agent.getEnvironement()._mainAgent.size()); //<------------------------------------------remplacer par nb mobiles
+//
+//			
+//			this.bestSubCarrierOnEachTimeslot.clear();
+//			try {
+//				this.bestSubCarrierOnEachTimeslot = this.calculator.getBeamSubCarrierByTimeslot(1);
+//			} catch (Exception e) {
+//				System.err.println(e.getMessage());
+//				e.printStackTrace();
+//				System.exit(0);
+//			}
+//			
+//			ConcurrentHashMap<Integer, ArrayList<Double>> map = _mknMap.get(_beamformingAgents.get(0));
+//			Set<Integer> keys = map.keySet(); // Set des timeslots de l'agent 1
+//			Iterator<Integer> it1 = keys.iterator();
+//
+//			ConcurrentHashMap<Integer, ArrayList<Double>> map2 = _mknMap.get(_beamformingAgents.get(1));
+//			Set<Integer> keys2 = map2.keySet(); // Set des timeslots de l'agent 2
+//			Iterator<Integer> it2 = keys2.iterator();
 
-		System.out.println(this+" agents connectés : "+_nbAgentsConnected);
+//			while(it1.hasNext()) { // boucle sur les timeslots
+//				ArrayList<BeamMkn> listeMkn = new ArrayList<>();
+//				ArrayList<Double> list1 = map.get(it1.next()); // liste des subcarriers de l'agent 1
+//				ArrayList<Double> list2 = map.get(it2.next()); // liste des subcarriers de l'agent 2
+//
+//				int timeslot = it1.next();
+//				it2.next();
+//
+//				Iterator<Double> it11 = list1.iterator(); // iterateur sur les sub
+//				Iterator<Double> it22 = list2.iterator();
+//				int j=0;
+//				for(; it11.hasNext() && j<nbMknToGenerate; j++) { // remplissage des nbMknToGenerate<nbSubcarriers premières valeurs de la liste des subcarriers
+//					Double mknA = it11.next();
+//					Double mknB = it22.next();
+//					BeamMkn newBeam = new BeamMkn(mknA+mknB, mknA, mknB, j);
+//					listeMkn.add(newBeam);
+//				}
+//				BeamMkn.sortByCumul(listeMkn); // tri de la liste par ordre croissant des valeurs
+//				while(it11.hasNext()) { // remplacement des valeurs si plus grandes
+//					Double mknA = it11.next();
+//					Double mknB = it22.next();
+//					Iterator<BeamMkn> it = listeMkn.iterator();
+//					for(int x=0; it.hasNext(); x++) { // remplacement
+//						j++;
+//						BeamMkn beam = it.next();
+//						if((mknA+mknB) < (beam.getCumulMkn())){
+//							if(x != 0) {
+//								listeMkn.remove(x-1);
+//								listeMkn.add(x-1, new BeamMkn(mknA+mknB, mknA, mknB, j));
+//							}
+//						}
+//					}
+//				}
+//				Iterator<BeamMkn> it = listeMkn.iterator();
+//				
+//				ConcurrentHashMap<Integer, Double> mapMknA = new ConcurrentHashMap<>();
+//				ConcurrentHashMap<Integer, Double> mapMknB = new ConcurrentHashMap<>();
+//				
+//				while(it.hasNext()) {
+//					BeamMkn value = it.next();
+//					
+//					mapMknA.put(value.getSubcarrier(), value.getMknA());
+//					mapMknB.put(value.getSubcarrier(), value.getMknB());
+//				}
+//				
+//				BeamSubCarriers b1 = new BeamSubCarriers(mapMknA);
+//				BeamSubCarriers b2 = new BeamSubCarriers(mapMknB);
+//
+//				ConcurrentHashMap<Integer, BeamSubCarriers> mapBeam1 = new ConcurrentHashMap<>();
+//				ConcurrentHashMap<Integer, BeamSubCarriers> mapBeam2 = new ConcurrentHashMap<>();
+//				
+//				mapBeam1.put(timeslot, b1);
+//				mapBeam2.put(timeslot, b2);
+//				
+//				_mapBeamAgents.put(_beamformingAgents.get(0), mapBeam1);
+//				_mapBeamAgents.put(_beamformingAgents.get(1), mapBeam2);
+//			}
+//		}
+//	}
 
-		if(_nbAgentsConnected == 0) {
-			_beamformingAgents.clear();
-			Set<IModel> keys = _mknMap.keySet();
-			Iterator<IModel> it = keys.iterator();
-			while (it.hasNext()) {
-				_nbAgentsConnected++;
-				_beamformingAgents.add(it.next());
+	public void computeBeamSubCarriers() {
+		int connectedAgents = 0;
+		for(int i = 0 ; i < this._env._mainAgent.size() ; i++) {
+			if(this._env._mainAgent.get(i).map.containsKey(this)) {
+				connectedAgents++;
 			}
 		}
-		else if(_nbAgentsConnected == 1) {
-			_beamformingAgents.clear();
-			_nbAgentsConnected = 0;
-			Set<IModel> keys = _mknMap.keySet();
-			Iterator<IModel> it = keys.iterator();
-			while (it.hasNext()) {
-				_nbAgentsConnected++;
-				_beamformingAgents.add(it.next());
-			}
-		}
-		else if(_nbAgentsConnected == 2) {
-			_beamforming = true;
-			_mapBeam.clear();
-			int nbMknToGenerate = agent._ofdm._nb_sub_carrier/(agent.getEnvironement().getElements().size() - agent.getEnvironement()._mainAgent.size()); //<------------------------------------------remplacer par nb mobiles
-			ConcurrentHashMap<Integer, ArrayList<Double>> map = _mknMap.get(_beamformingAgents.get(0));
-			Set<Integer> keys = map.keySet(); // Set des timeslots de l'agent 1
-			Iterator<Integer> it1 = keys.iterator();
-
-			ConcurrentHashMap<Integer, ArrayList<Double>> map2 = _mknMap.get(_beamformingAgents.get(1));
-			Set<Integer> keys2 = map2.keySet(); // Set des timeslots de l'agent 2
-			Iterator<Integer> it2 = keys2.iterator();
-
-			while(it1.hasNext()) { // boucle sur les timeslots
-				ArrayList<BeamMkn> listeMkn = new ArrayList<>();
-				ArrayList<Double> list1 = map.get(it1.next()); // liste des subcarriers de l'agent 1
-				ArrayList<Double> list2 = map.get(it2.next()); // liste des subcarriers de l'agent 2
-
-				int timeslot = it1.next();
-				it2.next();
-
-				Iterator<Double> it11 = list1.iterator(); // iterateur sur les sub
-				Iterator<Double> it22 = list2.iterator();
-				int j=0;
-				for(; it11.hasNext() && j<nbMknToGenerate; j++) { // remplissage des nbMknToGenerate<nbSubcarriers premières valeurs de la liste des subcarriers
-					Double mknA = it11.next();
-					Double mknB = it22.next();
-					BeamMkn newBeam = new BeamMkn(mknA+mknB, mknA, mknB, j);
-					listeMkn.add(newBeam);
-				}
-				BeamMkn.sortByCumul(listeMkn); // tri de la liste par ordre croissant des valeurs
-				while(it11.hasNext()) { // remplacement des valeurs si plus grandes
-					Double mknA = it11.next();
-					Double mknB = it22.next();
-					Iterator<BeamMkn> it = listeMkn.iterator();
-					for(int x=0; it.hasNext(); x++) { // remplacement
-						j++;
-						BeamMkn beam = it.next();
-						if((mknA+mknB) < (beam.getCumulMkn())){
-							if(x != 0) {
-								listeMkn.remove(x-1);
-								listeMkn.add(x-1, new BeamMkn(mknA+mknB, mknA, mknB, j));
-							}
-						}
-					}
-				}
-				Iterator<BeamMkn> it = listeMkn.iterator();
-				
-				ConcurrentHashMap<Integer, Double> mapMknA = new ConcurrentHashMap<>();
-				ConcurrentHashMap<Integer, Double> mapMknB = new ConcurrentHashMap<>();
-				
-				while(it.hasNext()) {
-					BeamMkn value = it.next();
-					
-					mapMknA.put(value.getSubcarrier(), value.getMknA());
-					mapMknB.put(value.getSubcarrier(), value.getMknB());
-				}
-				
-				BeamSubCarrier b1 = new BeamSubCarrier(mapMknA);
-				BeamSubCarrier b2 = new BeamSubCarrier(mapMknB);
-
-				ConcurrentHashMap<Integer, BeamSubCarrier> mapBeam1 = new ConcurrentHashMap<>();
-				ConcurrentHashMap<Integer, BeamSubCarrier> mapBeam2 = new ConcurrentHashMap<>();
-				
-				mapBeam1.put(timeslot, b1);
-				mapBeam2.put(timeslot, b2);
-				
-				_mapBeamAgents.put(_beamformingAgents.get(0), mapBeam1);
-				_mapBeamAgents.put(_beamformingAgents.get(1), mapBeam2);
+		if(connectedAgents >= 2) {
+			this._beamforming = true;
+			
+			this.bestSubCarrierOnEachTimeslot.clear();
+			int allowedSubCarriers = Config.OFDM_NB_SUB_CARRIER / this._env.getElements().size() - this._env._mainAgent.size();
+			System.err.println("We allowed " + allowedSubCarriers + " subcarriers");
+			try {
+				this.bestSubCarrierOnEachTimeslot = this.calculator.getBeamSubCarrierByTimeslot(allowedSubCarriers);
+			} catch (Exception e) {
+				System.err.println(e.getMessage());
+				e.printStackTrace();
+				System.exit(0);
 			}
 		}
 	}
-
+	
 	/**
 	 * Give the best subcarrier and the mkn for Beamforming
 	 * @param agent
 	 * @param timeslot
 	 * @return a BeamCarrier containing the best subcarrier and the mkn
 	 */
-	public BeamSubCarrier getBeamSubCarrier(Agent agent, int timeslot) {
-		return _mapBeamAgents.get(agent).get(timeslot);
+	public BeamSubCarriers getBeamSubCarrier(Agent agent, int timeslot) {
+		return new BeamSubCarriers(this, agent, timeslot, this.bestSubCarrierOnEachTimeslot.get(new Long(timeslot)));
 	}
 }
