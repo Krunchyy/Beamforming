@@ -101,7 +101,8 @@ private Agent agent;
 				return iter.getKey();
 			}
 			
-			if(iter.getKey().getSNR(this.agent, subcarrier, timeslot) > SNR) {
+			
+			if(!iter.getKey().isBeamforming() && iter.getKey().getSNR(this.agent, subcarrier, timeslot) > SNR) {
 				SNR =  iter.getKey().getSNR(this.agent, subcarrier, timeslot);
 				chosen = iter.getKey();
 			}

@@ -35,7 +35,7 @@ public class Mobile extends Model {
 		_beamforming = false;
 	}
 	
-	public boolean isBeamforming() {
+	public synchronized boolean isBeamforming() {
 		return _beamforming;
 	}
 

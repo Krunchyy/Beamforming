@@ -1,20 +1,26 @@
 package ntr.signal;
 
+import java.util.HashMap;
+
 public class BeamSubCarrier {
+	private HashMap<Integer, Double> mknBySubcarriers;
 	
-	private int _subcarrier;
-	private double _mkn;
 	
-	public BeamSubCarrier(int subcarrier, double mkn) {
-		_subcarrier = subcarrier;
-		_mkn = mkn;
+	public BeamSubCarrier(HashMap<Integer, Double> mknBySubcarriers) {
+		this.mknBySubcarriers = mknBySubcarriers;
 	}
 	
-	public int getSubCarrier() {
-		return _subcarrier;
+	
+	/**
+	 * Return true if the mobile linked to this can be managed in the selected subcarrier
+	 * @param subcarrier
+	 * @return
+	 */
+	public boolean isBeamFormingable(int subcarrier) {
+		return this.mknBySubcarriers.containsKey(subcarrier);
 	}
 	
-	public double getMkn() {
-		return _mkn;
+	public Double getMkn(int subcarrier) {
+		return this.mknBySubcarriers.get(subcarrier);
 	}
 }

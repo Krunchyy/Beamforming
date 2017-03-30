@@ -43,7 +43,7 @@ public class OFDMFrame extends ModuleFrame{
 			for(int y = 0 ; y < ofdm._nb_sub_carrier ; y++)
 			{
 				PacketFragment packetF= ofdm._ofdm[x][y];
-				if(packetF.parent._receiver.isBeamforming()) {
+				if(packetF != null && packetF.parent._receiver.isBeamforming()) {
 					display += "<td height="+(350/Config.OFDM_NB_TIME_SLOT)+" style=\"color:#80BFFF\">";
 					display += "" + (packetF == null ? " " : packetF.parent._receiver.getTag()+":"+packetF._mkn) + "";
 					display += "</td>";
