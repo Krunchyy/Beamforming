@@ -391,7 +391,7 @@ public class Mobile extends Model {
 			this._beamforming = true;
 			
 			this.bestSubCarrierOnEachTimeslot.clear();
-			int allowedSubCarriers = Config.OFDM_NB_SUB_CARRIER / this._env.getElements().size() - this._env._mainAgent.size();
+			int allowedSubCarriers = Config.OFDM_NB_SUB_CARRIER / (this._env.getElements().size() - this._env._mainAgent.size());
 			//System.err.println("We allowed " + allowedSubCarriers + " subcarriers");
 			try {
 				this.bestSubCarrierOnEachTimeslot = this.calculator.getBeamSubCarrierByTimeslot(allowedSubCarriers);
