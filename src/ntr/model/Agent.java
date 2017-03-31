@@ -46,7 +46,6 @@ public class Agent extends Model{
 	@Override
 	public void tick()
 	{
-
 		//System.out.println("tick buff elements : "+ this +" buff "+map.size());
 		generator.tick();
 
@@ -107,15 +106,27 @@ public class Agent extends Model{
 	{
 		if(paket == null)
 				return;
-		if(paket._isSended)
+		if(paket._isSended) {
+			System.err.println("[ERROR]Try to Send an already sended packets !!!");
 			return;
+		}
 		paket._isSended = true;
+		
+		if(Config.COUNT_PACKETS) {
+			if(paket._receiver.isBeamforming())
+				Config.BeamPacketSended++;
+			else
+				Config.noBeamPacketSended++;
+		}
+		
 		//Signal signal = buildSignal(paket, sub_carrier_id);
 		
 		//prepare le Model a envoyer un message
 		//setSignalInProgress(signal);
 		//System.out.println("vidage packet de : "+ paket._receiver.getTag()+ " nom : "+ paket);
 		map.get(paket._receiver).remove(paket);
+		
+		
 		super.sendPacket(paket);//envoi le message (call environement)
 	}
 	

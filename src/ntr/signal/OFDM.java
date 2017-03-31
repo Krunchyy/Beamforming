@@ -47,7 +47,7 @@ public class OFDM {
 		for(int subCar = 0 ; subCar < _nb_sub_carrier ; subCar++)
 		{
 			if(Config.OFDM_DEBUG)
-				System.out.println("ofd");
+				System.out.println("ofd");//TODO: Il manque un M !!!
 			if(packetsFrag[subCar] != null && packetsFrag[subCar].sended(_agent.getEnvironement().getCurrentTick()))
 			{
 				if(Config.OFDM_DEBUG)

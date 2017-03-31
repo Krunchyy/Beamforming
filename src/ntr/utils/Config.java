@@ -32,8 +32,19 @@ public class Config {
 	//Environment
 	public static int ENVIRONEMENT_SIZE = 10;
 	
+	//Debug:
+	public static boolean DEBUG_FIX_MKN = false;
+	public static int DEBUG_FIX_MKN_VALUE = 6;
 	
 	//IHM
 	public static boolean OFDM_FOR_ALL = false;
+	
+	
+	public static boolean COUNT_PACKETS = false;
+	public static int BeamPacketSended = 0;
+	public static int noBeamPacketSended = 0;
+	
+	public static int BeamPacketGenerated = 0;
+	public static int noBeamPacketGenerated = 0;
 	
 }

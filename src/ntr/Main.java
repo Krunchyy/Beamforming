@@ -23,9 +23,11 @@ public class Main {
 	
 	public static void main(String[] args)
 	{
-		Config.FILL_OFDM_WITH_BEAM_MOBILE = true;
+		//Config.COUNT_PACKETS = true;
+		//Config.DEBUG_FIX_MKN = true;
+		//Config.FILL_OFDM_WITH_BEAM_MOBILE = true;
 		Config.OFDM_FOR_ALL = true;
-		Config.SIZE = 15;
+		Config.SIZE = 5;
 		Config.MAX_AVERAGE = 4;
 		Config.MIN_AVERAGE = 4;
 		Config.MAX_OFFSET = 4;
@@ -39,8 +41,8 @@ public class Main {
 		z.setTag('Z');
 		//Mobile b = new Mobile(new Location(2,0), _env);
 		//b.setTag('B');
-		//Mobile c = new Mobile(new Location(9,0), _env);
-		//c.setTag('C');
+		Mobile c = new Mobile(new Location(9,0), _env);
+		c.setTag('C');
 		Mobile d = new Mobile(new Location(5,5), _env);
 		d.setTag('D');
 		//Mobile mob4 = new Mobile(new Location(4,0), _env);
@@ -52,7 +54,7 @@ public class Main {
 		//a.requestConnecte(b);
 		a.requestConnecte(d);
 		
-		//z.requestConnecte(c);
+		z.requestConnecte(c);
 		z.requestConnecte(d);
 		
 		//_env._mainAgent.requestConnecte(mob3);

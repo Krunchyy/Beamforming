@@ -7,6 +7,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import ntr.model.Agent;
 import ntr.model.Mobile;
+import ntr.utils.Config;
 
 public class BeamSubCarriers {
 	private HashMap<Integer, Integer> mknBySubcarriers;
@@ -41,6 +42,8 @@ public class BeamSubCarriers {
 	}
 	
 	public int getMkn(int subcarrier) {
+		if(Config.DEBUG_FIX_MKN)
+			return Config.DEBUG_FIX_MKN_VALUE;
 		return this.mknBySubcarriers.get(subcarrier);
 	}
 }

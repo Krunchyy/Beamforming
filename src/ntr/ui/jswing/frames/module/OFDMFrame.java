@@ -50,7 +50,7 @@ public class OFDMFrame extends ModuleFrame{
 				}
 				else {
 					display += "<td height="+(350/Config.OFDM_NB_TIME_SLOT)+">";
-					display += (packetF == null ? " " : packetF.parent._receiver.getTag()+":"+packetF._mkn);
+					display += (packetF == null ? " " : packetF.parent._receiver.getTag()+":"+packetF.getDataSize());
 					display += "</td>";
 				}
 			}

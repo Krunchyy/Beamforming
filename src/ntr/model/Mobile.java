@@ -128,6 +128,8 @@ public class Mobile extends Model {
 			return 0;
 		}
 
+		if(Config.DEBUG_FIX_MKN)
+			return Config.DEBUG_FIX_MKN_VALUE;
 		return mapTimeslot.get(sub_carrier);
 	}
 

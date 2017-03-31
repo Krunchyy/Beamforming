@@ -62,9 +62,11 @@ public class PacketGenerator {
 
 			//System.out.println("nbPacketsMoyen : "+ nbPacketsMoyen + " nbPacket : "+nbPackets+ " offset : "+ offset);
 			if(mobile.isBeamforming() && mobile._beamformingAgents.size() > 0 && mobile._beamformingAgents.get(0) == _agent) {
+				int count = 0;
 				for(int i=0; i != nbPackets; i++) {
-					Packet p = new Packet(_agent, mobile, _agent.getEnvironement().getCurrentTick());
-					try {
+					if(mobile._filePacketsBeam.size() < Config.BUFFER_SIZE) {
+						Packet p = new Packet(_agent, mobile, _agent.getEnvironement().getCurrentTick());
+						count += 1;
 						mobile._filePacketsBeam.add(p);
 						
 						//It's not enough to update the map of one agent, all agents need to be aware of the new beamforming map
@@ -78,25 +80,35 @@ public class PacketGenerator {
 //							System.out.println("[" + _agent.getMap().get(mobile).size() + "]" + (mobile._filePacketsBeam.toString().equals(_agent.getMap().get(mobile).toString()) ? "IDEM AS INTERN" : "SOMEHOW DIFFERENT"));
 //						}
 					}
-					catch(Exception e) {
-
+				}
+				
+				totalPacket += count;
+				//System.out.println("["  + _agent._env._currentTick + "][" + mobile.getTag() + "] Generate Beam Packets :" + count);
+				if(Config.COUNT_PACKETS) {
+					if(mobile.isBeamforming()) {
+						Config.BeamPacketGenerated += count;
 					}
 				}
 			}
 
-			else {
-				// generation of packets
+			else if(!mobile.isBeamforming()){
+				int count = 0;
 				for(int i=0; i != nbPackets; i++) {
-					Packet p = new Packet(_agent, mobile, _agent.getEnvironement().getCurrentTick());
-					try {
+					if(map.get(mobile).size() < Config.BUFFER_SIZE) {
+						Packet p = new Packet(_agent, mobile, _agent.getEnvironement().getCurrentTick());
+						count += 1;
 						map.get(mobile).add(p);
 					}
-					catch(Exception e) {
-
+				}
+				//System.out.println("["  + _agent._env._currentTick + "][" + mobile.getTag() + "] Generate Normal Packets " + count);
+				totalPacket += count;
+				
+				if(Config.COUNT_PACKETS) {
+					if(!mobile.isBeamforming()) {
+						Config.noBeamPacketGenerated += count;
 					}
 				}
 			}
-			totalPacket += nbPackets;
 		}
 		//System.out.println("generated packet : "+totalPacket);
 		totals.add(totalPacket);

@@ -11,6 +11,7 @@ import ntr.model.IModel;
 import ntr.model.Location;
 import ntr.signal.Alteration;
 import ntr.signal.Packet;
+import ntr.utils.Config;
 
 public class Environement {
 	public boolean _stopAuto = false;
@@ -154,6 +155,13 @@ public class Environement {
 			//System.out.println("buff elements : "+ elements +" buff "+_mainAgent.map.size());
 		}
 		_currentTick++;
+		
+		if(Config.COUNT_PACKETS) {
+			System.out.println("BeamPackets Generated until here: " + Config.BeamPacketGenerated);
+			System.out.println("NormalPackets Generated until here: " + Config.noBeamPacketGenerated);
+			System.out.println("BeamPackets Sended until here: " + Config.BeamPacketSended);
+			System.out.println("NormalPackets Sended until here: " + Config.noBeamPacketSended);
+		}
 	}
 	
 	public void tick(int nbTick)
