@@ -142,7 +142,7 @@ public class Mobile extends Model {
 			ArrayList<Double> list = new ArrayList<>();
 
 			for(int j=0; j<nb_sub_carrier; j++){ // generate mkn for every subcarrier
-				double mkn = 1 + RandomUtils.get(1, 10)/distance; //TODO: am�liorer la valeur g�n�r�e surtout pour les mobiles �loign�es
+				double mkn = 2 + RandomUtils.get(1, 10)/distance; //TODO: am�liorer la valeur g�n�r�e surtout pour les mobiles �loign�es
 				list.add(mkn);
 			}
 
@@ -392,7 +392,7 @@ public class Mobile extends Model {
 			
 			this.bestSubCarrierOnEachTimeslot.clear();
 			int allowedSubCarriers = Config.OFDM_NB_SUB_CARRIER / this._env.getElements().size() - this._env._mainAgent.size();
-			System.err.println("We allowed " + allowedSubCarriers + " subcarriers");
+			//System.err.println("We allowed " + allowedSubCarriers + " subcarriers");
 			try {
 				this.bestSubCarrierOnEachTimeslot = this.calculator.getBeamSubCarrierByTimeslot(allowedSubCarriers);
 			} catch (Exception e) {

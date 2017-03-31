@@ -17,6 +17,7 @@ public class BuildCSVPingBeam {
 	public static Mobile mob;
 	public static void main(String[] args)
 	{
+		Config.FILL_OFDM_WITH_BEAM_MOBILE = true;
 		Config.SIZE = 5;
 		Config.MAX_AVERAGE = 0;
 		Config.MIN_AVERAGE = 0;
@@ -31,7 +32,7 @@ public class BuildCSVPingBeam {
 			new Agent(new Location(9,9), _env);
 		}
 		
-		_env._mainAgent.get(0).setOrdonnanceur(new MaxSNR(_env._mainAgent.get(0).map ,_env._mainAgent.get(0)._ofdm));
+		_env._mainAgent.get(0).setOrdonnanceur(new BeamFormingMaxSNR(_env._mainAgent.get(0).map ,_env._mainAgent.get(0)._ofdm));
 		
 		if(Beam){
 			_env._mainAgent.get(1).setOrdonnanceur(new BeamFormingMaxSNR(_env._mainAgent.get(1).map ,_env._mainAgent.get(1)._ofdm));
