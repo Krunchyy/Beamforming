@@ -9,10 +9,10 @@ import ntr.model.Agent;
 import ntr.model.Mobile;
 
 public class BeamSubCarriers {
-	private HashMap<Integer, Double> mknBySubcarriers;
+	private HashMap<Integer, Integer> mknBySubcarriers;
 	
 	
-	public BeamSubCarriers(Mobile mobile, Agent agent, int timeslot, HashMap<Integer, Double> mknBySubcarriers) {
+	public BeamSubCarriers(Mobile mobile, Agent agent, int timeslot, HashMap<Integer, Integer> mknBySubcarriers) {
 		if(mknBySubcarriers == null)
 			this.mknBySubcarriers = new HashMap<>();
 		else {
@@ -25,7 +25,7 @@ public class BeamSubCarriers {
 			while(iterator.hasNext()) {
 				Integer key = iterator.next();
 				
-				this.mknBySubcarriers.put(key, mobile.getSNR(agent, timeslot, key));
+				this.mknBySubcarriers.put(key, (int)Math.round(mobile.getSNR(agent, timeslot, key)));
 			}
 		}
 	}
@@ -40,7 +40,7 @@ public class BeamSubCarriers {
 		return this.mknBySubcarriers.containsKey(subcarrier);
 	}
 	
-	public Double getMkn(int subcarrier) {
+	public int getMkn(int subcarrier) {
 		return this.mknBySubcarriers.get(subcarrier);
 	}
 }

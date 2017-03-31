@@ -25,7 +25,7 @@ public class Main {
 	{
 		Config.FILL_OFDM_WITH_BEAM_MOBILE = true;
 		Config.OFDM_FOR_ALL = true;
-		Config.SIZE = 5;
+		Config.SIZE = 15;
 		Config.MAX_AVERAGE = 4;
 		Config.MIN_AVERAGE = 4;
 		Config.MAX_OFFSET = 4;

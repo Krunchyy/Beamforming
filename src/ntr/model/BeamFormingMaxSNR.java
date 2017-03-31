@@ -55,7 +55,8 @@ private Agent agent;
 				Packet packet = this.getNextPacket(buffer);
 				PacketFragment fragment = new PacketFragment(packet);
 				if(mobile.isBeamforming() && mobile.getBeamSubCarrier(agent, timeslot).isBeamFormingable(i)) {
-					fragment.setMkn((int) Math.round(mobile.getBeamSubCarrier(agent, timeslot).getMkn(i)));
+					int mknValue = mobile.getBeamSubCarrier(agent, timeslot).getMkn(i);
+					fragment.setMkn(mknValue);
 				}
 				else
 					fragment.setMkn((int) Math.round(mobile.getSNR(this.agent, i, timeslot)));

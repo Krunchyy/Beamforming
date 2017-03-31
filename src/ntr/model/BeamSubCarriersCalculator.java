@@ -10,7 +10,7 @@ import java.util.SortedSet;
 import java.util.TreeMap;
 
 import ntr.utils.Config;
-import ntr.utils.HashMapDoubleValueComparator;
+import ntr.utils.HashMapIntegerValueComparator;
 
 public class BeamSubCarriersCalculator {
 	private List<Agent> agents;
@@ -26,11 +26,11 @@ public class BeamSubCarriersCalculator {
 	 * @return A map with the timeslot as a key and a map <Num_SubCarrier, Mkn_Summed> as a value and all that already sorted
 	 * @throws Exception
 	 */
-	public HashMap<Long, HashMap<Integer, Double>> getBeamSubCarrierByTimeslot(int nb_subcarrier) throws Exception {
+	public HashMap<Long, HashMap<Integer, Integer>> getBeamSubCarrierByTimeslot(int nb_subcarrier) throws Exception {
 		if(this.agents.size() == 0)
 			throw new Exception("Il ne peux pas y avoir aucun agents");
 		
-		HashMap<Long, HashMap<Integer, Double>> returnDatas = new HashMap<>();
+		HashMap<Long, HashMap<Integer, Integer>> returnDatas = new HashMap<>();
 		
 		
 		for(long i = 0; i < Config.OFDM_NB_TIME_SLOT ; i++) {
@@ -40,22 +40,22 @@ public class BeamSubCarriersCalculator {
 		return returnDatas;
 	}
 	
-	private HashMap<Integer, Double> computeTimeslot(long timeslot, int nb_subcarrier) {
-		HashMap<Integer, Double> map = new HashMap<>();
+	private HashMap<Integer, Integer> computeTimeslot(long timeslot, int nb_subcarrier) {
+		HashMap<Integer, Integer> map = new HashMap<>();
 		for(int i = 0 ; i < Config.OFDM_NB_SUB_CARRIER ; i++) {
 			
-			map.put(i, this.computeMknSum(timeslot, i));
+			map.put(i, new Integer(this.computeMknSum(timeslot, i)));
 		}
 		
-		TreeMap<Integer, Double> orderedMapByMknsValues = orderedSubcarriersByMkns(map);
-		HashMap<Integer, Double> returnMap = new HashMap<>();
-		Iterator<Entry<Integer, Double>> iterator = orderedMapByMknsValues.entrySet().iterator();
+		TreeMap<Integer, Integer> orderedMapByMknsValues = orderedSubcarriersByMkns(map);
+		HashMap<Integer, Integer> returnMap = new HashMap<>();
+		Iterator<Entry<Integer, Integer>> iterator = orderedMapByMknsValues.entrySet().iterator();
 		
 		for(int i = 0 ; i < nb_subcarrier ; i++) {
 			if(!iterator.hasNext())
 				break;
 			
-			Entry<Integer, Double> entry = iterator.next();
+			Entry<Integer, Integer> entry = iterator.next();
 			returnMap.put(entry.getKey(), entry.getValue());
 			
 		}	
@@ -63,23 +63,23 @@ public class BeamSubCarriersCalculator {
 		return returnMap;
 	}
 	
-	private Double computeMknSum(long timeslot, int subcarrier) {
+	private int computeMknSum(long timeslot, int subcarrier) {
 		
-		Double sum = 0.;
+		int sum = 0;
 		
 		for(int i = 0 ; i < this.agents.size() ; i++) {
-			sum += mobile.getSNR( this.agents.get(i), subcarrier, (int)timeslot);
+			sum += (int) Math.round(mobile.getSNR( this.agents.get(i), subcarrier, (int)timeslot));
 		}
 		
 		return sum;
 	}
 	
 	//Sort the all subcarriers by Mkn value
-	private TreeMap<Integer,Double> orderedSubcarriersByMkns(HashMap<Integer, Double> mknSummedonEachSubcarriers) {
-		Comparator<Integer> comparator = new HashMapDoubleValueComparator<>(mknSummedonEachSubcarriers);
+	private TreeMap<Integer,Integer> orderedSubcarriersByMkns(HashMap<Integer, Integer> mknSummedonEachSubcarriers) {
+		Comparator<Integer> comparator = new HashMapIntegerValueComparator<>(mknSummedonEachSubcarriers);
 		//TreeMap is a map sorted by its keys. 
 		//The comparator is used to sort the TreeMap by keys. 
-		TreeMap<Integer, Double> result = new TreeMap<Integer, Double>(comparator);
+		TreeMap<Integer, Integer> result = new TreeMap<Integer, Integer>(comparator);
 		result.putAll(mknSummedonEachSubcarriers);
 		return result;
 	}
@@ -87,7 +87,7 @@ public class BeamSubCarriersCalculator {
 	public static void printComputation(List<Agent> agents, Mobile beamforminged) throws Exception {
 		BeamSubCarriersCalculator calculator = new BeamSubCarriersCalculator(agents, beamforminged);
 		
-		HashMap<Long, HashMap<Integer, Double>> datastructure = calculator.getBeamSubCarrierByTimeslot(5);
+		HashMap<Long, HashMap<Integer, Integer>> datastructure = calculator.getBeamSubCarrierByTimeslot(5);
 		
 		System.out.println("Five Best Couple <SubCarrier, MknSummed> for each timeslot:");
 		for(long i = 0 ; i < Config.OFDM_NB_TIME_SLOT ; i++) {

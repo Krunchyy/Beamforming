@@ -3,11 +3,11 @@ package ntr.utils;
 import java.util.Comparator;
 import java.util.HashMap;
 
-public class HashMapDoubleValueComparator<T> implements Comparator<T> {
+public class HashMapIntegerValueComparator<T> implements Comparator<T> {
 	//Source: http://www.programcreek.com/2013/03/java-sort-map-by-value/
-	private HashMap<T, Double> map;
+	private HashMap<T, Integer> map;
 	
-	public HashMapDoubleValueComparator(HashMap<T, Double> map) {
+	public HashMapIntegerValueComparator(HashMap<T, Integer> map) {
 		this.map = map;
 	}
 	
