@@ -23,13 +23,10 @@ public class Main {
 	
 	public static void main(String[] args)
 	{
-		//Config.COUNT_PACKETS = true;
-		//Config.DEBUG_FIX_MKN = true;
-		//Config.FILL_OFDM_WITH_BEAM_MOBILE = true;
 		Config.OFDM_FOR_ALL = true;
-		Config.SIZE = 5;
-		Config.MAX_AVERAGE = 4;
-		Config.MIN_AVERAGE = 4;
+		Config.SIZE = 15;
+		Config.MAX_AVERAGE = 6;
+		Config.MIN_AVERAGE = 6;
 		Config.MAX_OFFSET = 4;
 		Config.MIN_OFFSET = 0;
 		Config.OFDM_NB_SUB_CARRIER = 50;
@@ -39,10 +36,10 @@ public class Main {
 		Agent a = new Agent(new Location(1, 1), _env);
 		Agent z = new Agent(new Location(9, 9), _env);
 		z.setTag('Z');
-		//Mobile b = new Mobile(new Location(2,0), _env);
-		//b.setTag('B');
-		Mobile c = new Mobile(new Location(9,0), _env);
-		c.setTag('C');
+		Mobile b = new Mobile(new Location(2,0), _env);
+		b.setTag('B');
+		//Mobile c = new Mobile(new Location(9,0), _env);
+		//c.setTag('C');
 		Mobile d = new Mobile(new Location(5,5), _env);
 		d.setTag('D');
 		//Mobile mob4 = new Mobile(new Location(4,0), _env);
@@ -51,10 +48,10 @@ public class Main {
 		a.setOrdonnanceur(new BeamFormingMaxSNR(a.map ,a._ofdm));
 		z.setOrdonnanceur(new BeamFormingMaxSNR(z.map ,z._ofdm));
 		
-		//a.requestConnecte(b);
+		a.requestConnecte(b);
 		a.requestConnecte(d);
 		
-		z.requestConnecte(c);
+		//z.requestConnecte(c);
 		z.requestConnecte(d);
 		
 		//_env._mainAgent.requestConnecte(mob3);
