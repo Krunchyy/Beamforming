@@ -23,13 +23,13 @@ public class Main {
 	
 	public static void main(String[] args)
 	{
-		Config.OFDM_FOR_ALL = true;
+		Config.OFDM_FOR_ALL = false;
 		Config.SIZE = 15;
 		Config.MAX_AVERAGE = 6;
 		Config.MIN_AVERAGE = 6;
 		Config.MAX_OFFSET = 4;
 		Config.MIN_OFFSET = 0;
-		Config.OFDM_NB_SUB_CARRIER = 50;
+		Config.OFDM_NB_SUB_CARRIER = 10;
 		Config.OFDM_NB_TIME_SLOT = 10;
 		
 		_env = new Environement(Config.ENVIRONEMENT_SIZE);
